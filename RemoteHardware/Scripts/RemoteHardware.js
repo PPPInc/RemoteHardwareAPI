@@ -55,9 +55,9 @@ $(function() {
             return;
         }
 
-        //var connection = $.hubConnection('https://api-staging.chargeitpro.com');
+        var connection = $.hubConnection('https://psl-staging.chargeitpro.com');
 
-        var connection = $.hubConnection('http://localhost:811');
+        //var connection = $.hubConnection('http://localhost:57192');
 
         connection.qs = { "userName": UserName };
 
