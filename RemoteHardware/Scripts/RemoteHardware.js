@@ -179,10 +179,7 @@ $(function() {
         if (!locationId) return;
         $.ajax({
             url: "https://api-staging.chargeitpro.com/RemoteConfig/" + locationId,
-            headers: {
-                "Content-Type" : "application/json",
-                "x-apiKey" : "587DAA0C-E50B-4679-B4D1-036E49B7A899"
-            }
+            headers: { "Content-Type" : "application/json" }
         }).done(function (data) {
             if (data.Success === true) {
                 ControllerName = data.Result.ControllerName;
