@@ -35,6 +35,9 @@
                                 <label for="locationId">Location Id</label>
                                 <input type="text" class="form-control" id="locationId" placeholder="Location Id" style="width: 185px;" />
                                 <button type="button" id="getConfig">Download Configuration</button>
+                                <br />
+                                <label for="isTestMode" class="form-inline">Test Mode</label>
+                                <input class="form-control" type="checkbox" id="isTestMode" checked style="width: auto;display: inline; vertical-align: middle" />
                             </div>
                             <div class="form-group">
                                 <label for="user-name"></label>
@@ -477,6 +480,7 @@
                 });
 
             $("#getConfig").on('click', function () {
+                IsTestMode = $("#isTestMode").prop('checked');
                 var locationId = $("#locationId").val();
                 if (locationId) {
                     downloadConfiguration($("#locationId").val());
@@ -491,6 +495,8 @@
                 if (!deviceName) deviceName = "";
                 UserName = $("#user-name").val();
                 ControllerName = $("#to").val();
+
+                IsTestMode = $("#isTestMode").prop('checked');
 
                 $("#resultsPanel").hide();
                 var action = $("#transactionType option:selected").val();

@@ -7,6 +7,11 @@ var OnQuestionFunction; //Function to be called when remote hardware requires in
 var OnConfigurationDownloaded; //Function to be called when the configuration has been downloaded.
 
 /*
+ * This property must be set by consuming developers.
+ */
+var IsTestMode; //Bool value indicating whether test mode is on or off.
+
+/*
  * These variables can be used by consuming Developers.
  */
 var UserName; //Unique name for this connection.
@@ -55,9 +60,14 @@ $(function() {
             return;
         }
 
-        var connection = $.hubConnection('https://psl-staging.chargeitpro.com');
+        var url;
+        if (IsTestMode) {
+            url = "https://psl.chargeitpro.com";
+        } else {
+            url = "https://psl-staging.chargeitpro.com";
+        }
 
-        //var connection = $.hubConnection('http://localhost:57192');
+        var connection = $.hubConnection(url);
 
         connection.qs = { "userName": UserName };
 
@@ -121,37 +131,37 @@ $(function() {
     };
 
     creditSaleFunction = function(deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
-        var csMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "CreditSale", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }) };
+        var csMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "CreditSale", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }) };
         _doTransaction(csMessage);
     };
 
-    creditReturnFunction = function(deviceName, amount) {
-        var crMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName }) };
+    creditReturnFunction = function (deviceName, amount) {
+        var crMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName }) };
         _doTransaction(crMessage);
     };
 
-    creditAuthFunction = function(deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
-        var caMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "CreditAuth", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }) };
+    creditAuthFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
+        var caMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "CreditAuth", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }) };
         _doTransaction(caMessage);
     };
 
-    creditForceFunction = function(deviceName, amount, authCode, uniqueTransRef) {
-        var cfMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef }) };
+    creditForceFunction = function (deviceName, amount, authCode, uniqueTransRef) {
+        var cfMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef }) };
         _doTransaction(cfMessage);
     };
 
-    creditAddTipFunction = function(deviceName, amount, uniqueTransRef) {
-        var catMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef }) };
+    creditAddTipFunction = function (deviceName, amount, uniqueTransRef) {
+        var catMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef }) };
         _doTransaction(catMessage);
     };
 
     saveCreditCardFunction = function (deviceName, accountNumber, billingName, expDate, cvv, street, zip) {
-        var sccMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "CreditSaveCard", Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }) };
+        var sccMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "CreditSaveCard", Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }) };
         _doTransaction(sccMessage);
     };
 
-    debitSaleFunction = function(deviceName, amount) {
-        var dsMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName }) };
+    debitSaleFunction = function (deviceName, amount) {
+        var dsMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName }) };
         _doTransaction(dsMessage);
     };
 
@@ -160,25 +170,31 @@ $(function() {
         _doTransaction(eMessage);
     };
 
-    voidFunction = function(deviceName, uniqueTransRef) {
-        var vMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName }) };
+    voidFunction = function (deviceName, uniqueTransRef) {
+        var vMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName }) };
         _doTransaction(vMessage);
     };
 
-    requestSignatureFunction = function(deviceName) {
-        var rsMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "RequestSignature", DeviceName: deviceName }) };
+    requestSignatureFunction = function (deviceName) {
+        var rsMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "RequestSignature", DeviceName: deviceName }) };
         _doTransaction(rsMessage);
     };
 
-    displayTextFunction = function(deviceName, displayText) {
-        var dtMessage = { Action: "Transaction", Data: JSON.stringify({ TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText }) };
+    displayTextFunction = function (deviceName, displayText) {
+        var dtMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText }) };
         _doTransaction(dtMessage);
     };
 
     downloadConfiguration = function (locationId) {
         if (!locationId) return;
+        var url;
+        if (IsTestMode) {
+            url = "https://api-staging.chargeitpro.com/RemoteConfig/";
+        } else {
+            url = "https://api.chargeitpro.com/RemoteConfig/";
+        }
         $.ajax({
-            url: "https://api-staging.chargeitpro.com/RemoteConfig/" + locationId,
+            url: url + locationId,
             headers: { "Content-Type" : "application/json" }
         }).done(function (data) {
             if (data.Success === true) {
