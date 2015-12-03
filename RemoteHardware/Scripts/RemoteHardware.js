@@ -61,7 +61,7 @@ $(function() {
 
         connection.qs = { "userName": UserName };
 
-        _remoteHub = connection.createHubProxy("ChatHub");
+        _remoteHub = connection.createHubProxy("DeviceHub");
 
         _remoteHub.on("send", function(from, message) {
             var result = JSON.parse(message);
