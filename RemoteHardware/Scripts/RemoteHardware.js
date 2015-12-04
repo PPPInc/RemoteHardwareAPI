@@ -62,9 +62,9 @@ $(function() {
 
         var url;
         if (IsTestMode) {
-            url = "https://psl.chargeitpro.com";
-        } else {
             url = "https://psl-staging.chargeitpro.com";
+        } else {
+            url = "https://psl.chargeitpro.com";
         }
 
         var connection = $.hubConnection(url);
