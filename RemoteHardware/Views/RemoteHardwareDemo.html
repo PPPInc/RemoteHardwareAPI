@@ -456,6 +456,7 @@
             OnConfigurationDownloaded = function() {
                 $("#to").val(ControllerName);
                 var deviceSelect = $("#devices");
+                deviceSelect.find('option').remove();
                 $.each(Devices, function (index, device) {
                     deviceSelect
                         .append($("<option></option>")
