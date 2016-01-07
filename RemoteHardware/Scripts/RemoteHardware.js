@@ -65,8 +65,8 @@ $(function() {
 
         var url;
         if (IsTestMode) {
-            //url = 'http://localhost:57192';
-            url = "https://psl-staging.chargeitpro.com";
+            url = 'http://localhost:57192';
+            //url = "https://psl-staging.chargeitpro.com";
         } else {
             url = "https://psl.chargeitpro.com";
         }
@@ -124,7 +124,7 @@ $(function() {
                 _remoteHub.invoke("send", ControllerName, LocationId, JSON.stringify(message));
             }, function () { alert("Error connecting."); });
         else {
-            _remoteHub.invoke("send", ControllerName, JSON.stringify(message));
+            _remoteHub.invoke("send", ControllerName, LocationId, JSON.stringify(message));
         }
     };
 
