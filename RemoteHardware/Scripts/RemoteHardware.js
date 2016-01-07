@@ -35,6 +35,7 @@ var voidFunction; //Call this function to void a transaction.
 var requestSignatureFunction; //Call this function to request a signature.
 var saveCreditCardFunction; //Call this function to tokenize a credit card.
 var displayTextFunction; //Call this function to display a message on the device screen.
+var cancelFunction; //Call this function to cancel a transaction.
 
 /*
  * private variables
@@ -184,6 +185,11 @@ $(function() {
         var dtMessage = { Action: "Transaction", TestMode: IsTestMode, Data: JSON.stringify({ TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText }) };
         _doTransaction(dtMessage);
     };
+
+    cancelFunction = function(deviceName) {
+        var cancelMessage = { Action: "CancelTransaction", TestMode: IsTestMode, Data: JSON.stringify({ DeviceName: deviceName }) };
+        _doTransaction(cancelMessage);
+    }
 
     downloadConfiguration = function (locationId) {
         if (!locationId) return;

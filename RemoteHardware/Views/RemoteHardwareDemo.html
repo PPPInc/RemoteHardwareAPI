@@ -160,7 +160,16 @@
                             <div id="RequestSignature" style="display: none">
                             </div>
                             <br />
-                            <button type="button" class="btn btn-default" id="send">Send</button>
+                            <table>
+                                <tr>
+                                    <td style="padding-right: 20px">
+                                        <button type="button" class="btn btn-default" id="send">Send</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default" id="cancel" disabled>cancel</button>
+                                    </td>
+                                </tr>
+                            </table>
                         </form>
                     </div>
                 </div>
@@ -408,7 +417,8 @@
     </div>
     <script>
         $(function () {
-            OnResultFunction = function(result) {
+            OnResultFunction = function (result) {
+                setCancelDisabled(true);
                 $("#resultsPanel").show();
                 $("#resultStatus").val(result.Success);
                 if (result.ResultFields.ResultStatus)
@@ -446,6 +456,7 @@
                 $("#currencyIndicator").val(result.ResultFields.CurrencyIndicator);
             };
             OnEchoFunction = function (message) {
+                setCancelDisabled(true);
                 alert(message);
             };
             OnQuestionFunction = function (question) {
@@ -467,16 +478,16 @@
             }
 
             $("#yes")
-                .off('click', function() {})
                 .on('click', function () {
                     answerYesFunction();
+                    setCancelDisabled(false);
                     $("#questionPanel").hide();
                 });
 
             $("#no")
-                .off('click', function() {})
                 .on('click', function() {
                     answerNoFunction();
+                    setCancelDisabled(true);
                     $("#questionPanel").hide();
                 });
 
@@ -541,6 +552,13 @@
                 } else if (action === "DisplayText") {
                     displayTextFunction(deviceName, $("#message").val());
                 }
+                setCancelDisabled(false);
+            });
+
+            $("#cancel").on('click', function () {
+                var deviceName = $("#devices option:selected").val();
+                if (!deviceName) return;
+                cancelFunction(deviceName);
             });
 
             $("#transactionType").on('change', function() {
@@ -633,6 +651,10 @@
             $("#emvOfflineData").val('');
             $("#currencyIndicator").val('');
         };
+
+        function setCancelDisabled(value) {
+            $("#cancel").prop('disabled', value);
+        }
     </script>
 </body>
 </html>
