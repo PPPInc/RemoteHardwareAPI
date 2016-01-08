@@ -11,6 +11,15 @@
         body {
             padding: 20px;
         }
+
+        .error {
+            color: red;
+        }
+
+        .wash {
+            color: #83848A;
+        }
+
     </style>
 </head>
 <body>
@@ -25,7 +34,7 @@
                         <form>
                             <div class="form-group">
                                 <label for="user-name">User Name</label>
-                                <input type="text" class="form-control" style="width: 185px;" id="user-name" placeholder="User Name" value="User1">
+                                <input type="text" class="form-control" style="width: 350px" id="user-name" placeholder="User Name" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="to">Location Id</label>
@@ -77,7 +86,7 @@
             $("#send").on('click', function () {
 
                 /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
-                UserName = $("#user-name").val();
+                //UserName = $("#user-name").val();
                 LocationId = $("#location").val();
                 ControllerName = $("#controller").val();
                 var deviceName = $("#devices option:selected").val();
@@ -88,8 +97,14 @@
             });
 
             /* These are the Function Handlers - WebSocket messages will be pushed to these functions. */
+            OnConnectedFunction = function (connection) {
+                $("#user-name").val(connection.id);
+            };
+
+            /* These are the Function Handlers - WebSocket messages will be pushed to these functions. */
             OnResultFunction = function (result) {
-                $("#results").html(JSON.stringify(result));
+                var d = new Date();
+                $("#results").append("<br/><span class='wash'>" + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + "</span><br/>" + JSON.stringify(result));
                 /* Do stuff here ... save the result to a database, display results on the page, etc.*/
             };
 

@@ -6,6 +6,7 @@ var OnEchoFunction; //Function to be called when an echo response is returned fr
 var OnQuestionFunction; //Function to be called when remote hardware requires input from the POS to finish a transaction.
 var OnConfigurationDownloaded; //Function to be called when the configuration has been downloaded.
 var OnErrorFunction; //Function to be called when the Hub reports an error.
+var OnConnectedFunction; //Function to be called when Client connects to Hub.
 
 /*
  * This property must be set by consuming developers.
@@ -55,8 +56,8 @@ $(function() {
 
     _connect = function (done, fail) {
         if (UserName === "") {
-            alert("UserName not set.");
-            return;
+            //alert("UserName not set.");
+            //return;
         }
         if (ControllerName === "") {
             alert("ControllerName not set.");
@@ -104,7 +105,8 @@ $(function() {
 
         connection.start().done(function() {
             _connected = true;
-            console.log("Connected");
+            console.log("Connected as: " + connection.id);
+            if(OnConnectedFunction !== undefined) OnConnectedFunction(connection);
             done();
         }).fail(function(error) {
             _connected = false;
