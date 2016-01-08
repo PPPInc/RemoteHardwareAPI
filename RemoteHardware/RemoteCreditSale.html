@@ -73,6 +73,7 @@
 
         $(function () {
 
+            /* Your click handler */
             $("#send").on('click', function () {
 
                 /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
@@ -86,9 +87,8 @@
                 creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
             });
 
-            /* These are the Function Handlers - SignalR messages will be pushed to these functions. */
+            /* These are the Function Handlers - WebSocket messages will be pushed to these functions. */
             OnResultFunction = function (result) {
-                console.log(result);
                 $("#results").html(JSON.stringify(result));
                 /* Do stuff here ... save the result to a database, display results on the page, etc.*/
             };
