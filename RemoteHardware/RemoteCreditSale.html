@@ -28,6 +28,10 @@
                                 <input type="text" class="form-control" style="width: 185px;" id="user-name" placeholder="User Name" value="User1">
                             </div>
                             <div class="form-group">
+                                <label for="to">Location Id</label>
+                                <input type="text" class="form-control" style="width: 185px;" id="location" placeholder="LocationId" value="xxx-yyy-zzz">
+                            </div>
+                            <div class="form-group">
                                 <label for="to">Remote Hardware Controller</label>
                                 <input type="text" class="form-control" style="width: 185px;" id="to" placeholder="Controller Name" value="JoeController">
                             </div>
@@ -39,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="amount">Amount</label>
-                                <input class="form-control" style="width: auto" type="text" id="amount" />
+                                <input class="form-control" style="width: auto" type="text" id="amount" value="0.01" />
                             </div>
                             <table>
                                 <tr>
@@ -52,6 +56,16 @@
                     </div>
                 </div>
                 <div id="results" style="width: 800px;word-break:break-all;"></div>
+            </div>
+            <div class="col-md-6">
+                <strong style="color: gray;">Notes:</strong><br /><br />
+                <strong><i>UserName</i></strong> uniquely identifies this instance, so the Controller knows
+                who to push the result message to.
+                <br /><br />
+                The combination of <strong><i>LocationId</i></strong>,
+                <strong><i>Remote Hardware Controller (friendlyName) </i></strong> and
+                <strong><i>Destination Device </i></strong> uniquely identify the Remote Device that receives 
+                the transaction from the POS.
             </div>
         </div>
     </div>
@@ -77,15 +91,15 @@
                 if (!deviceName) deviceName = "";
                 UserName = $("#user-name").val();
                 ControllerName = $("#to").val();
-                LocationId = 'xxx-yyy-zzz';
+                LocationId = $("#location").val();
                 IsTestMode = true;
 
-                /* 
+                /*
                     Invoke the creditSaleFunction - this is in RemoteHardware.js.
                     Do we want to have user's pass in a JSON object vs. the values as parameters?
                     ie { 'Amount' : 0.01, 'AccountNumber' : '1111222233334444', ... }
                 */
-                creditSaleFunction(deviceName, $("#amount").val(), '','', '', '', '', '');
+                creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
             });
         });
 
