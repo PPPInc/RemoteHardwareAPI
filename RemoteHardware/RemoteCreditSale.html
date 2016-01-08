@@ -101,7 +101,6 @@
                 $("#user-name").val(connection.id);
             };
 
-            /* These are the Function Handlers - WebSocket messages will be pushed to these functions. */
             OnResultFunction = function (result) {
                 var d = new Date();
                 $("#results").append("<br/><span class='wash'>" + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + "</span><br/>" + JSON.stringify(result));
