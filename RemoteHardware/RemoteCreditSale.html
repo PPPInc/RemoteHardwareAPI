@@ -73,6 +73,19 @@
 
         $(function () {
 
+            $("#send").on('click', function () {
+
+                /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
+                var deviceName = $("#devices option:selected").val();
+                UserName = $("#user-name").val();
+                ControllerName = $("#to").val();
+                LocationId = $("#location").val();
+                IsTestMode = true;
+
+                /* Invoke the creditSaleFunction - this is in RemoteHardware.js. */
+                creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
+            });
+
             /* These are the Function Handlers - SignalR messages will be pushed to these functions. */
             OnResultFunction = function (result) {
                 console.log(result);
@@ -83,24 +96,6 @@
             OnErrorFunction = function (error) {
                 alert(error);
             };
-
-            $("#send").on('click', function () {
-
-                /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
-                var deviceName = $("#devices option:selected").val();
-                if (!deviceName) deviceName = "";
-                UserName = $("#user-name").val();
-                ControllerName = $("#to").val();
-                LocationId = $("#location").val();
-                IsTestMode = true;
-
-                /*
-                    Invoke the creditSaleFunction - this is in RemoteHardware.js.
-                    Do we want to have user's pass in a JSON object vs. the values as parameters?
-                    ie { 'Amount' : 0.01, 'AccountNumber' : '1111222233334444', ... }
-                */
-                creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
-            });
         });
 
     </script>
