@@ -77,10 +77,10 @@
             $("#send").on('click', function () {
 
                 /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
-                var deviceName = $("#devices option:selected").val();
                 UserName = $("#user-name").val();
-                ControllerName = $("#to").val();
                 LocationId = $("#location").val();
+                ControllerName = $("#to").val();
+                var deviceName = $("#devices option:selected").val();
                 IsTestMode = true;
 
                 /* Invoke the creditSaleFunction - this is in RemoteHardware.js. */
