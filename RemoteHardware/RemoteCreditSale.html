@@ -33,7 +33,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="to">Remote Hardware Controller</label>
-                                <input type="text" class="form-control" style="width: 185px;" id="to" placeholder="Controller Name" value="JoeController">
+                                <input type="text" class="form-control" style="width: 185px;" id="controller" placeholder="Controller Name" value="JoeController">
                             </div>
                             <div class="form-group">
                                 <label for="devices">Destination Device</label>
@@ -79,7 +79,7 @@
                 /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
                 UserName = $("#user-name").val();
                 LocationId = $("#location").val();
-                ControllerName = $("#to").val();
+                ControllerName = $("#controller").val();
                 var deviceName = $("#devices option:selected").val();
                 IsTestMode = true;
 
