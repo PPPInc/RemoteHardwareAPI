@@ -18,6 +18,20 @@
         .wash {
             color: #83848A;
         }
+
+        .word-break{
+            -ms-word-break: break-all;
+            word-break: break-all;
+
+         /* Non standard for webkit */
+             word-break: break-word;
+
+            -webkit-hyphens: auto;
+               -moz-hyphens: auto;
+                -ms-hyphens: auto;
+                    hyphens: auto;
+        }
+
     </style>
 </head>
 <body>
@@ -113,7 +127,7 @@
 
             deviceHub.on('send', function (from, message) {
                 var d = new Date();
-                $('#messages tr:last').after('<tr><td class="wash"><a href="#" onclick="setFrom(this);return false;" class="from">' + from + '</a></td><td>'
+                $('#messages tr:last').after('<tr><td class="wash"><a href="#" onclick="setFrom(this);return false;" class="from">' + from + '</a></td><td class="word-break">'
                     + message + '<span style="float: right;" class="wash">' + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + '</span></td></tr>');
             });
 
