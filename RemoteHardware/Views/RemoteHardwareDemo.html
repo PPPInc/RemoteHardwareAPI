@@ -7,19 +7,7 @@
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="/Scripts/jquery.signalR-2.2.0.js"></script>
     <script src="/Scripts/RemoteHardware.js"></script>
-    <style>
-        body {
-            padding: 20px;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .wash {
-            color: #83848A;
-        }
-    </style>
+    <link href="../Styles/styles.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container-fluid">
@@ -170,6 +158,10 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-default" id="cancel" disabled>cancel</button>
+                                    </td>
+                                    <td id="processing" class="hidden">
+                                        <img src="../Images/ajax-loader-1.gif" style="width: 20px;margin: 0 0 0 20px;"/>
+                                        <span style="margin: 0 0 0 5px;color: gray;">Processing Transaction</span>
                                     </td>
                                 </tr>
                             </table>
@@ -420,7 +412,13 @@
     </div>
     <script>
         $(function () {
+
+            $("#send").prop("disabled", false);
+            $("#processing").addClass("hidden");
+
             OnResultFunction = function (result) {
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
                 setCancelDisabled(true);
                 $("#resultsPanel").show();
                 $("#resultStatus").val(result.Success);
@@ -467,6 +465,8 @@
                 $("#question").text(question);
             };
             OnErrorFunction = function (error) {
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
                 alert(error);
             };
             OnConfigurationDownloaded = function() {
@@ -510,7 +510,9 @@
                     $("#locationId").css('border-color', 'Red');
             });
 
-            $("#send").on('click', function() {
+            $("#send").on('click', function () {
+                $("#send").prop("disabled", true);
+                $("#processing").removeClass("hidden");
                 var deviceName = $("#devices option:selected").val();
                 if (!deviceName) deviceName = "";
                 //UserName = $("#user-name").val();

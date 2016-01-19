@@ -1,0 +1,15 @@
+﻿body {
+    padding: 20px;
+}
+
+.error {
+    color: red;
+}
+
+.wash {
+    color: #83848A;
+}
+
+.hidden {
+    visibility: hidden;
+}

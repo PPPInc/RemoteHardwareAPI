@@ -1,4 +1,12 @@
 ﻿/*
+ * Charge It Pro Cloud Hardware Library v1.0.0
+ * https://www.chargeitpro.com/
+ *
+ * Copyright (C) Charge It Pro, Corporation. All rights reserved.
+ *
+ */
+
+/*
  * These functions need to be implemented by consuming Developers.
  */
 var OnResultFunction; //Function to be called when transaction results are returned from remote hardware.
@@ -60,14 +68,14 @@ $(function() {
             //return;
         }
         if (ControllerName === "") {
-            alert("ControllerName not set.");
+            OnErrorFunction("ControllerName not set.");
             return;
         }
 
         var url;
         if (IsTestMode) {
-            //url = 'http://localhost:57192';
-            url = "https://psl-staging.chargeitpro.com";
+            url = 'http://localhost:57192';
+            //url = "https://psl-staging.chargeitpro.com";
         } else {
             url = "https://psl.chargeitpro.com";
         }
@@ -93,7 +101,7 @@ $(function() {
                     if (OnResultFunction)
                         OnResultFunction(result);
                 } else {
-                    alert("No Result returned from remote hardware.");
+                    OnErrorFunction("No Result returned from remote hardware.");
                 }
                 return;
             }
@@ -124,7 +132,7 @@ $(function() {
         if (!_connected)
             _connect(function () {
                 _remoteHub.invoke("send", ControllerName, LocationId, JSON.stringify(message));
-            }, function () { alert("Error connecting."); });
+            }, function () { OnErrorFunction("Error connecting."); });
         else {
             _remoteHub.invoke("send", ControllerName, LocationId, JSON.stringify(message));
         }
