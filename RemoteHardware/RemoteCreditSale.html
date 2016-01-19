@@ -72,7 +72,7 @@
     <script>
 
         $(function () {
-
+            console.log(CIP);
             $("#send").prop("disabled", false);
             $("#processing").addClass("hidden");
 
@@ -83,27 +83,29 @@
                 $("#processing").removeClass("hidden");
 
                 /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
-                LocationId = $("#location").val();
-                ControllerName = $("#controller").val();
+                CIP.locationId = $("#location").val();
+                CIP.controllerName = $("#controller").val();
                 var deviceName = $("#devices option:selected").val();
-                IsTestMode = true;
+                CIP.isTestMode = true;
 
                 /* Invoke the creditSaleFunction - this is in RemoteHardware.js. */
-                creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
+                CIP.creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
             });
 
             /* These are the Function Handlers - WebSocket messages will be pushed to these functions. */
-            OnConnectedFunction = function (connection) {
+            CIP.OnConnectedFunction = function (connection) {
                 $("#user-name").val(connection.id);
             };
 
-            OnResultFunction = function (result) {
+            CIP.OnResultFunction = function (result) {
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
                 var d = new Date();
                 $("#results").append("<br/><span class='wash'>" + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + "</span><br/>" + JSON.stringify(result));
                 /* Do stuff here ... save the result to a database, display results on the page, etc.*/
             };
 
-            OnErrorFunction = function (error) {
+            CIP.OnErrorFunction = function (error) {
                 $("#send").prop("disabled", false);
                 $("#processing").addClass("hidden");
                 alert(error);

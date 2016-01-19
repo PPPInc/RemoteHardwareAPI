@@ -416,7 +416,7 @@
             $("#send").prop("disabled", false);
             $("#processing").addClass("hidden");
 
-            OnResultFunction = function (result) {
+            CIP.OnResultFunction = function (result) {
                 $("#send").prop("disabled", false);
                 $("#processing").addClass("hidden");
                 setCancelDisabled(true);
@@ -456,24 +456,24 @@
                 $("#emvOfflineData").val(result.ResultFields.EMVOfflineData);
                 $("#currencyIndicator").val(result.ResultFields.CurrencyIndicator);
             };
-            OnEchoFunction = function (message) {
+            CIP.OnEchoFunction = function (message) {
                 setCancelDisabled(true);
                 alert(message);
             };
-            OnQuestionFunction = function (question) {
+            CIP.OnQuestionFunction = function (question) {
                 $("#questionPanel").show();
                 $("#question").text(question);
             };
-            OnErrorFunction = function (error) {
+            CIP.OnErrorFunction = function (error) {
                 $("#send").prop("disabled", false);
                 $("#processing").addClass("hidden");
                 alert(error);
             };
-            OnConfigurationDownloaded = function() {
-                $("#to").val(ControllerName);
+            CIP.OnConfigurationDownloadedFunction = function () {
+                $("#to").val(CIP.controllerName);
                 var deviceSelect = $("#devices");
                 deviceSelect.find('option').remove();
-                $.each(Devices, function (index, device) {
+                $.each(CIP.devices, function (index, device) {
                     deviceSelect
                         .append($("<option></option>")
                             .attr('value', device.DeviceName)
@@ -481,29 +481,29 @@
                             .prop('selected', device.IsDefault));
                 });
             }
-            OnConnectedFunction = function (connection) {
+            CIP.OnConnectedFunction = function (connection) {
                 $("#user-name").val(connection.id);
             };
 
             $("#yes")
                 .on('click', function () {
-                    answerYesFunction();
+                    CIP.answerYesFunction();
                     setCancelDisabled(false);
                     $("#questionPanel").hide();
                 });
 
             $("#no")
                 .on('click', function() {
-                    answerNoFunction();
+                    CIP.answerNoFunction();
                     setCancelDisabled(true);
                     $("#questionPanel").hide();
                 });
 
             $("#getConfig").on('click', function () {
-                IsTestMode = $("#isTestMode").prop('checked');
+                CIP.isTestMode = $("#isTestMode").prop('checked');
                 var locationId = $("#locationId").val();
                 if (locationId) {
-                    downloadConfiguration($("#locationId").val());
+                    CIP.downloadConfiguration($("#locationId").val());
                     $("#locationId").css('border-color', 'Green');
                 }
                 else
@@ -516,51 +516,51 @@
                 var deviceName = $("#devices option:selected").val();
                 if (!deviceName) deviceName = "";
                 //UserName = $("#user-name").val();
-                ControllerName = $("#to").val();
-                LocationId = $("#locationId").val();
-                IsTestMode = $("#isTestMode").prop('checked');
+                CIP.controllerName = $("#to").val();
+                CIP.locationId = $("#locationId").val();
+                CIP.isTestMode = $("#isTestMode").prop('checked');
 
                 $("#resultsPanel").hide();
                 var action = $("#transactionType option:selected").val();
                 if (action === "Echo") {
-                    echoFunction($("#message").val());
+                    CIP.echoFunction($("#message").val());
                     $("#message").val('');
                 } else if (action === "CreditSale") {
                     clearResults();
-                    creditSaleFunction(deviceName, $("#amount").val(), $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
+                    CIP.creditSaleFunction(deviceName, $("#amount").val(), $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
                     clearFields();
                 } else if (action === "CreditAuth") {
                     clearResults();
-                    creditAuthFunction(deviceName, $("#amount").val(), $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
+                    CIP.creditAuthFunction(deviceName, $("#amount").val(), $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
                     clearFields();
                 } else if (action === "CreditReturn") {
                     clearResults();
-                    creditReturnFunction(deviceName, $("#amount").val());
+                    CIP.creditReturnFunction(deviceName, $("#amount").val());
                     clearFields();
                 } else if (action === "CreditForce") {
                     var uniqueTransRef = $("#uniqueTransId").val();
                     clearResults();
-                    creditForceFunction(deviceName, $("#amount").val(), $("#voiceAuthNumber").val(), uniqueTransRef);
+                    CIP.creditForceFunction(deviceName, $("#amount").val(), $("#voiceAuthNumber").val(), uniqueTransRef);
                     clearFields();
                 } else if (action === "CreditAddTip") {
                     var ref = $("#uniqueTransId").val();
                     clearResults();
-                    creditAddTipFunction(deviceName, $("#amount").val(), ref);
+                    CIP.creditAddTipFunction(deviceName, $("#amount").val(), ref);
                     clearFields();
                 } else if (action === "CreditSaveCard") {
                     clearResults();
-                    saveCreditCardFunction(deviceName, $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
+                    CIP.saveCreditCardFunction(deviceName, $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
                     clearFields();
                 } else if (action === "DebitSale") {
                     clearResults();
-                    debitSaleFunction(deviceName, $("#amount").val());
+                    CIP.debitSaleFunction(deviceName, $("#amount").val());
                     clearFields();
                 } else if (action === "Void") {
-                    voidFunction(deviceName, $("#uniqueTransId").val());
+                    CIP.voidFunction(deviceName, $("#uniqueTransId").val());
                 } else if (action === "RequestSignature") {
-                    requestSignatureFunction(deviceName);
+                    CIP.requestSignatureFunction(deviceName);
                 } else if (action === "DisplayText") {
-                    displayTextFunction(deviceName, $("#message").val());
+                    CIP.displayTextFunction(deviceName, $("#message").val());
                 }
                 setCancelDisabled(false);
             });
@@ -568,7 +568,7 @@
             $("#cancel").on('click', function () {
                 var deviceName = $("#devices option:selected").val();
                 if (!deviceName) return;
-                cancelFunction(deviceName);
+                CIP.cancelFunction(deviceName);
             });
 
             $("#transactionType").on('change', function() {
