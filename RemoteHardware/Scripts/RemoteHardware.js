@@ -1,4 +1,5 @@
 ﻿/*
+ *
  * Charge It Pro Cloud Hardware Library v1.0.0
  * https://www.chargeitpro.com/
  *
@@ -6,105 +7,107 @@
  *
  */
 
-var CIP = {
+var CIP = new function () {
+
+    var self = this;
 
     /*
      * These functions are to be implemented by consuming Developers.
      */
-    OnResultFunction: null, //Function to be called when transaction results are returned from remote hardware.
-    OnEchoFunction: null, //Function to be called when an echo response is returned from remote hardware.
-    OnQuestionFunction: null, //Function to be called when remote hardware requires input from the POS to finish a transaction.
-    OnConfigurationDownloadedFunction: null, //Function to be called when the configuration has been downloaded.
-    OnErrorFunction: null, //Function to be called when the Hub reports an error.
-    OnConnectedFunction: null, //Function to be called when Client connects to Hub.
+    self.OnResultFunction; //Function to be called when transaction results are returned from remote hardware.
+    self.OnEchoFunction; //Function to be called when an echo response is returned from remote hardware.
+    self.OnQuestionFunction; //Function to be called when remote hardware requires input from the POS to finish a transaction.
+    self.OnConfigurationDownloadedFunction; //Function to be called when the configuration has been downloaded.
+    self.OnErrorFunction; //Function to be called when the Hub reports an error.
+    self.OnConnectedFunction; //Function to be called when Client connects to Hub.
 
     /*
      * These properties are to be set by consuming developers.
      */
-    isTestMode: false, //Bool value indicating whether test mode is on or off.
-    userName: '', //Unique name for this connection.
-    controllerName: '', //Name of the remote hardware controller to send transactions.
-    locationId: '', //LocationId for this connection.
-    devices: [], //Array of remote hardware devices that transactions can be processed on.
+    self.isTestMode = false; //Bool value indicating whether test mode is on or off.
+    self.userName; //Unique name for this connection.
+    self.controllerName; //Name of the remote hardware controller to send transactions.
+    self.locationId; //LocationId for this connection.
+    self.devices; //Array of remote hardware devices that transactions can be processed on.
 
     /*
      * These are functions that can be consumed by Developers and should not be assigned to or overwritten.
      */
-    downloadConfiguration: null, //Call this function to download the configuration settings for your location.
-    answerYesFunction: null, //Call this function to respond with "YES" to a question request from remote hardware.
-    answerNoFunction: null, //Call this function to respond with "NO" to a question request from rmote hardware.
-    echoFunction: null, //Call this function to test connectivity between your web-based POS and the remote hardware controller.
-    debitSaleFunction: null, //Call this function to process a debit sale.
-    creditSaleFunction: null, //Call this function to process a credit sale.
-    creditReturnFunction: null, //Call this function to process a credit return.
-    creditAuthFunction: null, //Call this function to authorize a transaction.
-    creditForceFunction: null, //Call this function to force a credit sale.
-    creditAddTipFunction: null, //Call this function to add a tip to a previous transaction.
-    voidFunction: null, //Call this function to void a transaction.
-    requestSignatureFunction: null, //Call this function to request a signature.
-    saveCreditCardFunction: null, //Call this function to tokenize a credit card.
-    displayTextFunction: null, //Call this function to display a message on the device screen.
-    cancelFunction: null, //Call this function to cancel a transaction.
+    self.downloadConfiguration; //Call this function to download the configuration settings for your location.
+    self.answerYesFunction; //Call this function to respond with "YES" to a question request from remote hardware.
+    self.answerNoFunction; //Call this function to respond with "NO" to a question request from rmote hardware.
+    self.echoFunction; //Call this function to test connectivity between your web-based POS and the remote hardware controller.
+    self.debitSaleFunction; //Call this function to process a debit sale.
+    self.creditSaleFunction; //Call this function to process a credit sale.
+    self.creditReturnFunction; //Call this function to process a credit return.
+    self.creditAuthFunction; //Call this function to authorize a transaction.
+    self.creditForceFunction; //Call this function to force a credit sale.
+    self.creditAddTipFunction; //Call this function to add a tip to a previous transaction.
+    self.voidFunction; //Call this function to void a transaction.
+    self.requestSignatureFunction; //Call this function to request a signature.
+    self.saveCreditCardFunction; //Call this function to tokenize a credit card.
+    self.displayTextFunction; //Call this function to display a message on the device screen.
+    self.cancelFunction; //Call this function to cancel a transaction.
 
     /*
      * private variables
      */
-    _remoteHub: null,
-    _connected: false,
+    self._remoteHub,
+    self._connected,
 
     /*
      * private functions
      */
-    _connect: function (done, fail) {
+    self._connect = function (done, fail) {
 
-        if (CIP.controllerName === "") {
-            if (CIP.OnErrorFunction) CIP.OnErrorFunction("ControllerName not set.");
+        if (self.controllerName === "") {
+            if (self.OnErrorFunction) self.OnErrorFunction("ControllerName not set.");
             return;
         }
 
         var url;
-        if (CIP.isTestMode) {
-            //url = 'http://localhost:57192';
-            url = "https://psl-staging.chargeitpro.com";
+        if (self.isTestMode) {
+            url = 'http://localhost:57192';
+            //url = "https://psl-staging.chargeitpro.com";
         } else {
             url = "https://psl.chargeitpro.com";
         }
 
         var connection = $.hubConnection(url);
 
-        connection.qs = { "userName": CIP.userName };
+        connection.qs = { "userName": self.userName };
 
-        _remoteHub = connection.createHubProxy("DeviceHub");
+        self._remoteHub = connection.createHubProxy("DeviceHub");
 
-        _remoteHub.on("send", function (from, message) {
+        self._remoteHub.on("send", function (from, message) {
             var result = JSON.parse(message);
             if (result.Action === "Echo") {
-                if (CIP.OnEchoFunction)
-                    CIP.OnEchoFunction(result.Data);
+                if (self.OnEchoFunction)
+                    self.OnEchoFunction(result.Data);
                 return;
             } else if (result.Action === "Question") {
-                if (CIP.OnQuestionFunction)
-                    CIP.OnQuestionFunction(result.Data);
+                if (self.OnQuestionFunction)
+                    self.OnQuestionFunction(result.Data);
                 return;
             } else if (result.Action === "Result") {
                 if (result.ResultFields) {
-                    if (CIP.OnResultFunction)
-                        CIP.OnResultFunction(result);
+                    if (self.OnResultFunction)
+                        self.OnResultFunction(result);
                 } else {
-                    if (CIP.OnErrorFunction) CIP.OnErrorFunction("No Result returned from remote hardware.");
+                    if (self.OnErrorFunction) self.OnErrorFunction("No Result returned from remote hardware.");
                 }
                 return;
             }
         });
 
-        _remoteHub.on("error", function (error) {
-            if (CIP.OnErrorFunction) CIP.OnErrorFunction(error);
+        self._remoteHub.on("error", function (error) {
+            if (self.OnErrorFunction) self.OnErrorFunction(error);
         });
 
         connection.start().done(function () {
-            _connected = true;
+            self._connected = true;
             console.log("Connected as: " + connection.id);
-            if (CIP.OnConnectedFunction) CIP.OnConnectedFunction(connection);
+            if (self.OnConnectedFunction) self.OnConnectedFunction(connection);
             done();
         }).fail(function (error) {
             _connected = false;
@@ -118,110 +121,110 @@ var CIP = {
         });
     },
 
-    _doTransaction: function (message) {
-        if (!this._connected)
-            this._connect(function () {
-                this._remoteHub.invoke("send", CIP.controllerName, CIP.locationId, JSON.stringify(message));
-            }, function () { if(CIP.OnErrorFunction) CIP.OnErrorFunction("Error connecting."); });
+    self._doTransaction = function (message) {
+        if (!self._connected)
+            self._connect(function () {
+                self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
+            }, function () { if(self.OnErrorFunction) self.OnErrorFunction("Error connecting."); });
         else {
-            this._remoteHub.invoke("send", CIP.controllerName, CIP.locationId, JSON.stringify(message));
+            self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
         }
-    },
+    };
 
-    answerYesFunction: function () {
+    self.answerYesFunction = function () {
         var yesMessage = { Action: "Answer", Success: true };
-        this._doTransaction(yesMessage);
-    },
+        self._doTransaction(yesMessage);
+    };
 
-    answerNoFunction: function () {
+    self.answerNoFunction = function () {
         var noMessage = { Action: "Answer", Success: false };
-        this._doTransaction(noMessage);
-    },
+        self._doTransaction(noMessage);
+    };
 
-    creditSaleFunction: function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
+    self.creditSaleFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
         var csMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
         };
-        this._doTransaction(csMessage);
-    },
+        self._doTransaction(csMessage);
+    };
 
-    creditReturnFunction: function (deviceName, amount) {
+    self.creditReturnFunction = function (deviceName, amount) {
         var crMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditReturn", Amount:amount, DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName })
         };
-        this._doTransaction(crMessage);
-    },
+        self._doTransaction(crMessage);
+    };
 
-    creditAuthFunction: function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
+    self.creditAuthFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
         var caMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditAuth", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditAuth", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName })
         };
-        this._doTransaction(caMessage);
-    },
+        self._doTransaction(caMessage);
+    };
 
-    creditForceFunction: function (deviceName, amount, authCode, uniqueTransRef) {
+    self.creditForceFunction = function (deviceName, amount, authCode, uniqueTransRef) {
         var cfMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditForce", Amount:amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef })
         };
-        this._doTransaction(cfMessage);
-    },
+        self._doTransaction(cfMessage);
+    };
 
-    creditAddTipFunction: function (deviceName, amount, uniqueTransRef) {
+    self.creditAddTipFunction = function (deviceName, amount, uniqueTransRef) {
         var catMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditAddTip", Amount:amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef })
         };
-        this._doTransaction(catMessage);
-    },
+        self._doTransaction(catMessage);
+    };
 
-    saveCreditCardFunction: function (deviceName, accountNumber, billingName, expDate, cvv, street, zip) {
+    self.saveCreditCardFunction = function (deviceName, accountNumber, billingName, expDate, cvv, street, zip) {
         var sccMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditSaveCard",Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName:deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditSaveCard", Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName })
         };
-        this._doTransaction(sccMessage);
-    },
+        self._doTransaction(sccMessage);
+    };
 
-    debitSaleFunction: function (deviceName, amount) {
+    self.debitSaleFunction = function (deviceName, amount) {
         var dsMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "DebitSale", Amount:amount, DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName })
         };
-        this._doTransaction(dsMessage);
-    },
+        self._doTransaction(dsMessage);
+    };
 
-    echoFunction: function (message) {
+    self.echoFunction = function (message) {
         var eMessage = { Action: "Echo", Data: message };
-        this._doTransaction(eMessage);
-    },
+        self._doTransaction(eMessage);
+    };
 
-    voidFunction: function (deviceName, uniqueTransRef) {
+    self.voidFunction = function (deviceName, uniqueTransRef) {
         var vMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "Void", UniqueTransRef:uniqueTransRef, DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName })
         };
-        this._doTransaction(vMessage);
+        self._doTransaction(vMessage);
     },
 
-    requestSignatureFunction: function (deviceName) {
+    self.requestSignatureFunction = function (deviceName) {
         var rsMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "RequestSignature",DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "RequestSignature", DeviceName: deviceName })
         };
-        this._doTransaction(rsMessage);
-    },
+        self._doTransaction(rsMessage);
+    };
 
-    displayTextFunction: function (deviceName, displayText) {
+    self.displayTextFunction = function (deviceName, displayText) {
         var dtMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "DisplayText",DeviceName: deviceName, DisplayText: displayText})
+            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText })
         };
-        this._doTransaction(dtMessage);
-    },
+        self._doTransaction(dtMessage);
+    };
 
-    cancelFunction: function (deviceName) {
-        var cancelMessage = { Action: "CancelTransaction", TestMode: CIP.isTestMode, Data: JSON.stringify({ DeviceName: deviceName }) };
-        _doTransaction(cancelMessage);
-    },
+    self.cancelFunction = function (deviceName) {
+        var cancelMessage = { Action: "CancelTransaction", TestMode: self.isTestMode, Data: JSON.stringify({ DeviceName: deviceName }) };
+        self._doTransaction(cancelMessage);
+    };
 
-    downloadConfiguration: function (locationId) {
+    self.downloadConfiguration = function (locationId) {
         if (!locationId) return;
         var url;
-        if (CIP.isTestMode) {
+        if (self.isTestMode) {
             url = "https://api-staging.chargeitpro.com/RemoteConfig/";
         } else {
             url = "https://api.chargeitpro.com/RemoteConfig/";
@@ -231,18 +234,18 @@ var CIP = {
             headers: { "Content-Type": "application/json" }
         }).done(function (data) {
             if (data.Success === true) {
-                CIP.controllerName = data.Result.ControllerName;
-                CIP.devices = data.Result.Devices;
-                if (!CIP.OnConfigurationDownloadedFunction) {
+                self.controllerName = data.Result.ControllerName;
+                self.devices = data.Result.Devices;
+                if (!self.OnConfigurationDownloadedFunction) {
                     alert("Configuration successfully downloaded.");
                     return;
                 }
-                CIP.devices.sort(function (a, b) {
+                self.devices.sort(function (a, b) {
                     if (a.DeviceName < b.DeviceName) return -1;
                     if (a.DeviceName > b.DeviceName) return 1;
                     return 0;
                 });
-                if (CIP.OnConfigurationDownloadedFunction) CIP.OnConfigurationDownloadedFunction();
+                if (self.OnConfigurationDownloadedFunction) self.OnConfigurationDownloadedFunction();
             }
         }).fail(function (error) {
             alert("Unable to download configuration.");
