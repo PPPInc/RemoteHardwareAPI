@@ -76,6 +76,7 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\cip.cloudHardware-1.0.0.js" />
     <Content Include="Scripts\RemoteHardware.js" />
     <Content Include="Styles\styles.css" />
     <Content Include="Views\RemoteHardwareDemo.html" />
