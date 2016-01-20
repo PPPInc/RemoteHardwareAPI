@@ -9,7 +9,7 @@
 var CIP = {
 
     /*
-     * These functions need to be implemented by consuming Developers.
+     * These functions are to be implemented by consuming Developers.
      */
     OnResultFunction: null, //Function to be called when transaction results are returned from remote hardware.
     OnEchoFunction: null, //Function to be called when an echo response is returned from remote hardware.
@@ -19,13 +19,9 @@ var CIP = {
     OnConnectedFunction: null, //Function to be called when Client connects to Hub.
 
     /*
-     * This property must be set by consuming developers.
+     * These properties are to be set by consuming developers.
      */
     isTestMode: false, //Bool value indicating whether test mode is on or off.
-
-    /*
-     * These variables can be used by consuming Developers.
-     */
     userName: '', //Unique name for this connection.
     controllerName: '', //Name of the remote hardware controller to send transactions.
     locationId: '', //LocationId for this connection.
@@ -102,13 +98,13 @@ var CIP = {
         });
 
         _remoteHub.on("error", function (error) {
-            CIP.OnErrorFunction(error);
+            if (CIP.OnErrorFunction) CIP.OnErrorFunction(error);
         });
 
         connection.start().done(function () {
             _connected = true;
             console.log("Connected as: " + connection.id);
-            if (CIP.OnConnectedFunction !== undefined) CIP.OnConnectedFunction(connection);
+            if (CIP.OnConnectedFunction) CIP.OnConnectedFunction(connection);
             done();
         }).fail(function (error) {
             _connected = false;
@@ -249,7 +245,7 @@ var CIP = {
                     if (a.DeviceName > b.DeviceName) return 1;
                     return 0;
                 });
-                CIP.OnConfigurationDownloadedFunction();
+                if (CIP.OnConfigurationDownloadedFunction) CIP.OnConfigurationDownloadedFunction();
             }
         }).fail(function (error) {
             alert("Unable to download configuration.");
