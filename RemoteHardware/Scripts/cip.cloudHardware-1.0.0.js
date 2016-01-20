@@ -7,9 +7,11 @@
  *
  */
 
-var CIP = new function () {
+var CIP = new (function () {
 
     var self = this;
+
+    self.version = '1.0.0';
 
     /*
      * These functions are to be implemented by consuming Developers.
@@ -251,4 +253,4 @@ var CIP = new function () {
             alert("Unable to download configuration.");
         });
     }
-};
+})();
