@@ -140,9 +140,7 @@ var CIP = {
 
     creditSaleFunction: function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
         var csMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({
-                TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName
-            })
+            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
         };
         this._doTransaction(csMessage);
     },
@@ -156,8 +154,7 @@ var CIP = {
 
     creditAuthFunction: function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
         var caMessage = {
-            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({
-                TransactionType: "CreditAuth", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
+            Action: "Transaction", TestMode: CIP.isTestMode, Data: JSON.stringify({TransactionType: "CreditAuth", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
         };
         this._doTransaction(caMessage);
     },
