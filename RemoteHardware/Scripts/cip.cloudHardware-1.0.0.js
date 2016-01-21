@@ -7,7 +7,7 @@
  *
  */
 
-var CIP = new (function () {
+var CIP = new (function ($) {
 
     var self = this;
 
@@ -253,4 +253,4 @@ var CIP = new (function () {
             alert("Unable to download configuration.");
         });
     }
-})();
+})(window.jQuery);
