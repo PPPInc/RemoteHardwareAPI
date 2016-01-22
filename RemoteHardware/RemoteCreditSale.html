@@ -82,7 +82,7 @@
                 $("#send").prop("disabled", true);
                 $("#processing").removeClass("hidden");
 
-                /* Device Hub connections requre a UserName, ControllerName, LocationId and DeviceName. */
+                /* Device Hub connections require a UserName, ControllerName, LocationId and DeviceName. */
                 CIP.locationId = $("#location").val();
                 CIP.controllerName = $("#controller").val();
                 var deviceName = $("#devices option:selected").val();
