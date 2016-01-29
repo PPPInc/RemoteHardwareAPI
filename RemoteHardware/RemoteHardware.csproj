@@ -80,6 +80,7 @@
     <Content Include="Scripts\RemoteHardware.js" />
     <Content Include="Styles\styles.css" />
     <Content Include="Views\RemoteHardwareDemo.html" />
+    <Content Include="Views\RemoteHardwareRestDemo.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

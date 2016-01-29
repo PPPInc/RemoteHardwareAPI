@@ -1,0 +1,761 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <link href="../Styles/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Remote Hardware Demo</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form style="margin: 20px 0 0 0;">
+                            <div class="form-inline">
+                                <label for="locationId">Location Id</label><br />
+                                <input type="text" class="form-control" id="locationId" placeholder="Location Id" style="width: 185px;" />
+                                <button type="button" class="btn btn-default" id="getConfig">Download Configuration</button>
+                                <div style="margin: 5px 0 0 0;">
+                                    <input class="form-control" type="checkbox" id="isTestMode" checked />
+                                    <label for="isTestMode" class="form-inline" style="margin: 0 0 0 10px;position: relative;top: 2px;">Is Test Mode?</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-name">User Name</label>
+                                <input type="text" class="form-control" style="width: 350px" id="user-name" placeholder="User Name" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="to">Remote Hardware Controller</label>
+                                <input type="text" class="form-control" style="width: 185px;" id="to" placeholder="Controller Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="devices">Destination Device</label>
+                                <select class="form-control" id="devices" style="width: auto;">
+                                    <option value="" selected>No Devices</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-inline" for="transactionType">Action</label>
+                                <select class="form-control" id="transactionType" style="width: auto">
+                                    <option value="CreditSale" selected>Credit Sale</option>
+                                    <option value="CreditReturn">Credit Return</option>
+                                    <option value="CreditAuth">Credit Auth</option>
+                                    <option value="CreditForce">Credit Force</option>
+                                    <option value="CreditAddTip">Credit Add Tip</option>
+                                    <option value="CreditSaveCard">Save Credit Card</option>
+                                    <option value="DebitSale">Debit Sale</option>
+                                    <option value="Void">Void</option>
+                                    <option value="RequestSignature">Request Signature</option>
+                                    <option value="DisplayText">Display Text</option>
+                                    <option value="Echo">Echo</option>
+                                </select>
+                            </div>
+                            <div id="CreditSale">
+                                <label for="amount">Amount</label>
+                                <input class="form-control" style="width: auto" type="text" id="amount" />
+                                <br />
+                                <input type="checkbox" id="isManualEntry" /><label style="margin: 0 0 0 10px;" id="lblManualEntry">Manual Entry</label><br />
+                                <br />
+                                <div id="manualEntryDiv" style="display: none">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <label for="accountNumber">Card Number</label>
+                                            </td>
+                                            <td style="padding: 10px">
+                                                <input class="form-control" style="width: auto" type="text" id="accountNumber" />
+                                            </td>
+                                            <td>
+                                                <label for="expDate">Expiration</label>
+                                            </td>
+                                            <td style="padding: 10px">
+                                                <input class="form-control" style="width: auto" type="text" id="expDate" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="cvv">CVV</label>
+                                            </td>
+                                            <td style="padding: 10px">
+                                                <input class="form-control" style="width: auto" type="text" id="cvv" />
+                                            </td>
+                                            <td>
+                                                <label for="billingName">Billing Name</label>
+                                            </td>
+                                            <td style="padding: 10px">
+                                                <input class="form-control" style="width: auto" type="text" id="billingName" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="street">Street Address</label>
+                                            </td>
+                                            <td style="padding: 10px">
+                                                <input class="form-control" style="width: auto" type="text" id="street" />
+                                            </td>
+                                            <td>
+                                                <label for="zip">Zipcode</label>
+                                            </td>
+                                            <td style="padding: 10px">
+                                                <input class="form-control" style="width: auto" type="text" id="zip" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br />
+                                </div>
+                            </div>
+                            <div id="CreditForce" style="display: none">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="voiceAuthNumber">Voice Auth Code</label>
+                                        </td>
+                                        <td style="padding: 10px">
+                                            <input class="form-control" style="width: auto" type="text" id="voiceAuthNumber" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="UniqueTransIdDiv" style="display: none">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="uniqueTransId">UniqueTransID</label>
+                                        </td>
+                                        <td style="padding: 10px">
+                                            <input class="form-control" style="width: auto" type="text" id="uniqueTransId" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="Echo" style="display: none">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="message">Message</label>
+                                        </td>
+                                        <td style="padding: 10px">
+                                            <input class="form-control" style="width: auto" type="text" id="message" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="RequestSignature" style="display: none">
+                            </div>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td style="padding-right: 20px">
+                                        <button type="button" class="btn btn-default" id="send">Send</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default" id="cancel" disabled>cancel</button>
+                                    </td>
+                                    <td id="processing" class="hidden">
+                                        <img src="../Images/ajax-loader-1.gif" style="width: 20px;margin: 0 0 0 20px;" />
+                                        <span style="margin: 0 0 0 5px;color: gray;">Processing Transaction</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div id="questionPanel" style="display: none">
+                    <label id="question"></label>
+                    <div>
+                        <button class="btn btn-default" type="button" id="yes">Yes</button>
+                        <button class="btn btn-default" type="button" id="no">No</button>
+                    </div>
+                </div>
+                <br />
+                <div class="panel panel-default" id="resultsPanel" style="display: none">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Results</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="resultStatus">Result Status</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="resultStatus" />
+                                </td>
+                                <td>
+                                    <label for="resultMessage">ResultMessage</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="resultMessage" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="amountProcessed">AmountProcessed</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="amountProcessed" />
+                                </td>
+                                <td>
+                                    <label for="uniqueTransIdResult">UniqueTransID</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="uniqueTransIdResult" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="signature">Signature</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="signature" />
+                                </td>
+                                <td>
+                                    <label for="resultBillingName">Billing Name</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="resultBillingName" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="accountCardType">Account Card Type</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="accountCardType" />
+                                </td>
+                                <td>
+                                    <label for="accountExpiryDate">Account Expiry Date</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="accountExpiryDate" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="amountBill">Amount Bill</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="amountBill" />
+                                </td>
+                                <td>
+                                    <label for="avsResponseCode">AVS Response Code</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="avsResponseCode" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="batchNumber">Batch Number</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="batchNumber" />
+                                </td>
+                                <td>
+                                    <label for="cvvResponseCode">CVV Response Code</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="cvvResponseCode" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="maskedAccount">Masked Account</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="maskedAccount" />
+                                </td>
+                                <td>
+                                    <label for="transactionTypeResult">Transaction Type</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="transactionTypeResult" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="accountEntryMethod">Account Entry Method</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="accountEntryMethod" />
+                                </td>
+                                <td>
+                                    <label for="amountBalance">Amount Balance</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="amountBalance" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="amountFee">Amount Fee</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="amountFee" />
+                                </td>
+                                <td>
+                                    <label for="approvalNumberResult">Approval Number Result</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="approvalNumberResult" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="avsResponseText">AVS Response Text</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="avsResponseText" />
+                                </td>
+                                <td>
+                                    <label for="cvvResponseText">CVV Response Text</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="cvvResponseText" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="receipt">Receipt</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="receipt" />
+                                </td>
+                                <td>
+                                    <label for="amountTipped">Amount Tipped</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="amountTipped" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="aid">AID</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="aid" />
+                                </td>
+                                <td>
+                                    <label for="tvr">TVR</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="tvr" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="tsi">TSI</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="tsi" />
+                                </td>
+                                <td>
+                                    <label for="cvmCode">CVM Code</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="cvmCode" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="arc">ARC</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="arc" />
+                                </td>
+                                <td>
+                                    <label for="emvOfflineData">EMV Offline Data</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width:auto" type="text" id="emvOfflineData" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="cvmMethod">Card Holder Verification Method</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="cvmMethod" />
+                                </td>
+                                <td>
+                                    <label for="authorizationMode">Authorization Mode</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width:auto" type="text" id="authorizationMode" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="currencyIndicator">Currency Indicator</label>
+                                </td>
+                                <td style="padding: 10px">
+                                    <input class="form-control" style="width: auto" type="text" id="currencyIndicator" />
+                                </td>
+                                <td>
+                                    <!--<label for="authorizationMode">Authorization Mode</label>-->
+                                </td>
+                                <td style="padding: 10px">
+                                    <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode" />-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function MakeRequest(action, data, success) {
+            var isTestMode = $("#isTestMode").prop('checked');
+
+            var url = isTestMode ? 'https://psl-staging.chargeitpro.com/' //'http://localhost:57192/'
+                                 : 'https://psl.chargeitpro.com/';
+
+            var deviceName = $("#devices option:selected").val();
+            if (!deviceName) deviceName = "";
+            //UserName = $("#user-name").val();
+            var locationId = $("#locationId").val();                    
+
+            $.ajax({
+                url: url + 'RemoteTransaction',
+                type: 'POST',
+                dataType: 'json',
+                headers: {
+                    'x-apikey': '462650feeb9342289dedab7e96c4e49f'
+                },
+                data: { Action: action, TestMode: isTestMode, LocationId: locationId, DeviceName: deviceName, Data: JSON.stringify(data) },
+                success: function (response) {
+                    success(response.Result);
+                }
+            });
+        }
+
+        $(function () {
+
+            $("#send").prop("disabled", false);
+            $("#processing").addClass("hidden");
+
+            var onResult = function (result) {
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
+                setCancelDisabled(true);
+                $("#resultsPanel").show();
+                $("#resultStatus").val(result.ResultStatus);
+                if (result.ResultStatus)
+                    $("#resultsPanel").css('border-color', "#4CA950");
+                else
+                    $("#resultsPanel").css('border-color', "red");
+                $("#amountProcessed").val(result.AmountProcessed);
+                $("#resultMessage").val(result.ResultMessage);
+                $("#uniqueTransId").val(result.UniqueTransID);
+                $("#uniqueTransIdResult").val(result.UniqueTransID);
+                $("#signature").val(result.Signature);
+                $("#resultBillingName").val(result.BillingName);
+                $("#accountCardType").val(result.AccountCardType);
+                $("#maskedAccount").val(result.MaskedAccount);
+                $("#approvalNumberResult").val(result.ApprovalNumberResult);
+                $("#avsResponseCode").val(result.AVSResponseCode);
+                $("#avsResponseText").val(result.AVSResponseText);
+                $("#cvvResponseCode").val(result.CVVResponseCode);
+                $("#cvvResponseText").val(result.CVVResponseText);
+                $("#accountExpiryDate").val(result.AccountExpiryDate);
+                $("#accountEntryMethod").val(result.AccountEntryMethod);
+                $("#amountBalance").val(result.AmountBalance);
+                $("#amountBill").val(result.AmountBill);
+                $("#batchNumber").val(result.BatchNumber);
+                $("#transactionTypeResult").val(result.TransactionType);
+                $("#amountTipped").val(result.AmountTipped);
+                $("#aid").val(result.AID);
+                $("#tvr").val(result.TVR);
+                $("#tsi").val(result.TSI);
+                $("#cvmCode").val(result.CVMCode);
+                $("#cvmMethod").val(result.CardHolderVerificationMethod);
+                $("#arc").val(result.ARC);
+                $("#authorizationMode").val(result.AuthorizationMode);
+                $("#emvOfflineData").val(result.EMVOfflineData);
+                $("#currencyIndicator").val(result.CurrencyIndicator);
+            };
+
+            var onEcho = function (message) {
+                setCancelDisabled(true);
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
+                alert(message);
+            };
+
+            //var onQuestion = function (question) {
+            //    $("#questionPanel").show();
+            //    $("#question").text(question);
+            //};
+
+            //var onError = function (error) {
+            //    $("#send").prop("disabled", false);
+            //    $("#processing").addClass("hidden");
+            //    alert(error);
+            //};
+
+            var onConfigurationDownloaded = function (result) {
+                $("#to").val(result.controllerName);
+                var deviceSelect = $("#devices");
+                deviceSelect.find('option').remove();
+
+                $.each(result.devices, function (index, device) {
+                    deviceSelect
+                        .append($("<option></option>")
+                            .attr('value', device.DeviceName)
+                            .text(device.DeviceName)
+                            .prop('selected', device.IsDefault));
+                });
+            }
+
+            //var onConnected = function (connection) {
+            //    $("#user-name").val(connection.id);
+            //};
+
+            $("#yes")
+                .on('click', function () {
+                    //CIP.answerYesFunction();
+                    setCancelDisabled(false);
+                    $("#questionPanel").hide();
+                });
+
+            $("#no")
+                .on('click', function () {
+                    //CIP.answerNoFunction();
+                    setCancelDisabled(true);
+                    $("#questionPanel").hide();
+                });
+
+            $("#getConfig").on('click', function () {           
+                var locationId = $("#locationId").val();
+                if (locationId) {
+                    var isTestMode = $("#isTestMode").prop('checked');
+                    var url = isTestMode ? "https://api-staging.chargeitpro.com/"
+                                         : "https://api.chargeitpro.com/";
+                    $.ajax({
+                        url: url + 'RemoteConfig/' + locationId,
+                        headers: { "Content-Type": "application/json" }
+                    }).done(function (data) {
+                        if (data.Success === true) {                              
+                            var devices = data.Result.Devices;
+
+                            devices.sort(function (a, b) {
+                                if (a.DeviceName < b.DeviceName) return -1;
+                                if (a.DeviceName > b.DeviceName) return 1;
+                                return 0;
+                            });
+                            onConfigurationDownloaded({ devices: devices, controllerName: data.Result.ControllerName });//if (self.OnConfigurationDownloadedFunction) self.OnConfigurationDownloadedFunction();
+                        }
+                    }).fail(function (error) {
+                        alert("Unable to download configuration.");
+                    });
+
+                    $("#locationId").css('border-color', 'Green');
+                }
+                else
+                    $("#locationId").css('border-color', 'Red');
+            });
+
+            $("#send").on('click', function () {
+                $("#send").prop("disabled", true);
+                $("#processing").removeClass("hidden");
+
+                var deviceName = $("#devices option:selected").val();
+                if (!deviceName) deviceName = "";
+
+                $("#resultsPanel").hide();
+
+                var action = $("#transactionType option:selected").val();
+                if (action === "Echo") {
+                    MakeRequest(action, $("#message").val(), onEcho);
+                    $("#message").val('');
+                } else if (action === "CreditSale" || action === "CreditAuth") {
+                    clearResults();
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        Amount: $("#amount").val(),
+                        AccountNumber: $("#accountNumber").val(),
+                        BillingName: $("#billingName").val(),
+                        ExpDate: $("#expDate").val(),
+                        CVV: $("#cvv").val(),
+                        Street: $("#street").val(),
+                        Zip: $("#zip").val(),
+                        DeviceName: deviceName
+                    }, onResult);
+                    clearFields();
+                } else if (action === "CreditReturn" || action === "DebitSale") {
+                    clearResults();
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        Amount: $("#amount").val(),
+                        DeviceName: deviceName
+                    }, onResult);
+                    clearFields();
+                } else if (action === "CreditForce") {
+                    clearResults();
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        Amount: $("#amount").val(),
+                        VoiceAuthCode: $("#voiceAuthNumber").val(),
+                        UniqueTransID:$("#uniqueTransId").val(), 
+                        DeviceName: deviceName
+                    }, onResult);
+                    clearFields();
+                } else if (action === "CreditAddTip") {
+                    clearResults();
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        Amount: $("#amount").val(),
+                        UniqueTransID: $("#uniqueTransId").val(),
+                        DeviceName: deviceName
+                    }, onResult);
+                    clearFields();
+                } else if (action === "CreditSaveCard") {
+                    clearResults();
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        AccountNumber: $("#accountNumber").val(),
+                        BillingName: $("#billingName").val(),
+                        ExpDate: $("#expDate").val(),
+                        CVV: $("#cvv").val(),
+                        Street: $("#street").val(),
+                        Zip: $("#zip").val(),
+                        DeviceName: deviceName
+                    }, onResult);
+                    clearFields();
+                }
+                //Can't do voids yet. Needs endpoint work
+                //else if (action === "Void") {
+                //    MakeRequest('Transaction', {
+                //        TransactionType: action,
+                //        Amount: $("#amount").val(),
+                //        UniqueTransID: $("#uniqueTransId").val(),
+                //        DeviceName: deviceName
+                //    }, onResult);
+
+                //    CIP.voidFunction(deviceName, $("#uniqueTransId").val());
+                //} 
+                else if (action === "RequestSignature") {
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        DeviceName: deviceName
+                    }, onResult);
+                } else if (action === "DisplayText") {
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        DeviceName: deviceName,
+                        DisplayText: $("#message").val()
+                    }, onResult);
+                }
+                setCancelDisabled(false);
+            });
+
+            $("#cancel").on('click', function () {
+                var deviceName = $("#devices option:selected").val();
+                if (!deviceName) return;
+                MakeRequest('CancelTransaction', {
+                    DeviceName: deviceName
+                }, function () {});
+            });
+
+            $("#transactionType").on('change', function () {
+                $("#CreditSale").hide();
+                $("#CreditForce").hide();
+                $("#UniqueTransIdDiv").hide();
+                $("#Echo").hide();
+                $("#lblManualEntry").hide();
+                $("#isManualEntry").hide();
+                $("#manualEntryDiv").hide();
+                $("#RequestSignature").hide();
+                var selected = $("#transactionType option:selected").val();
+                if (selected === "DebitSale" || selected === "CreditReturn") {
+                    $("#CreditSale").show();
+                } else if (selected === "Void") {
+                    $("#UniqueTransIdDiv").show();
+                } else if (selected === "RequestSignature") {
+                    $("#" + selected).show();
+                } else if (selected === "CreditForce") {
+                    $("#CreditSale").show();
+                    $("#CreditForce").show();
+                    $("#UniqueTransIdDiv").show();
+                } else if (selected === "CreditAddTip") {
+                    $("#CreditSale").show();
+                    $("#UniqueTransIdDiv").show();
+                } else if (selected === "CreditSale" || selected === "CreditAuth" || selected === "CreditSaveCard") {
+                    $("#lblManualEntry").show();
+                    $("#isManualEntry").show();
+                    $("#CreditSale").show();
+                } else if (selected === "DisplayText") {
+                    $("#Echo").show();
+                } else {
+                    $("#" + selected).show();
+                }
+            });
+
+            $("#isManualEntry").on('change', function () {
+                if (this.checked)
+                    $("#manualEntryDiv").show();
+                else
+                    $("#manualEntryDiv").hide();
+            });
+        });
+
+        function clearFields() {
+            $("#amount").val('');
+            $("#isManualEntry").prop('checked', false);
+            $("#manualEntryDiv").hide();
+            $("#accountNumber").val('');
+            $("#uniqueTransId").val('');
+            $("#uniqueTransIdResult").val('');
+            $("#expDate").val('');
+            $("#cvv").val('');
+            $("#billingName").val('');
+            $("#street").val('');
+            $("#zip").val('');
+            $("#voiceAuthNumber").val('');
+        };
+
+        function clearResults() {
+            $("#resultsPanel").hide();
+            $("#resultStatus").val('');
+            $("#amountProcessed").val('');
+            $("#resultMessage").val('');
+            $("#uniqueTransId").val('');
+            $("#uniqueTransIdResult").val('');
+            $("#signature").val('');
+            $("#resultBillingName").val('');
+            $("#accountCardType").val('');
+            $("#maskedAccount").val('');
+            $("#approvalNumberResult").val('');
+            $("#avsResponseCode").val('');
+            $("#avsResponseText").val('');
+            $("#cvvResponseCode").val('');
+            $("#cvvResponseText").val('');
+            $("#accountExpiryDate").val('');
+            $("#accountEntryMethod").val('');
+            $("#amountBalance").val('');
+            $("#amountBill").val('');
+            $("#batchNumber").val('');
+            $("#transactionTypeResult").val('');
+            $("#amountTipped").val('');
+            $("#aid").val('');
+            $("#tvr").val('');
+            $("#tsi").val('');
+            $("#cvmCode").val('');
+            $("#cvmMethod").val('');
+            $("#arc").val('');
+            $("#authorizationMode").val('');
+            $("#emvOfflineData").val('');
+            $("#currencyIndicator").val('');
+        };
+
+        function setCancelDisabled(value) {
+            $("#cancel").prop('disabled', value);
+        }
+    </script>
+</body>
+</html>
