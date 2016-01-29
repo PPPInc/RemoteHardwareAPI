@@ -408,7 +408,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script>  
         function MakeRequest(action, data, success) {
             var isTestMode = $("#isTestMode").prop('checked');
 
@@ -431,6 +431,10 @@
                 success: function (response) {
                     success(response.Result);
                 }
+            }).fail(function(error) {
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
+                alert(error);
             });
         }
 
@@ -490,12 +494,6 @@
             //var onQuestion = function (question) {
             //    $("#questionPanel").show();
             //    $("#question").text(question);
-            //};
-
-            //var onError = function (error) {
-            //    $("#send").prop("disabled", false);
-            //    $("#processing").addClass("hidden");
-            //    alert(error);
             //};
 
             var onConfigurationDownloaded = function (result) {
