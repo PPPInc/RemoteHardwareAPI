@@ -459,6 +459,7 @@
             CIP.OnEchoFunction = function (message) {
                 setCancelDisabled(true);
                 alert(message);
+                $("#send").prop("disabled", false);
             };
             CIP.OnQuestionFunction = function (question) {
                 $("#questionPanel").show();
