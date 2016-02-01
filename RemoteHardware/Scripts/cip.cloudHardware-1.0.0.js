@@ -81,15 +81,15 @@ var CIP = new (function ($) {
 
         self._remoteHub = connection.createHubProxy("DeviceHub");
 
-        self._remoteHub.on("send", function (from, message) {
+        self._remoteHub.on("send", function(from, message) {
             var result = JSON.parse(message);
             if (result.Action === "Echo") {
                 if (self.OnEchoFunction)
-                    self.OnEchoFunction(result.Data);
+                    self.OnEchoFunction(result.Message);
                 return;
             } else if (result.Action === "Question") {
                 if (self.OnQuestionFunction)
-                    self.OnQuestionFunction(result.Data);
+                    self.OnQuestionFunction(result.Message);
                 return;
             } else if (result.Action === "Result") {
                 if (result.ResultFields) {
@@ -100,27 +100,27 @@ var CIP = new (function ($) {
                 }
                 return;
             }
-        })
+        });
 
-        self._remoteHub.on("error", function (error) {
+        self._remoteHub.on("error", function(error) {
             if (self.OnErrorFunction) self.OnErrorFunction(error);
-        })
+        });
 
-        connection.start().done(function () {
+        connection.start().done(function() {
             self._connected = true;
             console.log("Connected as: " + connection.id);
             if (self.OnConnectedFunction) self.OnConnectedFunction(connection);
             done();
-        }).fail(function (error) {
+        }).fail(function(error) {
             _connected = false;
             console.log(error);
             fail();
-        })
+        });
 
-        connection.error(function (error) {
+        connection.error(function(error) {
             _connected = false;
             console.log("SignalR error: " + error);
-        })
+        });
     }
 
     self._doTransaction = function (message) {
@@ -133,93 +133,93 @@ var CIP = new (function ($) {
         }
     }
 
-    self.answerYesFunction = function () {
-        var yesMessage = { Action: "Answer", Success: true };
+    self.answerYesFunction = function (deviceName) {
+        var yesMessage = { Action: "Answer", Success: true, Data: {DeviceName: deviceName}};
         self._doTransaction(yesMessage);
     }
 
-    self.answerNoFunction = function () {
-        var noMessage = { Action: "Answer", Success: false };
+    self.answerNoFunction = function (deviceName) {
+        var noMessage = { Action: "Answer", Success: false, Data: {DeviceName: deviceName} };
         self._doTransaction(noMessage);
     }
 
     self.creditSaleFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
         var csMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName})
+            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName}
         };
         self._doTransaction(csMessage);
     }
 
     self.creditReturnFunction = function (deviceName, amount) {
         var crMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName }
         };
         self._doTransaction(crMessage);
     }
 
     self.creditAuthFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
         var caMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditAuth", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAuth", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }
         };
         self._doTransaction(caMessage);
     }
 
     self.creditForceFunction = function (deviceName, amount, authCode, uniqueTransRef) {
         var cfMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef }
         };
         self._doTransaction(cfMessage);
     }
 
     self.creditAddTipFunction = function (deviceName, amount, uniqueTransRef) {
         var catMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef }
         };
         self._doTransaction(catMessage);
     }
 
     self.saveCreditCardFunction = function (deviceName, accountNumber, billingName, expDate, cvv, street, zip) {
         var sccMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "CreditSaveCard", Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditSaveCard", Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }
         };
         self._doTransaction(sccMessage);
     }
 
     self.debitSaleFunction = function (deviceName, amount) {
         var dsMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName }
         };
         self._doTransaction(dsMessage);
     }
 
     self.echoFunction = function (message) {
-        var eMessage = { Action: "Echo", Data: message };
+        var eMessage = { Action: "Echo", Message: message };
         self._doTransaction(eMessage);
     }
 
     self.voidFunction = function (deviceName, uniqueTransRef) {
         var vMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName }
         };
         self._doTransaction(vMessage);
     }
 
     self.requestSignatureFunction = function (deviceName) {
         var rsMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "RequestSignature", DeviceName: deviceName })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "RequestSignature", DeviceName: deviceName }
         };
         self._doTransaction(rsMessage);
     }
 
     self.displayTextFunction = function (deviceName, displayText) {
         var dtMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: JSON.stringify({ TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText })
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText }
         };
         self._doTransaction(dtMessage);
     }
 
     self.cancelFunction = function (deviceName) {
-        var cancelMessage = { Action: "CancelTransaction", TestMode: self.isTestMode, Data: JSON.stringify({ DeviceName: deviceName }) };
+        var cancelMessage = { Action: "CancelTransaction", TestMode: self.isTestMode, Data: { DeviceName: deviceName } };
         self._doTransaction(cancelMessage);
     }
 

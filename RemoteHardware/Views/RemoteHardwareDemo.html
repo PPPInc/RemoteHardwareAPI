@@ -460,6 +460,7 @@
                 setCancelDisabled(true);
                 alert(message);
                 $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
             };
             CIP.OnQuestionFunction = function (question) {
                 $("#questionPanel").show();
@@ -488,14 +489,18 @@
 
             $("#yes")
                 .on('click', function () {
-                    CIP.answerYesFunction();
+                    var deviceName = $("#devices option:selected").val();
+                    if (!deviceName) deviceName = "";
+                    CIP.answerYesFunction(deviceName);
                     setCancelDisabled(false);
                     $("#questionPanel").hide();
                 });
 
             $("#no")
                 .on('click', function() {
-                    CIP.answerNoFunction();
+                    var deviceName = $("#devices option:selected").val();
+                    if (!deviceName) deviceName = "";
+                    CIP.answerNoFunction(deviceName);
                     setCancelDisabled(true);
                     $("#questionPanel").hide();
                 });
