@@ -412,8 +412,17 @@
         function MakeRequest(action, data, success) {
             var isTestMode = $("#isTestMode").prop('checked');
 
-            var url = isTestMode ? 'https://psl-staging.chargeitpro.com/' //'http://localhost:57192/'
+            var url = isTestMode ? 'https://psl-staging.chargeitpro.com/'
                                  : 'https://psl.chargeitpro.com/';
+
+            var transactionData = null;
+            var transactionMessage = null;
+
+            if (typeof data === 'string' || data instanceof String) {
+                transactionMessage = data;
+            } else {
+                transactionData = data;
+            }
 
             var deviceName = $("#devices option:selected").val();
             if (!deviceName) deviceName = "";
@@ -424,17 +433,18 @@
                 url: url + 'RemoteTransaction',
                 type: 'POST',
                 dataType: 'json',
+                contentType: "application/json",
                 headers: {
                     'x-apikey': '462650feeb9342289dedab7e96c4e49f'
                 },
-                data: { Action: action, TestMode: isTestMode, LocationId: locationId, DeviceName: deviceName, Data: JSON.stringify(data) },
+                data: JSON.stringify({ 'Action': action, 'TestMode': isTestMode, 'Message': transactionMessage, 'LocationId': locationId, 'DeviceName': deviceName, 'Data': transactionData }),
                 success: function (response) {
                     success(response.Result);
                 }
             }).fail(function(error) {
                 $("#send").prop("disabled", false);
                 $("#processing").addClass("hidden");
-                alert(error);
+                alert(error.statusText);
             });
         }
 
