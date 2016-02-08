@@ -18,7 +18,6 @@ var CIP = new (function ($) {
      */
     self.OnResultFunction; //Function to be called when transaction results are returned from cloud hardware.
     self.OnEchoFunction; //Function to be called when an echo response is returned from cloud hardware.
-    self.OnQuestionFunction; //Function to be called when remote hardware requires input from the POS to finish a transaction.
     self.OnConfigurationDownloadedFunction; //Function to be called when the configuration has been downloaded.
     self.OnErrorFunction; //Function to be called when the Hub reports an error.
     self.OnConnectedFunction; //Function to be called when Client connects to Hub.
@@ -36,8 +35,6 @@ var CIP = new (function ($) {
      * These are functions that can be consumed by Developers and should not be assigned to or overwritten.
      */
     self.downloadConfiguration; //Call this function to download the configuration settings for your location.
-    self.answerYesFunction; //Call this function to respond with "YES" to a question request from cloud hardware.
-    self.answerNoFunction; //Call this function to respond with "NO" to a question request from cloud hardware.
     self.echoFunction; //Call this function to test connectivity between your web-based POS and the cloud hardware controller.
     self.debitSaleFunction; //Call this function to process a debit sale.
     self.creditSaleFunction; //Call this function to process a credit sale.

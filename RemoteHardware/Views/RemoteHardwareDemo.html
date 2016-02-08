@@ -20,11 +20,11 @@
                     <div class="panel-body">
                         <form style="margin: 20px 0 0 0;">
                             <div class="form-inline">
-                                <label for="locationId">Location Id</label><br/>
+                                <label for="locationId">Location Id</label><br />
                                 <input type="text" class="form-control" id="locationId" placeholder="Location Id" style="width: 185px;" />
                                 <button type="button" class="btn btn-default" id="getConfig">Download Configuration</button>
                                 <div style="margin: 5px 0 0 0;">
-                                    <input class="form-control" type="checkbox" id="isTestMode" checked  />
+                                    <input class="form-control" type="checkbox" id="isTestMode" checked />
                                     <label for="isTestMode" class="form-inline" style="margin: 0 0 0 10px;position: relative;top: 2px;">Is Test Mode?</label>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                                         <button type="button" class="btn btn-default" id="cancel" disabled>cancel</button>
                                     </td>
                                     <td id="processing" class="hidden">
-                                        <img src="../Images/ajax-loader-1.gif" style="width: 20px;margin: 0 0 0 20px;"/>
+                                        <img src="../Images/ajax-loader-1.gif" style="width: 20px;margin: 0 0 0 20px;" />
                                         <span style="margin: 0 0 0 5px;color: gray;">Processing Transaction</span>
                                     </td>
                                 </tr>
@@ -168,243 +168,242 @@
                         </form>
                     </div>
                 </div>
-                <div id="questionPanel" style="display: none">
-                    <label id="question"></label>
-                    <div>
-                        <button class="btn btn-default" type="button" id="yes">Yes</button>
-                        <button class="btn btn-default" type="button" id="no">No</button>
-                    </div>
-                </div>
                 <br />
                 <div class="panel panel-default" id="resultsPanel" style="display: none">
                     <div class="panel-heading">
                         <h3 class="panel-title">Results</h3>
-                        <table>
-                            <tr>
-                                <td>
-                                    <label for="resultStatus">Result Status</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="resultStatus" />
-                                </td>
-                                <td>
-                                    <label for="resultMessage">ResultMessage</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="resultMessage" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="amountProcessed">AmountProcessed</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="amountProcessed" />
-                                </td>
-                                <td>
-                                    <label for="uniqueTransIdResult">UniqueTransID</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="uniqueTransIdResult" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="signature">Signature</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="signature"/>
-                                </td>
-                                <td>
-                                    <label for="resultBillingName">Billing Name</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="resultBillingName"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="accountCardType">Account Card Type</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="accountCardType"/>
-                                </td>
-                                <td>
-                                    <label for="accountExpiryDate">Account Expiry Date</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="accountExpiryDate"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="amountBill">Amount Bill</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="amountBill" />
-                                </td>
-                                <td>
-                                    <label for="avsResponseCode">AVS Response Code</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="avsResponseCode" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="batchNumber">Batch Number</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="batchNumber" />
-                                </td>
-                                <td>
-                                    <label for="cvvResponseCode">CVV Response Code</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="cvvResponseCode" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="maskedAccount">Masked Account</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="maskedAccount" />
-                                </td>
-                                <td>
-                                    <label for="transactionTypeResult">Transaction Type</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="transactionTypeResult" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="accountEntryMethod">Account Entry Method</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="accountEntryMethod" />
-                                </td>
-                                <td>
-                                    <label for="amountBalance">Amount Balance</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="amountBalance" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="amountFee">Amount Fee</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="amountFee" />
-                                </td>
-                                <td>
-                                    <label for="approvalNumberResult">Approval Number Result</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="approvalNumberResult" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="avsResponseText">AVS Response Text</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="avsResponseText" />
-                                </td>
-                                <td>
-                                    <label for="cvvResponseText">CVV Response Text</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="cvvResponseText" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="receipt">Receipt</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="receipt" />
-                                </td>
-                                <td>
-                                    <label for="amountTipped">Amount Tipped</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="amountTipped" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="aid">AID</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="aid" />
-                                </td>
-                                <td>
-                                    <label for="tvr">TVR</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="tvr" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="tsi">TSI</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="tsi" />
-                                </td>
-                                <td>
-                                    <label for="cvmCode">CVM Code</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="cvmCode" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="arc">ARC</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="arc" />
-                                </td>
-                                <td>
-                                    <label for="emvOfflineData">EMV Offline Data</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width:auto" type="text" id="emvOfflineData" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="cvmMethod">Card Holder Verification Method</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="cvmMethod" />
-                                </td>
-                                <td>
-                                    <label for="authorizationMode">Authorization Mode</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width:auto" type="text" id="authorizationMode"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="currencyIndicator">Currency Indicator</label>
-                                </td>
-                                <td style="padding: 10px">
-                                    <input class="form-control" style="width: auto" type="text" id="currencyIndicator" />
-                                </td>
-                                <td>
-                                    <!--<label for="authorizationMode">Authorization Mode</label>-->
-                                </td>
-                                <td style="padding: 10px">
-                                    <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode" />-->
-                                </td>
-                            </tr>
-                        </table>
+                    <table>
+                    <tr>
+                        <td>
+                            <label for="resultStatus">Result Status</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="resultStatus"/>
+                        </td>
+                        <td>
+                            <label for="resultMessage">ResultMessage</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="resultMessage"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="amountProcessed">AmountProcessed</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="amountProcessed"/>
+                        </td>
+                        <td>
+                            <label for="uniqueTransIdResult">UniqueTransID</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="uniqueTransIdResult"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="signature">Signature</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="signature"/>
+                        </td>
+                        <td>
+                            <label for="resultBillingName">Billing Name</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="resultBillingName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="accountCardType">Account Card Type</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="accountCardType"/>
+                        </td>
+                        <td>
+                            <label for="accountExpiryDate">Account Expiry Date</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="accountExpiryDate"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="amountBill">Amount Bill</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="amountBill"/>
+                        </td>
+                        <td>
+                            <label for="avsResponseCode">AVS Response Code</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="avsResponseCode"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="batchNumber">Batch Number</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="batchNumber"/>
+                        </td>
+                        <td>
+                            <label for="cvvResponseCode">CVV Response Code</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="cvvResponseCode"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="maskedAccount">Masked Account</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="maskedAccount"/>
+                        </td>
+                        <td>
+                            <label for="transactionTypeResult">Transaction Type</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="transactionTypeResult"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="accountEntryMethod">Account Entry Method</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="accountEntryMethod"/>
+                        </td>
+                        <td>
+                            <label for="amountBalance">Amount Balance</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="amountBalance"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="amountFee">Amount Fee</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="amountFee"/>
+                        </td>
+                        <td>
+                            <label for="approvalNumberResult">Approval Number Result</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="approvalNumberResult"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="avsResponseText">AVS Response Text</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="avsResponseText"/>
+                        </td>
+                        <td>
+                            <label for="cvvResponseText">CVV Response Text</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="cvvResponseText"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="receipt">Receipt</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="receipt"/>
+                        </td>
+                        <td>
+                            <label for="amountTipped">Amount Tipped</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="amountTipped"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="aid">AID</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="aid"/>
+                        </td>
+                        <td>
+                            <label for="tvr">TVR</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="tvr"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="tsi">TSI</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="tsi"/>
+                        </td>
+                        <td>
+                            <label for="cvmCode">CVM Code</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="cvmCode"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="arc">ARC</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="arc"/>
+                        </td>
+                        <td>
+                            <label for="emvOfflineData">EMV Offline Data</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="emvOfflineData"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="cvmMethod">Card Holder Verification Method</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="cvmMethod"/>
+                        </td>
+                        <td>
+                            <label for="authorizationMode">Authorization Mode</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="authorizationMode"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="currencyIndicator">Currency Indicator</label>
+                        </td>
+                        <td style="padding: 10px">
+                            <input class="form-control" style="width: auto" type="text" id="currencyIndicator"/>
+                        </td>
+                        <td>
+                            <!--<label for="authorizationMode">Authorization Mode</label>-->
+                        </td>
+                        <td style="padding: 10px">
+                            <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode"/>-->
+                        </td>
+                    </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td><label for="signatureImage">Signature Image</label></td>
+                            <td><img id="signatureImage"/></td>
+                        </tr>
+                    </table>
                     </div>
                 </div>
             </div>
@@ -455,16 +454,17 @@
                 $("#authorizationMode").val(result.ResultFields.AuthorizationMode);
                 $("#emvOfflineData").val(result.ResultFields.EMVOfflineData);
                 $("#currencyIndicator").val(result.ResultFields.CurrencyIndicator);
+                if ($("#isTestMode").prop('checked')) {
+                    $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&amp;source=Cloud');
+                } else {
+                    $("#signatureIamge").attr('src', 'https://api.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&amp;source=Cloud');
+                }
             };
             CIP.OnEchoFunction = function (message) {
                 setCancelDisabled(true);
                 alert(message);
                 $("#send").prop("disabled", false);
                 $("#processing").addClass("hidden");
-            };
-            CIP.OnQuestionFunction = function (question) {
-                $("#questionPanel").show();
-                $("#question").text(question);
             };
             CIP.OnErrorFunction = function (error) {
                 $("#send").prop("disabled", false);
@@ -486,24 +486,6 @@
             CIP.OnConnectedFunction = function (connection) {
                 $("#user-name").val(connection.id);
             };
-
-            $("#yes")
-                .on('click', function () {
-                    var deviceName = $("#devices option:selected").val();
-                    if (!deviceName) deviceName = "";
-                    CIP.answerYesFunction(deviceName);
-                    setCancelDisabled(false);
-                    $("#questionPanel").hide();
-                });
-
-            $("#no")
-                .on('click', function() {
-                    var deviceName = $("#devices option:selected").val();
-                    if (!deviceName) deviceName = "";
-                    CIP.answerNoFunction(deviceName);
-                    setCancelDisabled(true);
-                    $("#questionPanel").hide();
-                });
 
             $("#getConfig").on('click', function () {
                 CIP.isTestMode = $("#isTestMode").prop('checked');
@@ -577,7 +559,7 @@
                 CIP.cancelFunction(deviceName);
             });
 
-            $("#transactionType").on('change', function() {
+            $("#transactionType").on('change', function () {
                 $("#CreditSale").hide();
                 $("#CreditForce").hide();
                 $("#UniqueTransIdDiv").hide();
@@ -597,7 +579,7 @@
                     $("#CreditSale").show();
                     $("#CreditForce").show();
                     $("#UniqueTransIdDiv").show();
-                }else if (selected === "CreditAddTip") {
+                } else if (selected === "CreditAddTip") {
                     $("#CreditSale").show();
                     $("#UniqueTransIdDiv").show();
                 } else if (selected === "CreditSale" || selected === "CreditAuth" || selected === "CreditSaveCard") {
