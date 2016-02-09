@@ -443,7 +443,8 @@
                 $("#amountBalance").val(result.ResultFields.AmountBalance);
                 $("#amountBill").val(result.ResultFields.AmountBill);
                 $("#batchNumber").val(result.ResultFields.BatchNumber);
-                $("#transactionTypeResult").val(result.ResultFields.TransactionType);
+                var transType = result.ResultFields.TransactionType;
+                $("#transactionTypeResult").val(transType);
                 $("#amountTipped").val(result.ResultFields.AmountTipped);
                 $("#aid").val(result.ResultFields.AID);
                 $("#tvr").val(result.ResultFields.TVR);
@@ -454,10 +455,12 @@
                 $("#authorizationMode").val(result.ResultFields.AuthorizationMode);
                 $("#emvOfflineData").val(result.ResultFields.EMVOfflineData);
                 $("#currencyIndicator").val(result.ResultFields.CurrencyIndicator);
-                if ($("#isTestMode").prop('checked')) {
-                    $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
-                } else {
-                    $("#signatureIamge").attr('src', 'https://api.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
+                if ($("#signature").val() !== '') {
+                    if ($("#isTestMode").prop('checked')) {
+                        $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
+                    } else {
+                        $("#signatureIamge").attr('src', 'https://api.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
+                    }
                 }
             };
             CIP.OnEchoFunction = function (message) {
