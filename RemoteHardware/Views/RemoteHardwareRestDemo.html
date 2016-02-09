@@ -166,13 +166,6 @@
                         </form>
                     </div>
                 </div>
-                <div id="questionPanel" style="display: none">
-                    <label id="question"></label>
-                    <div>
-                        <button class="btn btn-default" type="button" id="yes">Yes</button>
-                        <button class="btn btn-default" type="button" id="no">No</button>
-                    </div>
-                </div>
                 <br />
                 <div class="panel panel-default" id="resultsPanel" style="display: none">
                     <div class="panel-heading">
@@ -501,11 +494,6 @@
                 alert(message);
             };
 
-            //var onQuestion = function (question) {
-            //    $("#questionPanel").show();
-            //    $("#question").text(question);
-            //};
-
             var onConfigurationDownloaded = function (result) {
                 $("#to").val(result.controllerName);
                 var deviceSelect = $("#devices");
@@ -523,20 +511,6 @@
             //var onConnected = function (connection) {
             //    $("#user-name").val(connection.id);
             //};
-
-            $("#yes")
-                .on('click', function () {
-                    //CIP.answerYesFunction();
-                    setCancelDisabled(false);
-                    $("#questionPanel").hide();
-                });
-
-            $("#no")
-                .on('click', function () {
-                    //CIP.answerNoFunction();
-                    setCancelDisabled(true);
-                    $("#questionPanel").hide();
-                });
 
             $("#getConfig").on('click', function () {           
                 var locationId = $("#locationId").val();
@@ -636,17 +610,14 @@
                     }, onResult);
                     clearFields();
                 }
-                //Can't do voids yet. Needs endpoint work
-                //else if (action === "Void") {
-                //    MakeRequest('Transaction', {
-                //        TransactionType: action,
-                //        Amount: $("#amount").val(),
-                //        UniqueTransID: $("#uniqueTransId").val(),
-                //        DeviceName: deviceName
-                //    }, onResult);
-
-                //    CIP.voidFunction(deviceName, $("#uniqueTransId").val());
-                //} 
+                else if (action === "Void") {
+                    MakeRequest('Transaction', {
+                        TransactionType: action,
+                        Amount: $("#amount").val(),
+                        UniqueTransID: $("#uniqueTransId").val(),
+                        DeviceName: deviceName
+                    }, onResult);
+                }
                 else if (action === "RequestSignature") {
                     MakeRequest('Transaction', {
                         TransactionType: action,
