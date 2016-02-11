@@ -130,26 +130,16 @@ var CIP = new (function ($) {
         }
     }
 
-    self.answerYesFunction = function (deviceName) {
-        var yesMessage = { Action: "Answer", Success: true, Data: {DeviceName: deviceName}};
-        self._doTransaction(yesMessage);
-    }
-
-    self.answerNoFunction = function (deviceName) {
-        var noMessage = { Action: "Answer", Success: false, Data: {DeviceName: deviceName} };
-        self._doTransaction(noMessage);
-    }
-
-    self.creditSaleFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
+    self.creditSaleFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip, uniqueTransRef) {
         var csMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName}
+            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName, UniqueTransRef:uniqueTransRef}
         };
         self._doTransaction(csMessage);
     }
 
-    self.creditReturnFunction = function (deviceName, amount) {
+    self.creditReturnFunction = function (deviceName, amount, uniqueTransRef) {
         var crMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef }
         };
         self._doTransaction(crMessage);
     }
