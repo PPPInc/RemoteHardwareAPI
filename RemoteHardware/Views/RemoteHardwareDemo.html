@@ -124,7 +124,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div id="UniqueTransIdDiv" style="display: none">
+                            <div id="UniqueTransIdDiv">
                                 <table>
                                     <tr>
                                         <td>
@@ -518,7 +518,7 @@
                     $("#message").val('');
                 } else if (action === "CreditSale") {
                     clearResults();
-                    CIP.creditSaleFunction(deviceName, $("#amount").val(), $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val());
+                    CIP.creditSaleFunction(deviceName, $("#amount").val(), $("#accountNumber").val(), $("#billingName").val(), $("#expDate").val(), $("#cvv").val(), $("#street").val(), $("#zip").val(), $("#uniqueTransId").val());
                     clearFields();
                 } else if (action === "CreditAuth") {
                     clearResults();
@@ -526,7 +526,7 @@
                     clearFields();
                 } else if (action === "CreditReturn") {
                     clearResults();
-                    CIP.creditReturnFunction(deviceName, $("#amount").val());
+                    CIP.creditReturnFunction(deviceName, $("#amount").val(), $("#uniqueTransId").val());
                     clearFields();
                 } else if (action === "CreditForce") {
                     var uniqueTransRef = $("#uniqueTransId").val();
@@ -572,8 +572,11 @@
                 $("#manualEntryDiv").hide();
                 $("#RequestSignature").hide();
                 var selected = $("#transactionType option:selected").val();
-                if (selected === "DebitSale" || selected === "CreditReturn") {
+                if (selected === "DebitSale") {
                     $("#CreditSale").show();
+                } else if (selected === "CreditReturn") {
+                    $("#CreditSale").show();
+                    $("#UniqueTransIdDiv").show();
                 } else if (selected === "Void") {
                     $("#UniqueTransIdDiv").show();
                 } else if (selected === "RequestSignature") {
@@ -585,7 +588,12 @@
                 } else if (selected === "CreditAddTip") {
                     $("#CreditSale").show();
                     $("#UniqueTransIdDiv").show();
-                } else if (selected === "CreditSale" || selected === "CreditAuth" || selected === "CreditSaveCard") {
+                } else if (selected === "CreditSale") {
+                    $("#lblManualEntry").show();
+                    $("#isManualEntry").show();
+                    $("#UniqueTransIdDiv").show();
+                    $("#CreditSale").show();
+                } else if (selected === "CreditAuth" || selected === "CreditSaveCard") {
                     $("#lblManualEntry").show();
                     $("#isManualEntry").show();
                     $("#CreditSale").show();
