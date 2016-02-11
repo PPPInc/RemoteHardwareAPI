@@ -402,6 +402,38 @@
         </div>
     </div>
     <script>  
+        function PollResult(id, success) {
+            var isTestMode = $("#isTestMode").prop('checked');
+            var url = isTestMode ? "https://api-staging.chargeitpro.com/"
+                                 : "https://api.chargeitpro.com/";
+
+            (function poll() {
+                $.ajax({
+                    url: url + 'GetRemoteTransaction/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    headers: {
+                        'x-apikey': '462650feeb9342289dedab7e96c4e49f'
+                    },
+                    success: function(response) {
+                        if (response.Result) {
+                            success(response.Result);
+                        } else {
+                            setTimeout(poll, 100);
+                        }
+                        
+                    }
+                }).fail(function (error) {
+                    $("#send").prop("disabled", false);
+                    $("#processing").addClass("hidden");
+                    alert(error.statusText);
+                });;
+            })();
+
+            
+        }
+
         function MakeRequest(action, data, success) {
             var isTestMode = $("#isTestMode").prop('checked');
 
@@ -419,8 +451,7 @@
 
             var deviceName = $("#devices option:selected").val();
             if (!deviceName) deviceName = "";
-            //UserName = $("#user-name").val();
-            var locationId = $("#locationId").val();                    
+            var locationId = $("#locationId").val();
 
             $.ajax({
                 url: url + 'RemoteTransaction',
@@ -431,8 +462,16 @@
                     'x-apikey': '462650feeb9342289dedab7e96c4e49f'
                 },
                 data: JSON.stringify({ 'Action': action, 'TestMode': isTestMode, 'Message': transactionMessage, 'LocationId': locationId, 'DeviceName': deviceName, 'Data': transactionData }),
-                success: function (response) {
-                    success(response.Result);
+                success: function(response) {
+                    //success(response.Result);
+
+                    if (response.Result && response.Result.UniqueTransId) {
+                        PollResult(response.Result.UniqueTransId, success);
+                    } else {
+                        $("#send").prop("disabled", false);
+                        $("#processing").addClass("hidden");
+                        alert("Failed to start the transaction.");
+                    }
                 }
             }).fail(function(error) {
                 $("#send").prop("disabled", false);
@@ -514,10 +553,6 @@
                             .prop('selected', device.IsDefault));
                 });
             }
-
-            //var onConnected = function (connection) {
-            //    $("#user-name").val(connection.id);
-            //};
 
             $("#getConfig").on('click', function () {           
                 var locationId = $("#locationId").val();
