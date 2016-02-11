@@ -364,7 +364,7 @@
                                     <label for="emvOfflineData">EMV Offline Data</label>
                                 </td>
                                 <td style="padding: 10px">
-                                    <input class="form-control" style="width:auto" type="text" id="emvOfflineData" />
+                                    <input class="form-control" style="width: auto" type="text" id="emvOfflineData" />
                                 </td>
                             </tr>
                             <tr>
@@ -378,7 +378,7 @@
                                     <label for="authorizationMode">Authorization Mode</label>
                                 </td>
                                 <td style="padding: 10px">
-                                    <input class="form-control" style="width:auto" type="text" id="authorizationMode" />
+                                    <input class="form-control" style="width: auto" type="text" id="authorizationMode" />
                                 </td>
                             </tr>
                             <tr>
@@ -392,8 +392,14 @@
                                     <!--<label for="authorizationMode">Authorization Mode</label>-->
                                 </td>
                                 <td style="padding: 10px">
-                                    <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode" />-->
+                                    <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode"/>-->
                                 </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td><label for="signatureImage">Signature Image</label></td>
+                                <td><img id="signatureImage" /></td>
                             </tr>
                         </table>
                     </div>
@@ -401,7 +407,7 @@
             </div>
         </div>
     </div>
-    <script>  
+    <script>
         function PollResult(id, success) {
             var isTestMode = $("#isTestMode").prop('checked');
             var url = isTestMode ? "https://api-staging.chargeitpro.com/"
@@ -416,13 +422,13 @@
                     headers: {
                         'x-apikey': '462650feeb9342289dedab7e96c4e49f'
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.Result) {
                             success(response.Result);
                         } else {
                             setTimeout(poll, 100);
                         }
-                        
+
                     }
                 }).fail(function (error) {
                     $("#send").prop("disabled", false);
@@ -431,7 +437,7 @@
                 });;
             })();
 
-            
+
         }
 
         function MakeRequest(action, data, success) {
@@ -462,7 +468,7 @@
                     'x-apikey': '462650feeb9342289dedab7e96c4e49f'
                 },
                 data: JSON.stringify({ 'Action': action, 'TestMode': isTestMode, 'Message': transactionMessage, 'LocationId': locationId, 'DeviceName': deviceName, 'Data': transactionData }),
-                success: function(response) {
+                success: function (response) {
                     //success(response.Result);
 
                     if (response.Result && response.Result.UniqueTransId) {
@@ -473,7 +479,7 @@
                         alert("Failed to start the transaction.");
                     }
                 }
-            }).fail(function(error) {
+            }).fail(function (error) {
                 $("#send").prop("disabled", false);
                 $("#processing").addClass("hidden");
                 alert(error.statusText);
@@ -554,7 +560,7 @@
                 });
             }
 
-            $("#getConfig").on('click', function () {           
+            $("#getConfig").on('click', function () {
                 var locationId = $("#locationId").val();
                 if (locationId) {
                     var isTestMode = $("#isTestMode").prop('checked');
@@ -564,7 +570,7 @@
                         url: url + 'RemoteConfig/' + locationId,
                         headers: { "Content-Type": "application/json" }
                     }).done(function (data) {
-                        if (data.Success === true) {                              
+                        if (data.Success === true) {
                             var devices = data.Result.Devices;
 
                             devices.sort(function (a, b) {
@@ -625,7 +631,7 @@
                         TransactionType: action,
                         Amount: $("#amount").val(),
                         VoiceAuthCode: $("#voiceAuthNumber").val(),
-                        UniqueTransID:$("#uniqueTransId").val(), 
+                        UniqueTransID: $("#uniqueTransId").val(),
                         DeviceName: deviceName
                     }, onResult);
                     clearFields();
@@ -680,7 +686,7 @@
                 if (!deviceName) return;
                 MakeRequest('CancelTransaction', {
                     DeviceName: deviceName
-                }, function () {});
+                }, function () { });
             });
 
             $("#transactionType").on('change', function () {
