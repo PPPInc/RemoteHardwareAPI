@@ -460,13 +460,8 @@
                 type: 'POST',
                 dataType: 'json',
                 contentType: "application/json",
-                headers: {
-                    'x-apikey': '462650feeb9342289dedab7e96c4e49f'
-                },
                 data: JSON.stringify({ 'Action': action, 'TestMode': isTestMode, 'Message': transactionMessage, 'LocationId': locationId, 'DeviceName': deviceName, 'Data': transactionData }),
                 success: function (response) {
-                    //success(response.Result);
-
                     if (response.Result && response.Result.UniqueTransId) {
                         PollResult(response.Result.UniqueTransId, success);
                     } else {
