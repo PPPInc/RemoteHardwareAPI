@@ -144,6 +144,26 @@
                             </div>
                             <div id="RequestSignature" style="display: none">
                             </div>
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding:10px">
+                                            <label for="cashier">Cashier</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" id="cashier"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px">
+                                            <label for="transactionReference">Transaction Reference</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" id="transactionReference" />
+                                        </td>
+                                    </tr>                                    
+                                </table>
+                            </div>
                             <br />
                             <table>
                                 <tr>
@@ -154,8 +174,8 @@
                                         <button type="button" class="btn btn-default" id="cancel" disabled>cancel</button>
                                     </td>
                                     <td id="processing" class="hidden">
-                                        <img src="../Images/ajax-loader-1.gif" style="width: 20px;margin: 0 0 0 20px;" />
-                                        <span style="margin: 0 0 0 5px;color: gray;">Processing Transaction</span>
+                                        <img src="../Images/ajax-loader-1.gif" style="width: 20px; margin: 0 0 0 20px;"/>
+                                        <span style="margin: 0 0 0 5px; color: gray;">Processing Transaction</span>
                                     </td>
                                 </tr>
                             </table>
@@ -605,7 +625,9 @@
                         CVV: $("#cvv").val(),
                         Street: $("#street").val(),
                         Zip: $("#zip").val(),
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditReturn" || action === "DebitSale") {
@@ -613,7 +635,9 @@
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         Amount: $("#amount").val(),
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditForce") {
@@ -623,7 +647,9 @@
                         Amount: $("#amount").val(),
                         VoiceAuthCode: $("#voiceAuthNumber").val(),
                         UniqueTransID: $("#uniqueTransId").val(),
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditAddTip") {
@@ -632,7 +658,9 @@
                         TransactionType: action,
                         Amount: $("#amount").val(),
                         UniqueTransID: $("#uniqueTransId").val(),
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditSaveCard") {
@@ -645,7 +673,9 @@
                         CVV: $("#cvv").val(),
                         Street: $("#street").val(),
                         Zip: $("#zip").val(),
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                     clearFields();
                 }
@@ -654,19 +684,25 @@
                         TransactionType: action,
                         Amount: $("#amount").val(),
                         UniqueTransRef: $("#uniqueTransId").val(),
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                 }
                 else if (action === "RequestSignature") {
                     MakeRequest('Transaction', {
                         TransactionType: action,
-                        DeviceName: deviceName
+                        DeviceName: deviceName,
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                 } else if (action === "DisplayText") {
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         DeviceName: deviceName,
-                        DisplayText: $("#message").val()
+                        DisplayText: $("#message").val(),
+                        Cashier: $("#cashier").val(),
+                        TransactionRef: $("#transactionReference").val()
                     }, onResult);
                 }
                 setCancelDisabled(false);
@@ -735,6 +771,8 @@
             $("#street").val('');
             $("#zip").val('');
             $("#voiceAuthNumber").val('');
+            $("#cashier").val('');
+            $("#transactionReference").val('');
         };
 
         function clearResults() {
