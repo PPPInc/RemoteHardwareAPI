@@ -541,12 +541,15 @@
                 $("#authorizationMode").val(result.AuthorizationMode);
                 $("#emvOfflineData").val(result.EMVOfflineData);
                 $("#currencyIndicator").val(result.CurrencyIndicator);
+                debugger;
                 if ($("#signature").val() !== '') {
                     if ($("#isTestMode").prop('checked')) {
                         $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
                     } else {
-                        $("#signatureIamge").attr('src', 'https://api.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
+                        $("#signatureImage").attr('src', 'https://api.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
                     }
+                } else {
+                    $("#signatureImage").removeAttr('src');
                 }
             };
 
