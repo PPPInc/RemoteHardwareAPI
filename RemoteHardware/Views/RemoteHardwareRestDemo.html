@@ -49,7 +49,6 @@
                                     <option value="Void">Void</option>
                                     <option value="RequestSignature">Request Signature</option>
                                     <option value="DisplayText">Display Text</option>
-                                    <option value="Echo">Echo</option>
                                 </select>
                             </div>
                             <div id="CreditSale">
@@ -541,7 +540,6 @@
                 $("#authorizationMode").val(result.AuthorizationMode);
                 $("#emvOfflineData").val(result.EMVOfflineData);
                 $("#currencyIndicator").val(result.CurrencyIndicator);
-                debugger;
                 if ($("#signature").val() !== '') {
                     if ($("#isTestMode").prop('checked')) {
                         $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
@@ -551,13 +549,6 @@
                 } else {
                     $("#signatureImage").removeAttr('src');
                 }
-            };
-
-            var onEcho = function (message) {
-                setCancelDisabled(true);
-                $("#send").prop("disabled", false);
-                $("#processing").addClass("hidden");
-                alert(message);
             };
 
             var onConfigurationDownloaded = function (result) {
@@ -604,6 +595,17 @@
                     $("#locationId").css('border-color', 'Red');
             });
 
+            function validateAmount() {
+                var amount = $("#amount").val();
+                if (amount === '' || isNaN(amount)) {
+                    alert("Invalid Amount.");
+                    $("#send").prop("disabled", false);
+                    $("#processing").addClass("hidden");
+                    return false;
+                }
+                return true;
+            }
+
             $("#send").on('click', function () {
                 $("#send").prop("disabled", true);
                 $("#processing").removeClass("hidden");
@@ -614,10 +616,8 @@
                 $("#resultsPanel").hide();
 
                 var action = $("#transactionType option:selected").val();
-                if (action === "Echo") {
-                    MakeRequest(action, $("#message").val(), onEcho);
-                    $("#message").val('');
-                } else if (action === "CreditSale" || action === "CreditAuth") {
+                if (action === "CreditSale" || action === "CreditAuth") {
+                    if (!validateAmount()) return;
                     clearResults();
                     MakeRequest('Transaction', {
                         TransactionType: action,
@@ -634,6 +634,7 @@
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditReturn" || action === "DebitSale") {
+                    if (!validateAmount()) return;
                     clearResults();
                     MakeRequest('Transaction', {
                         TransactionType: action,
@@ -644,6 +645,7 @@
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditForce") {
+                    if (!validateAmount()) return;
                     clearResults();
                     MakeRequest('Transaction', {
                         TransactionType: action,
@@ -656,6 +658,7 @@
                     }, onResult);
                     clearFields();
                 } else if (action === "CreditAddTip") {
+                    if (!validateAmount()) return;
                     clearResults();
                     MakeRequest('Transaction', {
                         TransactionType: action,
