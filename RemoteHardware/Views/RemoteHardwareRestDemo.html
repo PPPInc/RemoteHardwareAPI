@@ -597,13 +597,13 @@
 
             function validateAmount() {
                 var amount = $("#amount").val();
-                if (amount === '' || isNaN(amount)) {
+                var returnValue = (amount !==  '' || !isNaN(amount)) && (Number(amount) > 0.00);
+                if (!returnValue) {
                     alert("Invalid Amount.");
                     $("#send").prop("disabled", false);
                     $("#processing").addClass("hidden");
-                    return false;
                 }
-                return true;
+                return returnValue;
             }
 
             $("#send").on('click', function () {
