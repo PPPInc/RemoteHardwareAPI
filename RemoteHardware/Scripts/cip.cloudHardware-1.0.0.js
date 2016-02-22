@@ -47,6 +47,7 @@ var CIP = new (function ($) {
     self.saveCreditCardFunction; //Call this function to tokenize a credit card.
     self.displayTextFunction; //Call this function to display a message on the device screen.
     self.cancelFunction; //Call this function to cancel a transaction.
+    self.pingFunction; //Call this function to ping a device and verify it is connected properly.
 
     /*
      * private variables
@@ -182,6 +183,11 @@ var CIP = new (function ($) {
     self.echoFunction = function (message) {
         var eMessage = { Action: "Echo", Message: message };
         self._doTransaction(eMessage);
+    }
+
+    self.pingFunction = function(deviceName) {
+        var pMessage = { Action: "Ping", Data: { DeviceName: deviceName } };
+        self._doTransaction(pMessage);
     }
 
     self.voidFunction = function (deviceName, uniqueTransRef) {

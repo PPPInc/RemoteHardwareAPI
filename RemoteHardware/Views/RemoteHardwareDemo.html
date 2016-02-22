@@ -56,6 +56,7 @@
                                     <option value="RequestSignature">Request Signature</option>
                                     <option value="DisplayText">Display Text</option>
                                     <option value="Echo">Echo</option>
+                                    <option value="Ping">Ping</option>
                                 </select>
                             </div>
                             <div id="CreditSale">
@@ -467,6 +468,8 @@
                 if (action === "Echo") {
                     CIP.echoFunction($("#message").val());
                     $("#message").val('');
+                } else if (action === "Ping") {
+                    CIP.pingFunction(deviceName);
                 } else if (action === "CreditSale") {
                     clearResults();
                     CIP.creditSaleFunction(deviceName, $("#amount").val(), $("#uniqueTransId").val());
