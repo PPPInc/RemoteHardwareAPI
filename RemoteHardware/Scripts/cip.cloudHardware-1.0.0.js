@@ -130,9 +130,9 @@ var CIP = new (function ($) {
         }
     }
 
-    self.creditSaleFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip, uniqueTransRef) {
+    self.creditSaleFunction = function (deviceName, amount, uniqueTransRef) {
         var csMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName, UniqueTransRef:uniqueTransRef}
+            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, DeviceName: deviceName, UniqueTransRef:uniqueTransRef}
         };
         self._doTransaction(csMessage);
     }
@@ -144,9 +144,9 @@ var CIP = new (function ($) {
         self._doTransaction(crMessage);
     }
 
-    self.creditAuthFunction = function (deviceName, amount, accountNumber, billingName, expDate, cvv, street, zip) {
+    self.creditAuthFunction = function (deviceName, amount) {
         var caMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAuth", Amount: amount, AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAuth", Amount: amount, DeviceName: deviceName }
         };
         self._doTransaction(caMessage);
     }
@@ -165,9 +165,9 @@ var CIP = new (function ($) {
         self._doTransaction(catMessage);
     }
 
-    self.saveCreditCardFunction = function (deviceName, accountNumber, billingName, expDate, cvv, street, zip) {
+    self.saveCreditCardFunction = function (deviceName) {
         var sccMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditSaveCard", Amount: "0.05", AccountNumber: accountNumber, BillingName: billingName, ExpDate: expDate, CVV: cvv, Street: street, Zip: zip, DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditSaveCard", Amount: "0.05", DeviceName: deviceName }
         };
         self._doTransaction(sccMessage);
     }

@@ -55,55 +55,6 @@
                                 <label for="amount">Amount</label>
                                 <input class="form-control" style="width: auto" type="text" id="amount" />
                                 <br />
-                                <input type="checkbox" id="isManualEntry" /><label style="margin: 0 0 0 10px;" id="lblManualEntry">Manual Entry</label><br />
-                                <br />
-                                <div id="manualEntryDiv" style="display: none">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <label for="accountNumber">Card Number</label>
-                                            </td>
-                                            <td style="padding: 10px">
-                                                <input class="form-control" style="width: auto" type="text" id="accountNumber" />
-                                            </td>
-                                            <td>
-                                                <label for="expDate">Expiration</label>
-                                            </td>
-                                            <td style="padding: 10px">
-                                                <input class="form-control" style="width: auto" type="text" id="expDate" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="cvv">CVV</label>
-                                            </td>
-                                            <td style="padding: 10px">
-                                                <input class="form-control" style="width: auto" type="text" id="cvv" />
-                                            </td>
-                                            <td>
-                                                <label for="billingName">Billing Name</label>
-                                            </td>
-                                            <td style="padding: 10px">
-                                                <input class="form-control" style="width: auto" type="text" id="billingName" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label for="street">Street Address</label>
-                                            </td>
-                                            <td style="padding: 10px">
-                                                <input class="form-control" style="width: auto" type="text" id="street" />
-                                            </td>
-                                            <td>
-                                                <label for="zip">Zipcode</label>
-                                            </td>
-                                            <td style="padding: 10px">
-                                                <input class="form-control" style="width: auto" type="text" id="zip" />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <br />
-                                </div>
                             </div>
                             <div id="CreditForce" style="display: none">
                                 <table>
@@ -622,12 +573,6 @@
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         Amount: $("#amount").val(),
-                        AccountNumber: $("#accountNumber").val(),
-                        BillingName: $("#billingName").val(),
-                        ExpDate: $("#expDate").val(),
-                        CVV: $("#cvv").val(),
-                        Street: $("#street").val(),
-                        Zip: $("#zip").val(),
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
@@ -673,12 +618,6 @@
                     clearResults();
                     MakeRequest('Transaction', {
                         TransactionType: action,
-                        AccountNumber: $("#accountNumber").val(),
-                        BillingName: $("#billingName").val(),
-                        ExpDate: $("#expDate").val(),
-                        CVV: $("#cvv").val(),
-                        Street: $("#street").val(),
-                        Zip: $("#zip").val(),
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
@@ -727,9 +666,6 @@
                 $("#CreditForce").hide();
                 $("#UniqueTransIdDiv").hide();
                 $("#Echo").hide();
-                $("#lblManualEntry").hide();
-                $("#isManualEntry").hide();
-                $("#manualEntryDiv").hide();
                 $("#RequestSignature").hide();
                 var selected = $("#transactionType option:selected").val();
                 if (selected === "DebitSale" || selected === "CreditReturn") {
@@ -746,8 +682,6 @@
                     $("#CreditSale").show();
                     $("#UniqueTransIdDiv").show();
                 } else if (selected === "CreditSale" || selected === "CreditAuth" || selected === "CreditSaveCard") {
-                    $("#lblManualEntry").show();
-                    $("#isManualEntry").show();
                     $("#CreditSale").show();
                 } else if (selected === "DisplayText") {
                     $("#Echo").show();
@@ -755,27 +689,12 @@
                     $("#" + selected).show();
                 }
             });
-
-            $("#isManualEntry").on('change', function () {
-                if (this.checked)
-                    $("#manualEntryDiv").show();
-                else
-                    $("#manualEntryDiv").hide();
-            });
         });
 
         function clearFields() {
             $("#amount").val('');
-            $("#isManualEntry").prop('checked', false);
-            $("#manualEntryDiv").hide();
-            $("#accountNumber").val('');
             $("#uniqueTransId").val('');
             $("#uniqueTransIdResult").val('');
-            $("#expDate").val('');
-            $("#cvv").val('');
-            $("#billingName").val('');
-            $("#street").val('');
-            $("#zip").val('');
             $("#voiceAuthNumber").val('');
             $("#cashier").val('');
             $("#transactionReference").val('');
