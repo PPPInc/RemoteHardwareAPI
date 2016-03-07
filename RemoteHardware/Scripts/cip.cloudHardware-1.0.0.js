@@ -66,8 +66,8 @@ var CIP = new (function ($) {
 
         var url;
         if (self.isTestMode) {
-            //url = 'http://localhost:57192';
-            url = "https://psl-staging.chargeitpro.com";
+            url = 'http://localhost:54769';
+            //url = "https://psl-staging.chargeitpro.com";
         } else {
             url = "https://psl.chargeitpro.com";
         }
