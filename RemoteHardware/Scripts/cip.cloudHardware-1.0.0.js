@@ -67,10 +67,10 @@ var CIP = new (function ($) {
 
         var url;
         if (self.isTestMode) {
-            //url = 'http://localhost:57192';
-            url = "https://psl-staging.chargeitpro.com";
+            //url = 'http://localhost:54769';
+            url = "https://cloud-staging.chargeitpro.com";
         } else {
-            url = "https://psl.chargeitpro.com";
+            url = "https://cloud.chargeitpro.com";
         }
 
         var connection = $.hubConnection(url);
@@ -220,9 +220,9 @@ var CIP = new (function ($) {
         if (!locationId) return;
         var url;
         if (self.isTestMode) {
-            url = "https://api-staging.chargeitpro.com/RemoteConfig/";
+            url = "https://cloud-staging.chargeitpro.com/Config/";
         } else {
-            url = "https://api.chargeitpro.com/RemoteConfig/";
+            url = "https://api.chargeitpro.com/Config/";
         }
         $.ajax({
             url: url + locationId,

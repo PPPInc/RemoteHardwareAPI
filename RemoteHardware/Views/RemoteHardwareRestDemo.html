@@ -376,8 +376,8 @@
     <script>
         function PollResult(id, success) {
             var isTestMode = $("#isTestMode").prop('checked');
-            var url = isTestMode ? "https://api-staging.chargeitpro.com/"
-                                 : "https://api.chargeitpro.com/";
+            var url = isTestMode ? "https://cloud-staging.chargeitpro.com/"
+                                 : "https://cloud.chargeitpro.com/";
 
             (function poll() {
                 $.ajax({
@@ -409,8 +409,8 @@
         function MakeRequest(action, data, success) {
             var isTestMode = $("#isTestMode").prop('checked');
 
-            var url = isTestMode ? 'https://psl-staging.chargeitpro.com/'
-                                 : 'https://psl.chargeitpro.com/';
+            var url = isTestMode ? 'https://cloud-staging.chargeitpro.com/'
+                                 : 'https://cloud.chargeitpro.com/';
 
             var transactionData = null;
             var transactionMessage = null;
@@ -493,9 +493,9 @@
                 $("#currencyIndicator").val(result.CurrencyIndicator);
                 if ($("#signature").val() !== '') {
                     if ($("#isTestMode").prop('checked')) {
-                        $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
+                        $("#signatureImage").attr('src', 'https://cloud-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
                     } else {
-                        $("#signatureImage").attr('src', 'https://api.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
+                        $("#signatureImage").attr('src', 'https://cloud.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
                     }
                 } else {
                     $("#signatureImage").removeAttr('src');
@@ -520,8 +520,8 @@
                 var locationId = $("#locationId").val();
                 if (locationId) {
                     var isTestMode = $("#isTestMode").prop('checked');
-                    var url = isTestMode ? "https://api-staging.chargeitpro.com/"
-                                         : "https://api.chargeitpro.com/";
+                    var url = isTestMode ? "https://cloud-staging.chargeitpro.com/"
+                                         : "https://cloud.chargeitpro.com/";
                     $.ajax({
                         url: url + 'RemoteConfig/' + locationId,
                         headers: { "Content-Type": "application/json" }
