@@ -376,12 +376,12 @@
     <script>
         function PollResult(id, success) {
             var isTestMode = $("#isTestMode").prop('checked');
-            var url = isTestMode ? "https://api-staging.chargeitpro.com/"
-                                 : "https://api.chargeitpro.com/";
+            var url = isTestMode ? "https://cloud-staging.chargeitpro.com/"
+                                 : "https://cloud.chargeitpro.com/";
 
             (function poll() {
                 $.ajax({
-                    url: url + 'GetRemoteTransaction/' + id,
+                    url: url + 'TransactionResult/' + id,
                     type: 'GET',
                     dataType: 'json',
                     contentType: "application/json",
@@ -409,8 +409,8 @@
         function MakeRequest(action, data, success) {
             var isTestMode = $("#isTestMode").prop('checked');
 
-            var url = isTestMode ? 'https://psl-staging.chargeitpro.com/'
-                                 : 'https://psl.chargeitpro.com/';
+            var url = isTestMode ? 'https://cloud-staging.chargeitpro.com/'
+                                 : 'https://cloud.chargeitpro.com/';
 
             var transactionData = null;
             var transactionMessage = null;
@@ -426,7 +426,7 @@
             var locationId = $("#locationId").val();
 
             $.ajax({
-                url: url + 'RemoteTransaction',
+                url: url + 'Transaction',
                 type: 'POST',
                 dataType: 'json',
                 contentType: "application/json",
@@ -491,6 +491,7 @@
                 $("#authorizationMode").val(result.AuthorizationMode);
                 $("#emvOfflineData").val(result.EMVOfflineData);
                 $("#currencyIndicator").val(result.CurrencyIndicator);
+                //This handler still hasn't been updated in the cloud service.
                 if ($("#signature").val() !== '') {
                     if ($("#isTestMode").prop('checked')) {
                         $("#signatureImage").attr('src', 'https://api-staging.chargeitpro.com/signature.ashx?id=' + $("#uniqueTransIdResult").val() + '&source=Cloud');
@@ -520,11 +521,10 @@
                 var locationId = $("#locationId").val();
                 if (locationId) {
                     var isTestMode = $("#isTestMode").prop('checked');
-                    var url = isTestMode ? "https://api-staging.chargeitpro.com/"
-                                         : "https://api.chargeitpro.com/";
+                    var url = isTestMode ? "https://cloud-staging.chargeitpro.com/"
+                                         : "https://cloud.chargeitpro.com/";
                     $.ajax({
-                        url: url + 'RemoteConfig/' + locationId,
-                        headers: { "Content-Type": "application/json" }
+                        url: url + 'Config/' + locationId
                     }).done(function (data) {
                         if (data.Success === true) {
                             var devices = data.Result.Devices;
