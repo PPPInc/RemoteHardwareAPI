@@ -68,7 +68,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div id="UniqueTransIdDiv" style="display: none">
+                            <div id="UniqueTransIdDiv">
                                 <table>
                                     <tr>
                                         <td>
@@ -670,6 +670,7 @@
                 var selected = $("#transactionType option:selected").val();
                 if (selected === "DebitSale" || selected === "CreditReturn") {
                     $("#CreditSale").show();
+                    $("#UniqueTransIdDiv").show();
                 } else if (selected === "Void") {
                     $("#UniqueTransIdDiv").show();
                 } else if (selected === "RequestSignature") {
@@ -681,7 +682,10 @@
                 } else if (selected === "CreditAddTip") {
                     $("#CreditSale").show();
                     $("#UniqueTransIdDiv").show();
-                } else if (selected === "CreditSale" || selected === "CreditAuth" || selected === "CreditSaveCard") {
+                } else if (selected === "CreditSale") {
+                    $("#CreditSale").show();
+                    $("#UniqueTransIdDiv").show();
+                } else if (selected === "CreditAuth" || selected === "CreditSaveCard") {
                     $("#CreditSale").show();
                 } else if (selected === "DisplayText") {
                     $("#Echo").show();
