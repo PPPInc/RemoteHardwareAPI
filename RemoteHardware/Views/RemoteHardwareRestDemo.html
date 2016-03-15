@@ -560,6 +560,7 @@
             $("#send").on('click', function () {
                 $("#send").prop("disabled", true);
                 $("#processing").removeClass("hidden");
+                var uniqueTransRef = $("#uniqueTransId").val();
 
                 var deviceName = $("#devices option:selected").val();
                 if (!deviceName) deviceName = "";
@@ -573,6 +574,7 @@
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         Amount: $("#amount").val(),
+                        UniqueTransRef: uniqueTransRef,
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
@@ -584,6 +586,7 @@
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         Amount: $("#amount").val(),
+                        UniqueTransRef: uniqueTransRef,
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
@@ -596,7 +599,7 @@
                         TransactionType: action,
                         Amount: $("#amount").val(),
                         VoiceAuthCode: $("#voiceAuthNumber").val(),
-                        UniqueTransID: $("#uniqueTransId").val(),
+                        UniqueTransRef: uniqueTransRef,
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
@@ -608,7 +611,7 @@
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         Amount: $("#amount").val(),
-                        UniqueTransID: $("#uniqueTransId").val(),
+                        UniqueTransRef: uniqueTransRef,
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
@@ -628,7 +631,7 @@
                     MakeRequest('Transaction', {
                         TransactionType: action,
                         Amount: $("#amount").val(),
-                        UniqueTransRef: $("#uniqueTransId").val(),
+                        UniqueTransRef: uniqueTransRef,
                         DeviceName: deviceName,
                         Cashier: $("#cashier").val(),
                         TransactionRef: $("#transactionReference").val()
