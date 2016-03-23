@@ -465,6 +465,7 @@
 
                 $("#resultsPanel").hide();
                 var action = $("#transactionType option:selected").val();
+                var uniqueTransRef = $("#uniqueTransId").val();
                 if (action === "Echo") {
                     CIP.echoFunction($("#message").val());
                     $("#message").val('');
@@ -472,7 +473,7 @@
                     CIP.pingFunction(deviceName);
                 } else if (action === "CreditSale") {
                     clearResults();
-                    CIP.creditSaleFunction(deviceName, $("#amount").val(), $("#uniqueTransId").val());
+                    CIP.creditSaleFunction(deviceName, $("#amount").val(), uniqueTransRef);
                     clearFields();
                 } else if (action === "CreditAuth") {
                     clearResults();
@@ -480,10 +481,9 @@
                     clearFields();
                 } else if (action === "CreditReturn") {
                     clearResults();
-                    CIP.creditReturnFunction(deviceName, $("#amount").val(), $("#uniqueTransId").val());
+                    CIP.creditReturnFunction(deviceName, $("#amount").val(), uniqueTransRef);
                     clearFields();
                 } else if (action === "CreditForce") {
-                    var uniqueTransRef = $("#uniqueTransId").val();
                     clearResults();
                     CIP.creditForceFunction(deviceName, $("#amount").val(), $("#voiceAuthNumber").val(), uniqueTransRef);
                     clearFields();
@@ -501,7 +501,7 @@
                     CIP.debitSaleFunction(deviceName, $("#amount").val());
                     clearFields();
                 } else if (action === "Void") {
-                    CIP.voidFunction(deviceName, $("#uniqueTransId").val());
+                    CIP.voidFunction(deviceName, uniqueTransRef);
                 } else if (action === "RequestSignature") {
                     CIP.requestSignatureFunction(deviceName);
                 } else if (action === "DisplayText") {
