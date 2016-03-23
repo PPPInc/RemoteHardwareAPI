@@ -186,7 +186,7 @@ var CIP = new (function ($) {
     }
 
     self.pingFunction = function(deviceName) {
-        var pMessage = { Action: "Ping", Data: { DeviceName: deviceName } };
+        var pMessage = { Action: "Ping", TestMode:self.isTestMode, Data: { DeviceName: deviceName } };
         self._doTransaction(pMessage);
     }
 
