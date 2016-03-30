@@ -482,15 +482,17 @@
                 $("#batchNumber").val(result.BatchNumber);
                 $("#transactionTypeResult").val(result.TransactionType);
                 $("#amountTipped").val(result.AmountTipped);
-                $("#aid").val(result.AID);
-                $("#tvr").val(result.TVR);
-                $("#tsi").val(result.TSI);
-                $("#cvmCode").val(result.CVMCode);
-                $("#cvmMethod").val(result.CardHolderVerificationMethod);
-                $("#arc").val(result.ARC);
-                $("#authorizationMode").val(result.AuthorizationMode);
-                $("#emvOfflineData").val(result.EMVOfflineData);
-                $("#currencyIndicator").val(result.CurrencyIndicator);
+                if (result.EmvReceipt) {
+                    $("#aid").val(result.EmvReceipt.AID);
+                    $("#tvr").val(result.EmvReceipt.TVR);
+                    $("#tsi").val(result.EmvReceipt.TSI);
+                    $("#cvmCode").val(result.EmvReceipt.CVMCode);
+                    $("#cvmMethod").val(result.EmvReceipt.CardHolderVerificationMethod);
+                    $("#arc").val(result.EmvReceipt.ARC);
+                    $("#authorizationMode").val(result.EmvReceipt.AuthorizationMode);
+                    $("#emvOfflineData").val(result.EmvReceipt.EMVOfflineData);
+                    $("#currencyIndicator").val(result.EmvReceipt.CurrencyIndicator);
+                }
                 //This handler still hasn't been updated in the cloud service.
                 //if ($("#signature").val() !== '') {
                     if ($("#isTestMode").prop('checked')) {
