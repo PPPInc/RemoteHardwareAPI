@@ -131,51 +131,51 @@ var CIP = new (function ($) {
         }
     }
 
-    self.creditSaleFunction = function (deviceName, amount, uniqueTransRef) {
+    self.creditSaleFunction = function (deviceName, amount, uniqueTransRef, cashier, transactionRef) {
         var csMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, DeviceName: deviceName, UniqueTransRef:uniqueTransRef}
+            Action: "Transaction", TestMode: self.isTestMode, Data: {TransactionType: "CreditSale", Amount:amount, DeviceName: deviceName, UniqueTransRef:uniqueTransRef, Cashier:cashier, TransactionRef:transactionRef}
         };
         self._doTransaction(csMessage);
     }
 
-    self.creditReturnFunction = function (deviceName, amount, uniqueTransRef) {
+    self.creditReturnFunction = function (deviceName, amount, uniqueTransRef, cashier, transactionRef) {
         var crMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditReturn", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(crMessage);
     }
 
-    self.creditAuthFunction = function (deviceName, amount) {
+    self.creditAuthFunction = function (deviceName, amount, cashier, transactionRef) {
         var caMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAuth", Amount: amount, DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAuth", Amount: amount, DeviceName: deviceName, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(caMessage);
     }
 
-    self.creditForceFunction = function (deviceName, amount, authCode, uniqueTransRef) {
+    self.creditForceFunction = function (deviceName, amount, authCode, uniqueTransRef, cashier, transactionRef) {
         var cfMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditForce", Amount: amount, DeviceName: deviceName, VoiceAuthCode: authCode, UniqueTransRef: uniqueTransRef, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(cfMessage);
     }
 
-    self.creditAddTipFunction = function (deviceName, amount, uniqueTransRef) {
+    self.creditAddTipFunction = function (deviceName, amount, uniqueTransRef, cashier, transactionRef) {
         var catMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditAddTip", Amount: amount, DeviceName: deviceName, UniqueTransRef: uniqueTransRef, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(catMessage);
     }
 
-    self.saveCreditCardFunction = function (deviceName) {
+    self.saveCreditCardFunction = function (deviceName, cashier, transactionRef) {
         var sccMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditSaveCard", Amount: "0.05", DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "CreditSaveCard", Amount: "0.05", DeviceName: deviceName, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(sccMessage);
     }
 
-    self.debitSaleFunction = function (deviceName, amount) {
+    self.debitSaleFunction = function (deviceName, amount, cashier, transactionRef) {
         var dsMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "DebitSale", Amount: amount, DeviceName: deviceName, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(dsMessage);
     }
@@ -190,23 +190,23 @@ var CIP = new (function ($) {
         self._doTransaction(pMessage);
     }
 
-    self.voidFunction = function (deviceName, uniqueTransRef) {
+    self.voidFunction = function (deviceName, uniqueTransRef, cashier, transactionRef) {
         var vMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "Void", UniqueTransRef: uniqueTransRef, DeviceName: deviceName, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(vMessage);
     }
 
-    self.requestSignatureFunction = function (deviceName) {
+    self.requestSignatureFunction = function (deviceName, cashier, transactionRef) {
         var rsMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "RequestSignature", DeviceName: deviceName }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "RequestSignature", DeviceName: deviceName, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(rsMessage);
     }
 
-    self.displayTextFunction = function (deviceName, displayText) {
+    self.displayTextFunction = function (deviceName, displayText, cashier, transactionRef) {
         var dtMessage = {
-            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText }
+            Action: "Transaction", TestMode: self.isTestMode, Data: { TransactionType: "DisplayText", DeviceName: deviceName, DisplayText: displayText, Cashier: cashier, TransactionRef: transactionRef }
         };
         self._doTransaction(dtMessage);
     }

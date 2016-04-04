@@ -61,8 +61,8 @@
                             </div>
                             <div id="CreditSale">
                                 <label for="amount">Amount</label>
-                                <input class="form-control" style="width: auto" type="text" id="amount" />
-                                <br />
+                                <input class="form-control" style="width: auto" type="text" id="amount"/>
+                                <br/>
                             </div>
                             <div id="CreditForce" style="display: none">
                                 <table>
@@ -83,7 +83,27 @@
                                             <label for="uniqueTransId">UniqueTransID</label>
                                         </td>
                                         <td style="padding: 10px">
-                                            <input class="form-control" style="width: auto" type="text" id="uniqueTransId" />
+                                            <input class="form-control" style="width: auto" type="text" id="uniqueTransId"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="CashierTransRef">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="cashier">Cashier</label>
+                                        </td>
+                                        <td style="padding: 10px;">
+                                            <input class="form-control" style="width: auto" type="text" id="cashier"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="transactionRef">TransactionRef</label>
+                                        </td>
+                                        <td style="padding: 10px;">
+                                            <input class="form-control" style="width: auto" type="text" id="transactionRef" />
                                         </td>
                                     </tr>
                                 </table>
@@ -462,6 +482,8 @@
                 CIP.controllerName = $("#to").val();
                 CIP.locationId = $("#locationId").val();
                 CIP.isTestMode = $("#isTestMode").prop('checked');
+                var cashier = $("#cashier").val();
+                var transRef = $("#transactionRef").val();
 
                 $("#resultsPanel").hide();
                 var action = $("#transactionType option:selected").val();
@@ -473,39 +495,39 @@
                     CIP.pingFunction(deviceName);
                 } else if (action === "CreditSale") {
                     clearResults();
-                    CIP.creditSaleFunction(deviceName, $("#amount").val(), uniqueTransRef);
+                    CIP.creditSaleFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef);
                     clearFields();
                 } else if (action === "CreditAuth") {
                     clearResults();
-                    CIP.creditAuthFunction(deviceName, $("#amount").val());
+                    CIP.creditAuthFunction(deviceName, $("#amount").val(), cashier, transRef);
                     clearFields();
                 } else if (action === "CreditReturn") {
                     clearResults();
-                    CIP.creditReturnFunction(deviceName, $("#amount").val(), uniqueTransRef);
+                    CIP.creditReturnFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef);
                     clearFields();
                 } else if (action === "CreditForce") {
                     clearResults();
-                    CIP.creditForceFunction(deviceName, $("#amount").val(), $("#voiceAuthNumber").val(), uniqueTransRef);
+                    CIP.creditForceFunction(deviceName, $("#amount").val(), $("#voiceAuthNumber").val(), uniqueTransRef, cashier, transRef);
                     clearFields();
                 } else if (action === "CreditAddTip") {
                     var ref = $("#uniqueTransId").val();
                     clearResults();
-                    CIP.creditAddTipFunction(deviceName, $("#amount").val(), ref);
+                    CIP.creditAddTipFunction(deviceName, $("#amount").val(), ref, cashier, transRef);
                     clearFields();
                 } else if (action === "CreditSaveCard") {
                     clearResults();
-                    CIP.saveCreditCardFunction(deviceName);
+                    CIP.saveCreditCardFunction(deviceName, cashier, transRef);
                     clearFields();
                 } else if (action === "DebitSale") {
                     clearResults();
-                    CIP.debitSaleFunction(deviceName, $("#amount").val());
+                    CIP.debitSaleFunction(deviceName, $("#amount").val(), cashier, transRef);
                     clearFields();
                 } else if (action === "Void") {
-                    CIP.voidFunction(deviceName, uniqueTransRef);
+                    CIP.voidFunction(deviceName, uniqueTransRef, cashier, transRef);
                 } else if (action === "RequestSignature") {
-                    CIP.requestSignatureFunction(deviceName);
+                    CIP.requestSignatureFunction(deviceName, cashier, transRef);
                 } else if (action === "DisplayText") {
-                    CIP.displayTextFunction(deviceName, $("#message").val());
+                    CIP.displayTextFunction(deviceName, $("#message").val(), cashier, transRef);
                 }
                 setCancelDisabled(false);
             });
