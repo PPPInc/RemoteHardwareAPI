@@ -7,9 +7,15 @@
  *
  */
 
-var CIP = new (function ($) {
+var CIP = CIP || {};
+
+CIP = new (function ($) {
 
     var self = this;
+
+    self.noConflict = function () {
+        return CIP;
+    };
 
     self.version = '1.0.0';
 
