@@ -69,6 +69,7 @@
                             </div>
                             <button type="button" class="btn btn-default" id="send">Send</button>
                             <button type="button" class="btn btn-default" id="broadcast">Broadcast</button>
+                            <button type="button" class="btn btn-default" id="heartbeat">Heartbeat</button>
                         </form>
 
                     </div>
@@ -119,7 +120,7 @@
 
             var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
 
-            //var connection = $.hubConnection('http://localhost:57192');
+            //var connection = $.hubConnection('http://localhost:54769');
 
             connection.qs = { "userName": userName };
 
@@ -160,7 +161,15 @@
                         deviceHub.invoke('broadcast', $("#message").val()).fail(function (error) {
                             console.log('broadcast error: ' + error)
                         });
-                });
+                    });
+
+                $("#heartbeat")
+                    .off('click', function () { })
+                    .on('click', function () {
+                        deviceHub.invoke('heartbeat', 'MyController', '123-ABC-456', 'MJsComputer', 'Startup').fail(function (error) {
+                            console.log('broadcast error: ' + error)
+                        });
+                    });
 
                 $("#connected").html("You are connected as: " + userName).removeClass("error");
 
