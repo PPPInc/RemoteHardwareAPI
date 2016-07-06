@@ -70,6 +70,7 @@
                             <button type="button" class="btn btn-default" id="send">Send</button>
                             <button type="button" class="btn btn-default" id="broadcast">Broadcast</button>
                             <button type="button" class="btn btn-default" id="heartbeat">Heartbeat</button>
+                            <span id="heartbeat-message" style="font-style: italic; margin-left: 10px;"></span>
                         </form>
 
                     </div>
@@ -166,6 +167,7 @@
                 $("#heartbeat")
                     .off('click', function () { })
                     .on('click', function () {
+                        $("#heartbeat-message").html("Added heartbeat at " + getDate()).hide().fadeIn("slow")
                         deviceHub.invoke('heartbeat', 'MyController', '123-ABC-456', 'MJsComputer', 'Startup').fail(function (error) {
                             console.log('broadcast error: ' + error)
                         });
@@ -185,6 +187,24 @@
         $("#clear").click(function () {
             $("#messages").find("tr:gt(0)").remove();
         });
+
+        function getDate() {
+
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+            var d = new Date();
+            var hr = d.getHours();
+            var min = d.getMinutes();
+            if (min < 10) {
+                min = "0" + min;
+            }
+            var ampm = hr < 12 ? "am" : "pm";
+            var date = d.getDate();
+            var month = months[d.getMonth()];
+            var year = d.getFullYear();
+            return hr + ":" + min + ampm + " " + " on " + month + " " + date + ", " + year;
+        }
 
     });
 </script>
