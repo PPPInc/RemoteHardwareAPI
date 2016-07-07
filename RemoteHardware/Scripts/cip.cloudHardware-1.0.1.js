@@ -56,7 +56,7 @@ CIP = new (function ($) {
     self.pingFunction; //Call this function to ping a device and verify it is connected properly.
 
     /*
-     * private variables
+     * Connection State: 0: 'connecting', 1: 'connected', 2: 'reconnecting', 4: 'disconnected'
      */
     self.connection;
     self._remoteHub;
