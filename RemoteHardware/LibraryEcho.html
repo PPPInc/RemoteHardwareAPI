@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script>
+    <script src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.1.js"></script>
+    <script src="Scripts/cip.cloudHardware-1.0.1.js"></script>
+    <!-- <script src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.1.js"></script> -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .wash {
+            color: #83848A;
+        }
+
+        .word-break{
+            -ms-word-break: break-all;
+            word-break: break-all;
+
+         /* Non standard for webkit */
+             word-break: break-word;
+
+            -webkit-hyphens: auto;
+               -moz-hyphens: auto;
+                -ms-hyphens: auto;
+                    hyphens: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="panel panel-default">
+
+                    <div class="panel-heading"><h3 class="panel-title">Library Echo</h3></div>
+
+                    <div class="panel-body">
+
+                        <form style="margin: 20px 0 0 0;">
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <input type="email" class="form-control" id="message" placeholder="Your Message">
+                            </div>
+                            <button type="button" class="btn btn-default" id="echo">Echo</button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default">
+
+                    <div class="panel-heading"><h3 class="panel-title"></h3></div>
+
+                    <div class="panel-body">
+
+                        <table class="table table-striped" id="messages">
+                            <tr><th style="width: 150px;">From</th><th>Message</th></tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <button type="button" class="btn btn-default" id="clear">Clear</button>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    function setFrom(control) {
+        $("#to").val($(control).html());
+        $("#message").focus();
+    };
+
+    $(function () {
+
+        $("#echo")
+            .off('click', function () { })
+            .on('click', function () {
+
+                CIP.userName = "771362F8-F51F-46BA-9EC7-E83C08E495D8";
+                CIP.controllerName = "Echo Controller";
+                CIP.locationId = '987-ZYX-321';
+                CIP.isTestMode = true;
+                CIP.echoFunction($("#message").val());
+                CIP.echoFunction($("#message").val());
+
+                CIP.OnConnectedFunction = function (connection) {
+                    console.log(connection);
+                    console.log('connection state: ' + connection.state);
+                };
+
+                CIP.OnEchoFunction = function (echo) {
+                    var d = new Date();
+                    $('#messages tr:last').after('<tr><td class="wash">' + CIP.controllerName + '</td><td class="word-break">'
+                        + echo + '<span style="float: right;" class="wash">' + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + '</span></td></tr>');
+                }
+        });
+
+        $("#clear").click(function () {
+            $("#messages").find("tr:gt(0)").remove();
+        });
+    });
+</script>

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
-    <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
     <style>
         body {
             padding: 20px;
@@ -50,7 +50,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="user-name"></label>
-                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="6D2509AB-204A-42FE-B064-82E845A08EC2">
+                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="771362F8-F51F-46BA-9EC7-E83C08E495D7">
                             </div>
                             <button type="button" class="btn btn-default" id="connect">Connect</button>
                             <div class="form-group">
@@ -69,8 +69,6 @@
                             </div>
                             <button type="button" class="btn btn-default" id="send">Send</button>
                             <button type="button" class="btn btn-default" id="broadcast">Broadcast</button>
-                            <button type="button" class="btn btn-default" id="heartbeat">Heartbeat</button>
-                            <span id="heartbeat-message" style="font-style: italic; margin-left: 10px;"></span>
                         </form>
 
                     </div>
@@ -119,7 +117,11 @@
 
             if (userName === '') return;
 
-            //var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
+<<<<<<< HEAD
+            //var connection = $.hubConnection('https://psl-staging.chargeitpro.com');
+=======
+            var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
+>>>>>>> 4694601d397f8786767d9ad8f711e4c1997174a2
 
             var connection = $.hubConnection('http://localhost:54769');
 
@@ -162,16 +164,7 @@
                         deviceHub.invoke('broadcast', $("#message").val()).fail(function (error) {
                             console.log('broadcast error: ' + error)
                         });
-                    });
-
-                $("#heartbeat")
-                    .off('click', function () { })
-                    .on('click', function () {
-                        $("#heartbeat-message").html("Added heartbeat at " + getDate()).hide().fadeIn("slow")
-                        deviceHub.invoke('heartbeat', 'MyController', '123-ABC-456', 'MJsComputer', null).fail(function (error) {
-                            console.log('broadcast error: ' + error)
-                        });
-                    });
+                });
 
                 $("#connected").html("You are connected as: " + userName).removeClass("error");
 
@@ -187,24 +180,6 @@
         $("#clear").click(function () {
             $("#messages").find("tr:gt(0)").remove();
         });
-
-        function getDate() {
-
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-            var d = new Date();
-            var hr = d.getHours();
-            var min = d.getMinutes();
-            if (min < 10) {
-                min = "0" + min;
-            }
-            var ampm = hr < 12 ? "am" : "pm";
-            var date = d.getDate();
-            var month = months[d.getMonth()];
-            var year = d.getFullYear();
-            return hr + ":" + min + ampm + " " + " on " + month + " " + date + ", " + year;
-        }
 
     });
 </script>

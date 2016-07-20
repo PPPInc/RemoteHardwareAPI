@@ -1,0 +1,714 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="en-us" http-equiv="Content-Language">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Untitled 1</title>
+    <link rel="stylesheet" href="https://www.sbpent.com/sbp/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="text/javascript">window._trackJs = { token: '9c8174c8d10d4834812899217ac22f44' };</script>
+    <script type="text/javascript" src="https://cdn.trackjs.com/releases/current/tracker.js"></script>
+
+    <script src="https://www.sbpent.com/sbp/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="https://www.sbpent.com/sbp/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://www.sbpent.com/sbp/jquery/bootbox.min.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.signalR-2.2.0.js"></script>
+    <script type="text/javascript" src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.1.js"></script>
+
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .dataentry {
+            width: 250px;
+            padding: 2px;
+            border: 1px silver solid;
+            border-radius: 5px;
+        }
+
+        .dataentry-red {
+            width: 250px;
+            padding: 2px;
+            outline: none;
+            border-radius: 5px;
+            border-color: red;
+            box-shadow: 0 0 5px red;
+        }
+
+        #header {
+            text-align: center;
+            font-size: large;
+            width: 60%;
+            margin: auto;
+            padding: 10px;
+            border: 1px black solid;
+            border-radius: 4px;
+            color: white;
+            background-color: #3C8DBC;
+            margin-bottom: 20px;
+        }
+
+        .manualcardinput {
+            display: none;
+        }
+
+        .auto-style1 {
+            text-align: center;
+            color: #FF0000;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="header">CLOSE RO #1047</div>
+    <div class="auto-style1">
+        <strong>DEBIT CARD PROCESSING IS NOW BACK ONLINE. </strong>
+    </div>
+    <table style="width:60%;margin:auto" class="table table-striped">
+        <tr>
+            <td>Miles In</td>
+            <td><input id="milesin" class="dataentry" name="Text1" type="text" value="15000" />&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Miles Out</td>
+            <td><input id="milesout" class="dataentry" name="Text1" type="text" value="15000" />&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Customer</td>
+            <td>STANLEY BARTSCH&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Vehicle</td>
+            <td>2002 FIAT PUNTO &nbsp;</td>
+        </tr>
+        <tr>
+            <td>Total RO</td>
+            <td>196067.99&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Payments Received</td>
+            <td id="pmtsreceived">107.51&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Balance Due</td>
+            <td id="balancedue">195960.48&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="text-align:center" colspan="2">
+                <button disabled id="milesbutton" type="button" class="btn btn-default btn-md">Save Miles</button>
+                <button disabled id="paymentbutton" type="button" class="btn btn-default btn-md">Collect Payment</button>
+
+                <button disabled id="signaturebutton" type="button" class="btn btn-default btn-md">
+                    RO Signature
+                </button>
+
+                <button id="cancelbutton" type="button" class="btn btn-warning btn-md">Cancel Closing</button>
+            </td>
+        </tr>
+    </table>
+    <div class="modal fade" role="dialog" id="getpayment" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">ChargeItPro CC Processing</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="cctable" class="table table-striped">
+                        <tr>
+                            <td class="style32">Select Device</td>
+                            <td style="text-align:left">
+                                <select class="dataentry" id="devicename" class="data" name="devicename">
+
+                                    <option value="ShopBossTerminal1|ShopBossController|L3B-5LQ-N7G">CIP</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style32">Amount</td>
+                            <td style="text-align:left"><input class="dataentry" style="width:250px" id="ccamt" name="ccamt" value="195960.48" type="text">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="style32">Transaction Type</td>
+                            <td style="text-align:left">
+                                <select class="dataentry" id="transactiontype" name="Select1">
+                                    <option value="CreditSale" selected>Credit Sale</option>
+                                    <option value="DebitSale">Debit Sale</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="manualcardinput">
+                            <td class="style32">Card Number</td>
+                            <td style="text-align:left"><input class="dataentry" id="cc" name="cc" style="width:250px" type="text">&nbsp;</td>
+                        </tr>
+                        <tr class="manualcardinput">
+                            <td class="style32">Expiration Date</td>
+                            <td style="text-align:left">
+                                <select id="expmonth" class="dataentry" style="width:100px;" name="expmonth">
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select> &nbsp;&nbsp;
+                                <select style="width:100px;" class="dataentry" id="expyear" name="expyear">
+
+                                    <option value="2016">2016</option>
+
+                                    <option value="2017">2017</option>
+
+                                    <option value="2018">2018</option>
+
+                                    <option value="2019">2019</option>
+
+                                    <option value="2020">2020</option>
+
+                                    <option value="2021">2021</option>
+
+                                    <option value="2022">2022</option>
+
+                                    <option value="2023">2023</option>
+
+                                    <option value="2024">2024</option>
+
+                                    <option value="2025">2025</option>
+
+                                    <option value="2026">2026</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="manualcardinput">
+                            <td class="style32">CVV Number</td>
+                            <td style="text-align:left">
+                                <input id="cvv" name="cvv" class="dataentry" style="width:250px" type="text">
+                            </td>
+                        </tr>
+                        <tr class="manualcardinput">
+                            <td class="style32">Name on Card</td>
+                            <td style="text-align:left">
+                                <input id="ccname" name="ccname" class="dataentry" style="width:250px" type="text" value="STANLEY BARTSCH">
+                            </td>
+                        </tr>
+                        <tr class="manualcardinput">
+                            <td class="style32">Street Address</td>
+                            <td style="text-align:left">
+                                <input id="ccstreet" name="ccstreet" class="dataentry" style="width:250px" type="text" value="4077 MOUNT OLIVE ROAD">
+                            </td>
+                        </tr>
+                        <tr class="manualcardinput">
+                            <td class="style32">Zip Code</td>
+                            <td style="text-align:left">
+                                <input id="manualzip" name="manualzip" class="dataentry" style="width:250px" type="text" value="30030">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <span id="otherpmt" style="float:right" class="btn btn-info">Other Payment</span>
+                                <span id="ccbutton" class="btn btn-primary">Send to Terminal</span>
+                                <span id="closeEMVPayment" class="btn btn-default">Cancel</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="popupsigonly" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Capture Signature for RO</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="sigtable" class="table table-striped" cellpadding="3" cellspacing="0" style="width: 100%;">
+                        <tr>
+                            <td class="style32">Select Device</td>
+                            <td style="text-align:left">
+                                <select id="devicename2" class="dataentry" name="devicename">
+
+                                    <option value="ShopBossTerminal1|ShopBossController|L3B-5LQ-N7G">CIP</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <span id="getSigButton" class="btn btn-primary">Get Signature for RO</span>
+                                <span id="cancelsigbutton" class="btn btn-default">Cancel</span>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" id="otherpaymentbox">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Other Payment Type</h4>
+                </div>
+                <div class="modal-body">
+                    ** NOTE:  This will not process a credit card payment.  It simply posts an amount to the RO
+                    <table style="width: 100%" class="table table-condensed table-striped" cellspacing="0" cellpadding="3">
+                        <tr>
+                            <td style="width: 50%;text-align:left"><strong>Amount:&nbsp; </strong></td>
+                            <td style="width: 50%;text-align:left" class="style3"><input value="195960.48" class="dataentry" id="otheramt" name="otheramt" type="text"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;text-align:left"><strong>How Paid:&nbsp; </strong></td>
+                            <td style="width: 50%;text-align:left" class="style3">
+                                <select class="dataentry" id="othertype" name="type">
+                                    <option value='CASH'>CASH</option>
+                                    <option value='CAR CARE ONE'>CAR CARE ONE</option>
+                                    <option value='DEBIT'>DEBIT</option>
+                                    <option value='DISCOVER'>DISCOVER</option>
+                                    <option value='AMERICAN EXPRESS'>AMERICAN EXPRESS</option>
+                                    <option value='VISA'>VISA</option>
+                                    <option value='MASTER CARD'>MASTER CARD</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;text-align:left"><strong>Number (optional):&nbsp; </strong></td>
+                            <td style="width: 50%;text-align:left"><input class="dataentry" name="number" id="othernumber" type="text"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center">
+                                <span onclick="savePayment()" id="otherpaymentbutton" class="btn btn-primary">Post Payment</span>
+                                <span onclick="closeOtherPayment()" id="otherpaymentcancel" class="btn btn-default">Cancel</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img alt="" src="../newimages/loaderbig.gif" style="display:none;position:absolute;top:250px;left:48%;width:50px;height:50px;z-index:9999" id="spinner">
+    <script>
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+$(function () {
+
+
+	/* Your click handler */
+	$("#ccbutton").on('click', function () {
+
+		btnid = $(this).attr("id")
+		printpmtreceipt = ""
+		$(this).attr("disabled", true);
+
+		// validate the data entered
+		$('#spinner').show()
+		amttopay = $('#ccamt').val()
+		//amttopay = "0.01"
+		processtype = $('#cipprocesstype').val()
+		if (!isNumber(amttopay) || amttopay.length == 0){
+			bootbox.alert("The amount is required and must be a number", function(){});
+			$('#ccspinner').hide()
+			$('#ccbutton').prop("disabled", false);
+
+			return
+		}
+		if ($('#cc').val().length == 0 && $('#cc').is(":visible")){
+			bootbox.alert("The Credit Card number is required and must be a number", function(){});
+			$('#ccspinner').hide()
+			$('#ccbutton').prop("disabled", false);
+			return
+		}
+		if ($('#cvv').val().length == 0 && $('#cvv').is(":visible")){
+			bootbox.alert("The CVV Number is required and must be a number", function(){});
+			$('#ccspinner').hide()
+			$('#ccbutton').prop("disabled", false);
+			return
+		}
+		if ($('#ccname').val().length == 0 && $('#ccname').is(":visible")){
+			bootbox.alert("The Name on Card is required", function(){});
+			$('#ccspinner').hide()
+			$('#ccbutton').prop("disabled", false);
+			return
+		}
+		if ($('#ccstreet').val().length == 0 && $('#ccstreet').is(":visible")){
+			bootbox.alert("The Street Address is required", function(){});
+			$('#ccspinner').hide()
+			$('#ccbutton').prop("disabled", false);
+			return
+		}
+		if ($('#manualzip').val().length == 0 && $('#manualzip').is(":visible")){
+			bootbox.alert("The Zip Code is required", function(){});
+			$('#ccspinner').hide()
+			$('#ccbutton').prop("disabled", false);
+			return
+		}
+
+		cipArray = $('#devicename').val().split("|")
+
+		CIP.locationId = cipArray[2];
+		CIP.controllerName = cipArray[1];
+		var deviceName = cipArray[0];
+		CIP.isTestMode = false;
+
+		transtype = $('#transactiontype').val()
+
+		if (transtype == "CreditSale"){
+			CIP.creditSaleFunction(deviceName, amttopay, '', '', '', '', '', '');
+		}else if (transtype == "CreditReturn"){
+			CIP.creditReturnFunction(deviceName, amttopay)
+		}else if (transtype == "DebitSale"){
+			CIP.debitSaleFunction(deviceName, amttopay, '', '', '', '', '', '')
+		}
+	});
+
+
+	CIP.OnResultFunction = function (result) {
+		//console.log(result)
+		msg = result.ResultFields.ResultMessage
+		apprnum = result.ResultFields.ApprovalNumberResult
+		amtposted = result.ResultFields.AmountProcessed
+		transid = result.ResultFields.UniqueTransID
+		cardtype = result.ResultFields.AccountCardType
+		console.log(msg+":"+apprnum+":"+amtposted+":"+transid+":"+cardtype)
+
+		cipArray = $('#devicename').val().split("|")
+
+		CIP.locationId = cipArray[2];
+		CIP.controllerName = cipArray[1];
+		var deviceName = cipArray[0];
+		CIP.isTestMode = false;
+
+
+		transtype = $('#transactiontype').val()
+		//bootbox.alert(btnid, function(){});
+		if (result.ResultFields.ResultStatus){
+			$.ajax({
+				data: "transtype="+transtype+"&btnid="+btnid+"&cid=33&shopid=10&roid=1047&msg="+msg+"&apprnum="+apprnum+"&amtposted="+amtposted+"&transid="+transid+"&cardtype="+cardtype,
+				url: "postemvsignatureandpayment.asp",
+				success: function(r){
+					if (r == "success"){
+						$('#pmtsignaturefiles').val("pmt_"+transid+".png")
+						currbalance = $('#robalance').val()
+						newbalance = parseFloat(currbalance) - parseFloat(amtposted)
+						totalpmts = $('#ropayments').val()
+						console.log(parseFloat(totalpmts) + ":" + parseFloat(amtposted))
+						totalpmts = parseFloat(totalpmts) + parseFloat(amtposted)
+						console.log(totalpmts)
+						currrosigs = $('#rosignaturefiles').val()
+						$('#ropayments').val(totalpmts)
+						$('#robalance').val(newbalance)
+						$('#pmtsreceived').html(totalpmts)
+						$('#balancedue').html(newbalance.toFixed(2))
+						$('#ccamt').val(newbalance.toFixed(2))
+						$('#otheramt').val(newbalance.toFixed(2))
+						$('#getpayment').modal('toggle')
+						$('#spinner').hide()
+						$('#ccbutton').prop("disabled", false);
+						console.log(newbalance)
+						if (newbalance.toFixed(2) == 0){
+							rosigposition = $('#signaturebutton').offset()
+							rosigwidth = $('#signaturebutton').width()
+							$('#paymentbutton').attr("disabled",true).addClass("btn-default").removeClass("btn-primary")
+							$('#signaturebutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+							$('#uparrow').css("left",rosigposition.left+(rosigwidth/3)).show()
+						}
+						// console.log($('#ropayments').val()+":"+$('#robalance').val()+":"+$('#pmtsreceived').html()+":"+$('#balancedue').html())
+						// now check to see balance
+					}else{
+						bootbox.alert(r)
+					}
+				}
+			});
+		}
+	};
+
+	CIP.OnErrorFunction = function (error) {
+		$('#spinner').hide()
+		$('#ccbutton').prop("disabled", false);
+		if (error != 'ABORTED'){
+			bootbox.alert("There was an error.  Error Message: "+error, function(){});
+		}
+	};
+
+	$("#closeEMVPayment").on('click',function(){
+
+		cipArray = $('#devicename').val().split("|")
+
+		CIP.locationId = cipArray[2];
+		CIP.controllerName = cipArray[1];
+		var deviceName = cipArray[0];
+		CIP.isTestMode = false;
+
+	    if (!deviceName) return;
+	    CIP.cancelFunction(deviceName)
+	    $('#spinner').hide()
+	});
+
+
+});
+
+$('#signaturebutton').click(function(){
+
+	$('#popupsigonly').modal()
+
+});
+
+$('#cancelsigbutton').click(function(){
+	$('#popupsigonly').modal('toggle')
+});
+
+$('#getSigButton').click(function () {
+
+    alert('here');
+
+    return;
+
+	ciplist = $('#devicename2').val()
+	cipArray = ciplist.split("|")
+	CIP.locationId = cipArray[2];
+	CIP.controllerName = cipArray[1];
+	var deviceName = cipArray[0];
+	CIP.isTestMode = false;
+
+	invpath = $('#invoice').attr("src")
+
+	CIP.requestSignatureFunction(deviceName)
+	CIP.OnResultFunction = function (sigresult) {
+		transid = sigresult.ResultFields.UniqueTransID
+		// now ajax to the postemvdebitpayment.asp
+		sigds = "shopid=10&roid=1047&transid="+transid
+		//console.log("aspscripts/postemvdebitpayment.asp?"+sigds)
+		$.ajax({
+			data: sigds,
+			url: "postsigonly.asp",
+			success: function(r){
+				if (r == "success"){
+					parent.location.href='../closedro.asp?roid=1047'
+
+				}
+			}
+		});
+		$('#ccspinner').hide()
+	}
+
+});
+
+$('#otherpmt').click(function(){
+
+	$('#getpayment').modal('toggle')
+	$('#otherpaymentbox').modal()
+
+});
+
+$('#cancelbutton').click(function(){
+
+	parent.$('#hider').toggle()
+	parent.$('#closeroframe').toggle()
+
+});
+
+$('#paymentbutton').click(function(){
+
+	$('#getpayment').modal()
+
+});
+
+$("#closeEMVPayment").on('click',function(){
+
+	cipArray = $('#devicename').val().split("|")
+
+	CIP.locationId = cipArray[2];
+	CIP.controllerName = cipArray[1];
+	var deviceName = cipArray[0];
+	CIP.isTestMode = false;
+
+    if (!deviceName){
+    	return;
+    	$('#getpayment').modal('toggle');
+    }
+    CIP.cancelFunction(deviceName)
+    $('#getpayment').modal('toggle');
+    $('#ccbutton').attr("disabled", false);
+
+
+});
+
+function savePayment(){
+	// post the payment to the ro
+	amt = $('#otheramt').val()
+	ptype = $('#othertype').val()
+	pnum = encodeURIComponent($('#othernumber').val())
+	cid = "33"
+	$.ajax({
+		data: "shopid=10&roid=1047&amt="+amt+"&ptype="+ptype+"&pnum="+pnum+"&cid="+cid,
+		url: "postnonemvpayment.asp",
+		success: function(r){
+			console.log(r)
+			if (r == "success"){
+				currbalance = $('#robalance').val()
+				newbalance = parseFloat(currbalance) - parseFloat(amt)
+				totalpmts = $('#ropayments').val()
+				console.log(parseFloat(totalpmts) + ":" + parseFloat(amt))
+				totalpmts = parseFloat(totalpmts) + parseFloat(amt)
+				console.log(totalpmts)
+				currrosigs = $('#rosignaturefiles').val()
+				$('#ropayments').val(totalpmts)
+				$('#robalance').val(newbalance)
+				$('#pmtsreceived').html(totalpmts)
+				$('#balancedue').html(newbalance.toFixed(2))
+				$('#ccamt').val(newbalance.toFixed(2))
+				$('#otheramt').val(newbalance.toFixed(2))
+				$('#otherpaymentbox').modal('toggle')
+				$('#spinner').hide()
+				console.log(newbalance)
+				if (newbalance.toFixed(2) == 0){
+					rosigposition = $('#signaturebutton').offset()
+					rosigwidth = $('#signaturebutton').width()
+					$('#paymentbutton').attr("disabled",true).addClass("btn-default").removeClass("btn-primary")
+
+					$('#signaturebutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+					$('#uparrow').css("left",rosigposition.left+(rosigwidth/3)).show()
+
+				}
+
+			}
+		}
+	});
+}
+
+function closeOtherPayment(){
+	$('#otherpaymentbox').modal('toggle')
+}
+
+$('#milesbutton').click(function(){
+
+	mi = $('#milesin').val()
+	mo = $('#milesout').val()
+	shopid = "10"
+	roid = "1047"
+	if (mi.length > 0 && mo.length > 0){
+		$('#spinner').toggle()
+		$.ajax({
+			data: "t=miles&shopid="+shopid+"&roid="+roid+"&mi="+mi+"&mo="+mo,
+			url: "closeroaction.asp",
+			success: function(r){
+				console.log(r)
+				if (r == "success"){
+					parent.$('#MilesIn').val(mi)
+					parent.$('#MilesOut').val(mo)
+					parent.document.theform.dbVehicleMiles.value = mi
+					parent.document.theform.dbMilesOut.value = mo
+					//$('#milesin').attr("disabled",true)
+					//$('#milesout').attr("disabled",true)
+					$('#milesbutton').attr("disabled",true)
+					$('#milesin').addClass("dataentry").removeClass("dataentry-red")
+					$('#milesout').addClass("dataentry").removeClass("dataentry-red")
+
+					robalance = parseFloat($('#robalance').val())
+					console.log("************* ROBALANCE: "+ robalance + " ***********************")
+					if (robalance.toFixed(2) > 0){
+						paymentposition = $('#paymentbutton').offset()
+						paymentwidth = $('#paymentbutton').width()
+						$('#paymentbutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+						$('#milesbutton').addClass("btn-default").removeClass("btn-primary")
+						$('#uparrow').css("left",paymentposition.left+(paymentwidth/3)).show()
+						$('#spinner').hide()
+					}
+					if(robalance.toFixed(2) == 0){
+
+						rosigposition = $('#signaturebutton').offset()
+						rosigwidth = $('#signaturebutton').width()
+						$('#milesbutton').addClass("btn-default").removeClass("btn-primary")
+						$('#paymentbutton').attr("disabled",true).addClass("btn-default").removeClass("btn-primary")
+						$('#signaturebutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+						$('#uparrow').css("left",rosigposition.left+(rosigwidth/3)).show()
+						$('#spinner').hide()
+
+					}
+				}else{
+					bootbox.alert("There was an error saving mileage")
+				}
+			}
+		});
+	}else{
+		bootbox.alert("You must enter Miles in and Miles Out to Save Miles")
+	}
+
+});
+
+$(document).ready(function(){
+
+	var milesin = "15000"
+	var milesout = "15000"
+	var balance = parseFloat(195960.48)
+	console.log("**************** DOCUMENT READY BALANCE: " + balance + " ************")
+	milesposition = $('#milesbutton').offset()
+	mileswidth = $('#milesbutton').width()
+	paymentposition = $('#paymentbutton').offset()
+	paymentwidth = $('#paymentbutton').width()
+	rosigposition = $('#signaturebutton').offset()
+	rosigwidth = $('#signaturebutton').width()
+
+
+
+	//console.log(milesin.length +":"+ milesout.length +":"+ milesin.value +":"+ milesout.value)
+	if (milesin.length > 0 && milesout.length > 0 && milesin > 0 && milesout > 0){
+		$('#milesbutton').attr("disabled",true)
+		if (balance > 0){
+			console.log("showing payment button")
+			$('#paymentbutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+			$('#uparrow').css("left",paymentposition.left+(paymentwidth/3)).show()
+
+		}else{
+			$('#paymentbutton').attr("disabled",true).addClass("btn-default").removeClass("btn-primary")
+
+			$('#signaturebutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+			$('#uparrow').css("left",rosigposition.left+(rosigwidth/3)).show()
+
+		}
+		if (balance < 0){
+			bootbox.alert("NEGATIVE BALANCE ON THIS RO.  BE SURE YOU WANT TO CLOSE IT")
+		}
+	}else{
+		$('#milesbutton').attr("disabled",false).addClass("btn-primary").removeClass("btn-default")
+		$('#uparrow').css("left",milesposition.left+(mileswidth/3)).show()
+		$('#milesin').addClass("dataentry-red").removeClass("dataentry")
+		$('#milesout').addClass("dataentry-red").removeClass("dataentry")
+	}
+
+
+});
+
+
+
+
+    </script>
+    <input name="robalance" id="robalance" type="hidden" value="195960.48" />
+    <input name="ropayments" id="ropayments" type="hidden" value="107.51" />
+    <img alt="" style="display:none;position:absolute" id="uparrow" height="54" src="../newimages/reduparrow.gif" width="50">
+</body>
+
+</html>

@@ -43,14 +43,14 @@
 
                 <div class="panel panel-default">
 
-                    <div class="panel-heading"><h3 class="panel-title">Device Controller Emulator</h3></div>
+                    <div class="panel-heading"><h3 class="panel-title">Echo</h3></div>
 
                     <div class="panel-body">
 
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="user-name"></label>
-                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="6D2509AB-204A-42FE-B064-82E845A08EC2">
+                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="771362F8-F51F-46BA-9EC7-E83C08E495D7">
                             </div>
                             <button type="button" class="btn btn-default" id="connect">Connect</button>
                             <div class="form-group">
@@ -60,17 +60,10 @@
 
                         <form style="margin: 20px 0 0 0;">
                             <div class="form-group">
-                                <label for="to">POS</label>
-                                <input type="email" class="form-control" style="width: 350px;" id="to" placeholder="To">
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Result</label>
+                                <label for="message">Message</label>
                                 <input type="email" class="form-control" id="message" placeholder="Your Message">
                             </div>
-                            <button type="button" class="btn btn-default" id="send">Send</button>
-                            <button type="button" class="btn btn-default" id="broadcast">Broadcast</button>
-                            <button type="button" class="btn btn-default" id="heartbeat">Heartbeat</button>
-                            <span id="heartbeat-message" style="font-style: italic; margin-left: 10px;"></span>
+                            <button type="button" class="btn btn-default" id="send">Echo</button>
                         </form>
 
                     </div>
@@ -111,17 +104,15 @@
 
     $(function () {
 
-        $("#message").val('{ "Action":"Result", "ResultFields":{ "ApprovalNumberResult":"1234ABC" } }');
-
         $("#connect").on('click', function () {
 
             var userName = $("#user-name").val();
 
             if (userName === '') return;
 
-            //var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
+            var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
 
-            var connection = $.hubConnection('http://localhost:54769');
+            //var connection = $.hubConnection('http://localhost:54769');
 
             connection.qs = { "userName": userName };
 
@@ -129,13 +120,7 @@
 
             deviceHub.on('send', function (from, message) {
                 var d = new Date();
-                $('#messages tr:last').after('<tr><td class="wash"><a href="#" onclick="setFrom(this);return false;" class="from">' + from + '</a></td><td class="word-break">'
-                    + message + '<span style="float: right;" class="wash">' + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + '</span></td></tr>');
-            });
-
-            deviceHub.on('broadcast', function (message) {
-                var d = new Date();
-                $('#messages tr:last').after('<tr><td class="wash">broadcast</td><td>'
+                $('#messages tr:last').after('<tr><td class="wash">' + from + '</td><td class="word-break">'
                     + message + '<span style="float: right;" class="wash">' + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + '</span></td></tr>');
             });
 
@@ -152,26 +137,9 @@
                 $("#send")
                     .off('click', function () { })
                     .on('click', function () {
-                        deviceHub.invoke('send', $("#to").val(), $("#message").val());
+                        deviceHub.invoke('send', $("#user-name").val(), $("#message").val());
                         //$("#message").val('');
                 });
-
-                $("#broadcast")
-                    .off('click', function () { })
-                    .on('click', function () {
-                        deviceHub.invoke('broadcast', $("#message").val()).fail(function (error) {
-                            console.log('broadcast error: ' + error)
-                        });
-                    });
-
-                $("#heartbeat")
-                    .off('click', function () { })
-                    .on('click', function () {
-                        $("#heartbeat-message").html("Added heartbeat at " + getDate()).hide().fadeIn("slow")
-                        deviceHub.invoke('heartbeat', 'MyController', '123-ABC-456', 'MJsComputer', null).fail(function (error) {
-                            console.log('broadcast error: ' + error)
-                        });
-                    });
 
                 $("#connected").html("You are connected as: " + userName).removeClass("error");
 
@@ -187,24 +155,5 @@
         $("#clear").click(function () {
             $("#messages").find("tr:gt(0)").remove();
         });
-
-        function getDate() {
-
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-            var d = new Date();
-            var hr = d.getHours();
-            var min = d.getMinutes();
-            if (min < 10) {
-                min = "0" + min;
-            }
-            var ampm = hr < 12 ? "am" : "pm";
-            var date = d.getDate();
-            var month = months[d.getMonth()];
-            var year = d.getFullYear();
-            return hr + ":" + min + ampm + " " + " on " + month + " " + date + ", " + year;
-        }
-
     });
 </script>

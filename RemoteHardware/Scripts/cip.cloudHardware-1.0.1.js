@@ -58,7 +58,7 @@ CIP = new (function ($) {
     /*
      * Connection State: 0: 'connecting', 1: 'connected', 2: 'reconnecting', 4: 'disconnected'
      */
-    self.connection;
+    self.connection = null;
     self._remoteHub;
     self._connected;
 
@@ -74,8 +74,8 @@ CIP = new (function ($) {
 
         var url;
         if (self.isTestMode) {
-            //url = 'http://localhost:54769';
-            url = "https://cloud-staging.chargeitpro.com";
+            url = 'http://localhost:54769';
+            //url = "https://cloud-staging.chargeitpro.com";
         } else {
             url = "https://cloud.chargeitpro.com";
         }
@@ -129,12 +129,20 @@ CIP = new (function ($) {
     }
 
     self._doTransaction = function (message) {
-        if (self.connection == undefined || self.connection.state != 1)
-            self._connect(function () {
+
+        if (self.connection != null && self.connection.state == 0) return; //the connection is negotiating.
+
+        try {
+            if (self.connection != null && self.connection.state == 1)
                 self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
-            }, function () { if (self.OnErrorFunction) self.OnErrorFunction("Error connecting."); });
-        else {
-            self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
+            else {
+                self._connect(function () {
+                    self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
+                }, function () { if (self.OnErrorFunction) self.OnErrorFunction("Error connecting."); });
+            }
+        }
+        catch (err) {
+            console.log("Error in _doTransaction: " + err);
         }
     }
 
