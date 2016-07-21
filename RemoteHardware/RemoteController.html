@@ -50,7 +50,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="user-name"></label>
-                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="6D2509AB-204A-42FE-B064-82E845A08EC2">
+                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="12045948-6B86-42AA-87E1-C77CC84CE173">
                             </div>
                             <button type="button" class="btn btn-default" id="connect">Connect</button>
                             <div class="form-group">
@@ -64,11 +64,10 @@
                                 <input type="email" class="form-control" style="width: 350px;" id="to" placeholder="To">
                             </div>
                             <div class="form-group">
-                                <label for="message">Result</label>
-                                <input type="email" class="form-control" id="message" placeholder="Your Message">
+                                <label for="message">Result</label><br />
+                                <textarea name="message" id="message" cols="80" rows="20" style="padding: 5px;">{"Action":"Result","TestMode":false,"Data":null,"ResultFields":{"ACCOUNT_DATA_TRUNCATED":"ACCOUNT_DATA_TRUNCATED","AMOUNT_BALANCE":"AMOUNT_BALANCE","AMOUNT_CASH_BACK":"AMOUNT_CASH_BACK","AMOUNT_FEE":"AMOUNT_FEE","AMOUNT_BILL":"AMOUNT_BILL","AMOUNT_TOTAL":"AMOUNT_TOTAL","AVS_RESPONSE_CODE":"AVS_RESPONSE_CODE","CVV_RESPONSE_CODE":"CVV_RESPONSE_CODE","REQUEST_ID":"REQUEST_ID","RESPONSE_TEXT":"RESPONSE_TEXT","APPROVAL_NUMBER":"APPROVAL_NUMBER","BATCH_ID":"BATCH_ID","BATCH_NUMBER":"BATCH_NUMBER","TRANSACTION_CODE":"TRANSACTION_CODE","ACCOUNT_CARD_TYPE":"ACCOUNT_CARD_TYPE","ACCOUNT_EXPIRATION_DATE":"ACCOUNT_EXPIRATION_DATE","BILLING_NAME":"BILLING_NAME","RESULT_MESSAGE":"RESULT_MESSAGE","RESULT_STATUS":"RESULT_STATUS","MERCHANT_NUMBER":"MERCHANT_NUMBER","LOCATIONID":"LocationID","eiVersion":null,"ResultStatus":true,"ResultMessage":"APPROVED","TransactionType":"CreditSale","Result":"","ApprovalNumberResult":"000000","CardNickname":"","BatchNumber":"","BillingName":"GLENN  WITT","AVSResponseCode":"","AVSResponseText":"","AuthorizationMode":"","CurrencyIndicator":"","AID":"A0000000031010","TVR":"0080008000","IAD":"","TSI":"E800","ARC":"","CardHolderVerificationMethod":"Signature","EMVOfflineData":"","ComputerDateTime":"0001-01-01T00:00:00","TerminalDateTime":"0001-01-01T00:00:00","ComputerTimeZoneOffset":0,"CVMCode":6,"Receipt":"x___________________________________\r\nGLENN  WITT\r\n\r\nI AGREE TO PAY THE BELOW\r\nTOTAL AMOUNT ACCORDING\r\nTO CARD ISSUER\r\nAGREEMENT\r\n\r\n************4223 VS\r\nEntryMethod:Chipped\r\nApproval:000000\r\nBatchNo.:\r\nCreditSale\r\nAmountTotal:168.45\r\nAID:A0000000031010\r\nTVR:0080008000\r\nTSI:E800\r\nCVM:Signature\r\n","CVVResponseCode":"","CVVResponseText":"","AmountBalance":0,"AmountCashBack":0,"AmountBill":0,"AmountFee":0,"AmountProcessed":168.45,"AmountTipped":0,"AccountCardType":"VS","safeMaskedAccount":"************4223","MaskedAccount":"************4223","AccountEntryMethod":"Chipped","UniqueTransID":"105a5da1a3","Signature":"MT30:MCw2NTUzNV4zNCw1Nl4zNyw1N140MCw2MF40NCw2MV40Nyw2Ml41MCw2NF41Myw2Nl41Niw2Nl42MCw2N142Myw2OF42Niw2OF42OSw2OF43Miw2OF43Niw2OF43OSw2N144Miw2Nl44NSw2Nl44OCw2M145Miw2MV45NSw1N145OCw1NV4xMDEsNTNeMTA0LDUxXjEwOCw0OF4xMTEsNDVeMTE0LDQ0XjExNyw0MV4xMjAsMzleMTI0LDM2XjEyNywzNF4xMzAsMzNeMTMzLDMzXn4=","DeviceBatchNumber":"","receiptFields":{"LicenseName":"","StoreName":"","MerchantNumber":"","StoreAddress1":"","StoreAddress2":"","CityStateZip":"","StorePhone":"","Footer1":"","Footer2":"","Footer3":"","UseTips":false,"UseFees":false,"UseLevel2":false},"AccountHash":"","AccountExpiryDate":"0520","AccountEntryType":"","MerchantId":"","LocationID":"","CancelPressed":false},"FormFields":null,"Message":null,"Success":true,"ErrorMessage":null,"UniqueTransId":null,"TransactionId":"00000000-0000-0000-0000-000000000000"}</textarea>
                             </div>
                             <button type="button" class="btn btn-default" id="send">Send</button>
-                            <button type="button" class="btn btn-default" id="broadcast">Broadcast</button>
                             <button type="button" class="btn btn-default" id="heartbeat">Heartbeat</button>
                             <span id="heartbeat-message" style="font-style: italic; margin-left: 10px;"></span>
                         </form>
@@ -111,7 +110,7 @@
 
     $(function () {
 
-        $("#message").val('{ "Action":"Result", "ResultFields":{ "ApprovalNumberResult":"1234ABC" } }');
+        //$("#message").val('{"Action":"Result","TestMode":false,"Data":null,"ResultFields":{"ACCOUNT_DATA_TRUNCATED":"ACCOUNT_DATA_TRUNCATED","AMOUNT_BALANCE":"AMOUNT_BALANCE","AMOUNT_CASH_BACK":"AMOUNT_CASH_BACK","AMOUNT_FEE":"AMOUNT_FEE","AMOUNT_BILL":"AMOUNT_BILL","AMOUNT_TOTAL":"AMOUNT_TOTAL","AVS_RESPONSE_CODE":"AVS_RESPONSE_CODE","CVV_RESPONSE_CODE":"CVV_RESPONSE_CODE","REQUEST_ID":"REQUEST_ID","RESPONSE_TEXT":"RESPONSE_TEXT","APPROVAL_NUMBER":"APPROVAL_NUMBER","BATCH_ID":"BATCH_ID","BATCH_NUMBER":"BATCH_NUMBER","TRANSACTION_CODE":"TRANSACTION_CODE","ACCOUNT_CARD_TYPE":"ACCOUNT_CARD_TYPE","ACCOUNT_EXPIRATION_DATE":"ACCOUNT_EXPIRATION_DATE","BILLING_NAME":"BILLING_NAME","RESULT_MESSAGE":"RESULT_MESSAGE","RESULT_STATUS":"RESULT_STATUS","MERCHANT_NUMBER":"MERCHANT_NUMBER","LOCATIONID":"LocationID","eiVersion":null,"ResultStatus":true,"ResultMessage":"APPROVED","TransactionType":"CreditSale","Result":"","ApprovalNumberResult":"000000","CardNickname":"","BatchNumber":"","BillingName":"GLENN  WITT","AVSResponseCode":"","AVSResponseText":"","AuthorizationMode":"","CurrencyIndicator":"","AID":"A0000000031010","TVR":"0080008000","IAD":"","TSI":"E800","ARC":"","CardHolderVerificationMethod":"Signature","EMVOfflineData":"","ComputerDateTime":"0001-01-01T00:00:00","TerminalDateTime":"0001-01-01T00:00:00","ComputerTimeZoneOffset":0,"CVMCode":6,"Receipt":"x___________________________________\r\nGLENN  WITT\r\n\r\nI AGREE TO PAY THE BELOW\r\nTOTAL AMOUNT ACCORDING\r\nTO CARD ISSUER\r\nAGREEMENT\r\n\r\n************4223 VS\r\nEntryMethod:Chipped\r\nApproval:000000\r\nBatchNo.:\r\nCreditSale\r\nAmountTotal:168.45\r\nAID:A0000000031010\r\nTVR:0080008000\r\nTSI:E800\r\nCVM:Signature\r\n","CVVResponseCode":"","CVVResponseText":"","AmountBalance":0,"AmountCashBack":0,"AmountBill":0,"AmountFee":0,"AmountProcessed":168.45,"AmountTipped":0,"AccountCardType":"VS","safeMaskedAccount":"************4223","MaskedAccount":"************4223","AccountEntryMethod":"Chipped","UniqueTransID":"105a5da1a3","Signature":"MT30:MCw2NTUzNV4zNCw1Nl4zNyw1N140MCw2MF40NCw2MV40Nyw2Ml41MCw2NF41Myw2Nl41Niw2Nl42MCw2N142Myw2OF42Niw2OF42OSw2OF43Miw2OF43Niw2OF43OSw2N144Miw2Nl44NSw2Nl44OCw2M145Miw2MV45NSw1N145OCw1NV4xMDEsNTNeMTA0LDUxXjEwOCw0OF4xMTEsNDVeMTE0LDQ0XjExNyw0MV4xMjAsMzleMTI0LDM2XjEyNywzNF4xMzAsMzNeMTMzLDMzXn4=","DeviceBatchNumber":"","receiptFields":{"LicenseName":"","StoreName":"","MerchantNumber":"","StoreAddress1":"","StoreAddress2":"","CityStateZip":"","StorePhone":"","Footer1":"","Footer2":"","Footer3":"","UseTips":false,"UseFees":false,"UseLevel2":false},"AccountHash":"","AccountExpiryDate":"0520","AccountEntryType":"","MerchantId":"","LocationID":"","CancelPressed":false},"FormFields":null,"Message":null,"Success":true,"ErrorMessage":null,"UniqueTransId":null,"TransactionId":"00000000-0000-0000-0000-000000000000"}');
 
         $("#connect").on('click', function () {
 
@@ -119,9 +118,9 @@
 
             if (userName === '') return;
 
-            //var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
+            var connection = $.hubConnection('https://cloud.chargeitpro.com');
 
-            var connection = $.hubConnection('http://localhost:54769');
+            //var connection = $.hubConnection('http://localhost:54769');
 
             connection.qs = { "userName": userName };
 

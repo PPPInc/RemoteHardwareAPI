@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="BridalLive\js\cip-cloudHardware-1.0.2.js" />
     <Content Include="LibraryEcho.html" />
     <Content Include="Images\ajax-loader-1.gif" />
     <Content Include="Echo.html" />
