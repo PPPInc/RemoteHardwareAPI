@@ -60,7 +60,7 @@
         /*
          * 'private' variables
          */
-        var connection;
+        var _connection;
         var _remoteHub;
         var _connected;
 
@@ -81,11 +81,11 @@
                 url = "https://cloud.chargeitpro.com";
             }
 
-            connection = $.hubConnection(url);
+            _connection = $.hubConnection(url);
 
-            connection.qs = { "userName": userName };
+            _connection.qs = { "userName": userName };
 
-            _remoteHub = connection.createHubProxy("DeviceHub");
+            _remoteHub = _connection.createHubProxy("DeviceHub");
 
             _remoteHub.on("send", function (from, message) {
                 var result = JSON.parse(message);
@@ -112,10 +112,10 @@
                 if (OnErrorFunction) OnErrorFunction(error);
             });
 
-            connection.start().done(function () {
+            _connection.start().done(function () {
                 _connected = true;
-                console.log("Connected as: " + connection.id);
-                if (OnConnectedFunction) OnConnectedFunction(connection);
+                console.log("Connected as: " + _connection.id);
+                if (OnConnectedFunction) OnConnectedFunction(_connection);
                 done();
             }).fail(function (error) {
                 _connected = false;
@@ -123,7 +123,7 @@
                 fail();
             });
 
-            connection.error(function (error) {
+            _connection.error(function (error) {
                 _connected = false;
                 console.log("SignalR error: " + error);
             });
@@ -131,10 +131,10 @@
 
         _doTransaction = function (message) {
 
-            if (connection != null && connection.state == 0) return; //the connection is negotiating.
+            if (_connection != null && _connection.state == 0) return; //the connection is negotiating.
 
             try {
-                if (connection != null && connection.state == 1)
+                if (_connection != null && _connection.state == 1)
                     _remoteHub.invoke("send", controllerName, locationId, JSON.stringify(message));
                 else {
                     _connect(function () {
