@@ -87,7 +87,7 @@
                 CIP.locationId = $("#location").val();
                 CIP.controllerName = $("#controller").val();
                 var deviceName = $("#devices option:selected").val();
-                CIP.isTestMode = false;
+                CIP.isTestMode = true;
 
                 /* Invoke the creditSaleFunction - this is in RemoteHardware.js. */
                 CIP.creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');

@@ -118,9 +118,9 @@
 
             if (userName === '') return;
 
-            var connection = $.hubConnection('https://cloud.chargeitpro.com');
+            //var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
 
-            //var connection = $.hubConnection('http://localhost:54769');
+            var connection = $.hubConnection('http://localhost:54769');
 
             connection.qs = { "userName": userName };
 
@@ -167,7 +167,7 @@
                     .off('click', function () { })
                     .on('click', function () {
                         $("#heartbeat-message").html("Added heartbeat at " + getDate()).hide().fadeIn("slow")
-                        deviceHub.invoke('heartbeat', 'MyController', '123-ABC-456', 'MJsComputer', null).fail(function (error) {
+                        deviceHub.invoke('heartbeat', 'MyController', '123-ABC-456', 'MJsComputer', 'heartbeat', '1.0.0.2').fail(function (error) {
                             console.log('broadcast error: ' + error)
                         });
                     });
