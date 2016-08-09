@@ -4,7 +4,8 @@
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-2.1.4.js"></script>-->
+    <script src="https://code.jquery.com/jquery-1.7.1.js"></script> 
     <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script>
     <style>
         body {
@@ -50,7 +51,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="user-name"></label>
-                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="12045948-6B86-42AA-87E1-C77CC84CE173">
+                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="A8D92957-74FB-4AE5-9405-8CFDA430FAE6">
                             </div>
                             <button type="button" class="btn btn-default" id="connect">Connect</button>
                             <div class="form-group">
@@ -118,7 +119,7 @@
 
             if (userName === '') return;
 
-            //var connection = $.hubConnection('https://cloud-staging.chargeitpro.com');
+            //var connection = $.hubConnection('https://cloud.chargeitpro.com');
 
             var connection = $.hubConnection('http://localhost:54769');
 

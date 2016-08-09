@@ -1,6 +1,6 @@
 ﻿/*
  *
- * Charge It Pro Cloud Hardware Library v1.0.0
+ * Charge It Pro Cloud Hardware Library v1.0.1
  * https://www.chargeitpro.com/
  *
  * Copyright (C) Charge It Pro, Corporation. All rights reserved.
@@ -17,7 +17,7 @@ CIP = new (function ($) {
         return CIP;
     };
 
-    self.version = '1.0.0';
+    self.version = '1.0.1';
 
     /*
      * These functions are to be implemented by consuming Developers.
@@ -56,8 +56,9 @@ CIP = new (function ($) {
     self.pingFunction; //Call this function to ping a device and verify it is connected properly.
 
     /*
-     * private variables
+     * Connection State: 0: 'connecting', 1: 'connected', 2: 'reconnecting', 4: 'disconnected'
      */
+    self.connection = null;
     self._remoteHub;
     self._connected;
 
@@ -73,17 +74,17 @@ CIP = new (function ($) {
 
         var url;
         if (self.isTestMode) {
-            url = 'http://localhost:54769';
-            //url = "https://cloud-staging.chargeitpro.com";
+            //url = 'http://localhost:54769';
+            url = "https://cloud-staging.chargeitpro.com";
         } else {
             url = "https://cloud.chargeitpro.com";
         }
 
-        var connection = $.hubConnection(url);
+        self.connection = $.hubConnection(url);
 
-        connection.qs = { "userName": self.userName };
+        self.connection.qs = { "userName": self.userName };
 
-        self._remoteHub = connection.createHubProxy("DeviceHub");
+        self._remoteHub = self.connection.createHubProxy("DeviceHub");
 
         self._remoteHub.on("send", function (from, message) {
             var result = JSON.parse(message);
@@ -110,10 +111,10 @@ CIP = new (function ($) {
             if (self.OnErrorFunction) self.OnErrorFunction(error);
         });
 
-        connection.start().done(function () {
+        self.connection.start().done(function () {
             self._connected = true;
-            console.log("Connected as: " + connection.id);
-            if (self.OnConnectedFunction) self.OnConnectedFunction(connection);
+            console.log("Connected as: " + self.connection.id);
+            if (self.OnConnectedFunction) self.OnConnectedFunction(self.connection);
             done();
         }).fail(function (error) {
             _connected = false;
@@ -121,19 +122,27 @@ CIP = new (function ($) {
             fail();
         });
 
-        connection.error(function (error) {
+        self.connection.error(function (error) {
             _connected = false;
             console.log("SignalR error: " + error);
         });
     }
 
     self._doTransaction = function (message) {
-        if (!self._connected)
-            self._connect(function () {
+
+        if (self.connection != null && self.connection.state == 0) return; //the connection is negotiating.
+
+        try {
+            if (self.connection != null && self.connection.state == 1)
                 self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
-            }, function () { if (self.OnErrorFunction) self.OnErrorFunction("Error connecting."); });
-        else {
-            self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
+            else {
+                self._connect(function () {
+                    self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
+                }, function () { if (self.OnErrorFunction) self.OnErrorFunction("Error connecting."); });
+            }
+        }
+        catch (err) {
+            console.log("Error in _doTransaction: " + err);
         }
     }
 
@@ -252,4 +261,4 @@ CIP = new (function ($) {
             alert("Unable to download configuration.");
         });
     }
-})(window.jQuery);
+})(jQuery_2_1_4);

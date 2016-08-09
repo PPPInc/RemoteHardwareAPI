@@ -4,12 +4,8 @@
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-    <!--  <script src="https://code.jquery.com/jquery-2.1.4.js"></script> --> 
-    <script src="https://code.jquery.com/jquery-1.7.1.js"></script> 
-    <!-- <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script> -->
-    <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.1.js"></script>
-    <script src="Scripts/cip.cloudHardware-1.0.1.js"></script> 
-    <!-- <script src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.1.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.7.1.js"></script>
+    <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script>
     <link href="/Styles/styles.css" rel="stylesheet" />
 </head>
 <body>
@@ -79,40 +75,54 @@
             $("#send").prop("disabled", false);
             $("#processing").addClass("hidden");
 
-            /* Your click handler */
+            /* 1. Connect to the Charge It Pro Hub */
+            var connection = $.hubConnection('https://cloud.chargeitpro.com');
+
+            /* 2. Set a Reference to the DeviceHub */
+            var deviceHub = connection.createHubProxy('DeviceHub');
+
+            /* 3. Set your callback handler - this is where results from the device get sent to */
+            deviceHub.on('send', function (from, result) {
+                $("#send").prop("disabled", false);
+                $("#processing").addClass("hidden");
+                var d = new Date();
+                $("#results").append("<br/><span class='wash'>" + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + "</span><br/>" + JSON.stringify(result));
+            });
+
+            /* 4. Start the Connection - optionally handle the error */
+            connection.start().done(function () {
+
+                console.log(connection);
+
+                $("#user-name").val(connection.id);
+
+            }).fail(function (error) { console.log("Fail Error:" + error); });
+
+            /* 5. Your click handler - ie btnPaymentEMVProcess click handler*/
             $("#send").on('click', function () {
 
                 $("#send").prop("disabled", true);
                 $("#processing").removeClass("hidden");
 
-                /* Device Hub connections require a UserName, ControllerName, LocationId and DeviceName. */
-                CIP.locationId = $("#location").val();
-                CIP.controllerName = $("#controller").val();
-                var deviceName = $("#devices option:selected").val();
-                CIP.isTestMode = true;
+                /* 6. This is how you send a message to your device - make sure to modify the message values. */
+                var message = {
+                    Action: "Transaction", TestMode: false,
+                    Data: {
+                        TransactionType: "CreditSale", Amount: $("#amount").val(), DeviceName: $("#devices option:selected").val(),
+                        UniqueTransRef: null, Cashier: "The Cashier", TransactionRef: null
+                    }
+                };
 
-                /* Invoke the creditSaleFunction - this is in RemoteHardware.js. */
-                CIP.creditSaleFunction(deviceName, $("#amount").val(), '', '', '', '', '', '');
+                /* 7. Send the message to the Device Controller */
+                if (connection != null && connection.state == 1) {
+                    deviceHub.invoke("send", $("#controller").val(), $("#location").val(), JSON.stringify(message));
+                }
+                else {
+                    connection.start().done(function () {
+                        deviceHub.invoke("send", $("#controller").val(), $("#location").val(), JSON.stringify(message));
+                    }).fail(function (error) { console.log("Fail Error:" + error); });
+                }
             });
-
-            /* These are the Function Handlers - WebSocket messages will be pushed to these functions. */
-            CIP.OnConnectedFunction = function (connection) {
-                $("#user-name").val(connection.id);
-            };
-
-            CIP.OnResultFunction = function (result) {
-                $("#send").prop("disabled", false);
-                $("#processing").addClass("hidden");
-                var d = new Date();
-                $("#results").append("<br/><span class='wash'>" + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + "</span><br/>" + JSON.stringify(result));
-                /* Do stuff here ... save the result to a database, display results on the page, etc.*/
-            };
-
-            CIP.OnErrorFunction = function (error) {
-                $("#send").prop("disabled", false);
-                $("#processing").addClass("hidden");
-                alert(error);
-            };
         });
 
     </script>
