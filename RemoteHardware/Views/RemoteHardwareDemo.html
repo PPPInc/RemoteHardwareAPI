@@ -2,14 +2,347 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script>
     <script src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.1.js"></script>
+    <link href="../Styles/angular-material.min.css" rel="stylesheet" />
+    <link href="../Styles/bootstrap-theme.min.css" rel="stylesheet"/>
     <link href="../Styles/styles.css" rel="stylesheet" />
 </head>
 <body>
+    <div id="headerContent"></div>
+    <h3 class="pageHeader">Cloud Hardware Virtual Terminal</h3>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <md-card class="md-default-theme">
+                        <md-card-content>
+                            <div class="row">
+                                <div class="col-md-8 card-intro">
+                                    <h3>Controller Settings</h3>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="margin-top: 0px;">
+                                        <div class="col-md-6">
+                                            <label for="locationId">Location Id</label>
+                                            <input type="text" style="width:185px;" class="form-control" id="locationId" placeholder="Location Id" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" style="margin-top:25px;" class="btn btn-default" id="getConfig">Download Configuration</button>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:10px; margin-bottom:10px;">
+                                        <div class="col-md-12">
+                                            <input type="checkbox" id="isTestMode" checked /> Test Mode
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="to">Remote Hardware Controller</label>
+                                            <input type="text" class="form-control" style="width: 185px;" id="to" placeholder="Controller Name">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="devices">Destination Device</label>
+                                            <select class="form-control" id="devices" style="width: auto;">
+                                                <option value="" selected>No Devices</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <md-card class="md-default-theme">
+                        <md-card-content>
+                            <div class="row">
+                                <div class="col-md-8 card-intro">
+                                    <h3>Cashier Functions</h3>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="margin-top: 0px;">
+                                        <div class="col-md-6">
+                                            <label class="form-inline" for="transactionType">Action</label>
+                                            <select class="form-control" id="transactionType" style="width: auto">
+                                                <option value="CreditSale" selected>Credit Sale</option>
+                                                <option value="CreditReturn">Credit Return</option>
+                                                <option value="CreditAuth">Credit Auth</option>
+                                                <option value="CreditForce">Credit Force</option>
+                                                <option value="CreditAddTip">Credit Add Tip *ALPHA*</option>
+                                                <option value="CreditSaveCard">Save Credit Card</option>
+                                                <option value="DebitSale">Debit Sale</option>
+                                                <option value="Void">Void</option>
+                                                <option value="RequestSignature">Request Signature</option>
+                                                <option value="DisplayText">Display Text</option>
+                                                <option value="Echo">Echo</option>
+                                                <option value="Ping">Ping</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div id="CreditSale">
+                                                <label for="amount">Amount</label>
+                                                <input class="form-control" style="width: auto" type="text" id="amount" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="margin-top: 0px;">
+                                        <div class="col-md-6">
+                                            <label for="cashier">Cashier</label>
+                                            <input class="form-control" style="width: auto" type="text" id="cashier" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="transactionRef">Transaction Reference</label>
+                                            <input class="form-control" style="width: auto" type="text" id="transactionRef" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="margin-top: 0px;">
+                                        <div class="col-md-6">
+                                            <div id="UniqueTransIdDiv">
+                                                <label for="uniqueTransId">UniqueTransID</label>
+                                                <input class="form-control" style="width: auto" type="text" id="uniqueTransId" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div id="CreditForce" style="display: none">
+                                                <label for="voiceAuthNumber">Voice Auth Code</label>
+                                                <input class="form-control" style="width: auto" type="text" id="voiceAuthNumber" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" style="margin-top: 0px">
+                                        <div class="col-md-6">
+                                            <div id="Echo" style="display: none">
+                                                <label for="message">Message</label>
+                                                <input class="form-control" style="width: auto" type="text" id="message" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top:15px;">
+                                    <button type="button" class="btn btn-default" id="send">Send</button>
+                                    <button type="button" class="btn btn-default" id="cancel" disabled>Cancel</button>
+                                </div>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <md-card class="md-default-theme">
+                    <md-card-content>
+                        <div class="row">
+                            <div class="col-md-8 card-intro">
+                                <h3>Results</h3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" id="resultsPanel" style="display: none">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="resultStatus">Result Status</label>
+                                        <input class="form-control" style="width: auto" type="text" id="resultStatus" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="resultMessage">ResultMessage</label>
+                                        <input class="form-control" style="width: auto" type="text" id="resultMessage" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="amountProcessed">AmountProcessed</label>
+                                        <input class="form-control" style="width: auto" type="text" id="amountProcessed" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="uniqueTransIdResult">UniqueTransID</label>
+                                        <input class="form-control" style="width: auto" type="text" id="uniqueTransIdResult" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="signature">Signature</label>
+                                        <input class="form-control" style="width: auto" type="text" id="signature" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="resultBillingName">Billing Name</label>
+                                        <input class="form-control" style="width: auto" type="text" id="resultBillingName" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="accountCardType">Account Card Type</label>
+                                        <input class="form-control" style="width: auto" type="text" id="accountCardType" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="accountExpiryDate">Account Expiry Date</label>
+                                        <input class="form-control" style="width: auto" type="text" id="accountExpiryDate" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="amountBill">Amount Bill</label>
+                                        <input class="form-control" style="width: auto" type="text" id="amountBill" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="avsResponseCode">AVS Response Code</label>
+                                        <input class="form-control" style="width: auto" type="text" id="avsResponseCode" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="batchNumber">Batch Number</label>
+                                        <input class="form-control" style="width: auto" type="text" id="batchNumber" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvvResponseCode">CVV Response Code</label>
+                                        <input class="form-control" style="width: auto" type="text" id="cvvResponseCode" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="maskedAccount">Masked Account</label>
+                                        <input class="form-control" style="width: auto" type="text" id="maskedAccount" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="transactionTypeResult">Transaction Type</label>
+                                        <input class="form-control" style="width: auto" type="text" id="transactionTypeResult" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="accountEntryMethod">Account Entry Method</label>
+                                        <input class="form-control" style="width: auto" type="text" id="accountEntryMethod" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="amountBalance">Amount Balance</label>
+                                        <input class="form-control" style="width: auto" type="text" id="amountBalance" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="amountFee">Amount Fee</label>
+                                        <input class="form-control" style="width: auto" type="text" id="amountFee" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="approvalNumberResult">Approval Number Result</label>
+                                        <input class="form-control" style="width: auto" type="text" id="approvalNumberResult" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="avsResponseText">AVS Response Text</label>
+                                        <input class="form-control" style="width: auto" type="text" id="avsResponseText" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvvResponseText">CVV Response Text</label>
+                                        <input class="form-control" style="width: auto" type="text" id="cvvResponseText" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="receipt">Receipt</label>
+                                        <input class="form-control" style="width: auto" type="text" id="receipt" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="amountTipped">Amount Tipped</label>
+                                        <input class="form-control" style="width: auto" type="text" id="amountTipped" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="aid">AID</label>
+                                        <input class="form-control" style="width: auto" type="text" id="aid" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tvr">TVR</label>
+                                        <input class="form-control" style="width: auto" type="text" id="tvr" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="tsi">TSI</label>
+                                        <input class="form-control" style="width: auto" type="text" id="tsi" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cvmCode">CVM Code</label>
+                                        <input class="form-control" style="width: auto" type="text" id="cvmCode" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="arc">ARC</label>
+                                        <input class="form-control" style="width: auto" type="text" id="arc" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="emvOfflineData">EMV Offline Data</label>
+                                        <input class="form-control" style="width: auto" type="text" id="emvOfflineData" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="cvmMethod">Card Holder Verification Method</label>
+                                        <input class="form-control" style="width: auto" type="text" id="cvmMethod" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="authorizationMode">Authorization Mode</label>
+                                        <input class="form-control" style="width: auto" type="text" id="authorizationMode" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="currencyIndicator">Currency Indicator</label>
+                                        <input class="form-control" style="width: auto" type="text" id="currencyIndicator" />
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="signatureImage">Signature Image</label>
+                                        <img id="signatureImage" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </div>
+    </div>
+
+    <!--
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
@@ -363,10 +696,10 @@
                             <input class="form-control" style="width: auto" type="text" id="currencyIndicator"/>
                         </td>
                         <td>
-                            <!--<label for="authorizationMode">Authorization Mode</label>-->
+                            <!--<label for="authorizationMode">Authorization Mode</label>
                         </td>
                         <td style="padding: 10px">
-                            <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode"/>-->
+                            <!--<input class="form-control" style="width:auto" type="text" id="authorizationMode"/>
                         </td>
                     </tr>
                     </table>
@@ -381,8 +714,12 @@
             </div>
         </div>
     </div>
+    -->
     <script>
         $(function () {
+
+            // Load page layout content
+            $('#headerContent').load('/Views/header.html');
 
             $("#send").prop("disabled", false);
             $("#processing").addClass("hidden");

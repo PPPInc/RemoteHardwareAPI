@@ -72,6 +72,7 @@
     <Content Include="1.7.1\RemoteCreditSale.html" />
     <Content Include="BridalLive\js\cip.cloudHardware-1.0.3.js" />
     <Content Include="BridalLive\js\cip.cloudHardware-1.0.2.js" />
+    <Content Include="Images\logo-chargeitpro.svg" />
     <Content Include="LibraryEcho.html" />
     <Content Include="Images\ajax-loader-1.gif" />
     <Content Include="Echo.html" />
@@ -84,7 +85,10 @@
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\cip.cloudHardware-1.0.1.js" />
+    <Content Include="Styles\angular-material.min.css" />
+    <Content Include="Styles\bootstrap-theme.min.css" />
     <Content Include="Styles\styles.css" />
+    <Content Include="Views\header.html" />
     <Content Include="Views\RemoteHardwareDemo.html" />
     <Content Include="Views\RemoteHardwareRestDemo.html" />
     <Content Include="ShopBossPro\ShopBossPro.html" />
