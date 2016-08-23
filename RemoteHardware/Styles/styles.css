@@ -1,5 +1,6 @@
 ﻿body {
     background: #f0f0f0;
+    height:auto !important;
 }
 
 .error {
