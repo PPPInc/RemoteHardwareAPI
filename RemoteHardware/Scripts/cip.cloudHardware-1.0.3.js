@@ -135,7 +135,7 @@ CIP = new (function ($) {
 
         try {
 
-            if (message.Data !== undefined) message.Data["Version"] = self.version;
+            if (message.Data !== undefined) message.Data["ApiVersion"] = self.version;
 
             if (self.connection != null && self.connection.state == 1)
                 self._remoteHub.invoke("send", self.controllerName, self.locationId, JSON.stringify(message));
