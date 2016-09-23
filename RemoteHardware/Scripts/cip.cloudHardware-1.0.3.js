@@ -75,8 +75,7 @@ CIP = new (function ($) {
 
         var url;
         if (self.isTestMode) {
-            url = 'http://localhost:54769';
-            //url = "https://cloud-staging.chargeitpro.com";
+            url = "https://cloud-staging.chargeitpro.com";
         } else {
             url = "https://cloud.chargeitpro.com";
         }
