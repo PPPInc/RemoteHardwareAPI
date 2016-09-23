@@ -34,3 +34,7 @@ md-card h3 {
 md-card .row .row {
     margin-left: -15px;
 }
+
+label {
+    padding: 15px 0 10px 0;
+}

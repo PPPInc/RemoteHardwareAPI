@@ -119,9 +119,9 @@
 
             if (userName === '') return;
 
-            //var connection = $.hubConnection('https://cloud.chargeitpro.com');
+            var connection = $.hubConnection('https://cloud.chargeitpro.com');
 
-            var connection = $.hubConnection('http://localhost:54769');
+            //var connection = $.hubConnection('http://localhost:54769');
 
             connection.qs = { "userName": userName };
 
