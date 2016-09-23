@@ -1,5 +1,6 @@
 ﻿body {
-    padding: 20px;
+    background: #f0f0f0;
+    height:auto !important;
 }
 
 .error {
@@ -12,4 +13,24 @@
 
 .hidden {
     visibility: hidden;
+}
+
+.pageHeader {
+    text-align: center;
+}
+
+md-card {
+    background: #fff;
+}
+
+md-card h3 {
+    margin: 0px;
+}
+
+.row {
+    margin: 0px;
+}
+
+md-card .row .row {
+    margin-left: -15px;
 }
