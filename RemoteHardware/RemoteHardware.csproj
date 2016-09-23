@@ -78,7 +78,9 @@
     <Content Include="RemoteController.html" />
     <Content Include="RemoteCreditSale.html" />
     <Content Include="Scripts\cip.cloudHardware-1.0.0.js" />
+    <Content Include="Scripts\cip.cloudHardware-1.0.3.js" />
     <Content Include="Scripts\cip.cloudHardware-1.0.1.noConflict.js" />
+    <Content Include="Scripts\cip.cloudHardware-1.0.2.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
