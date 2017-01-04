@@ -82,6 +82,7 @@
     <Content Include="Scripts\cip.cloudHardware-1.0.3.js" />
     <Content Include="Scripts\cip.cloudHardware-1.0.1.noConflict.js" />
     <Content Include="Scripts\cip.cloudHardware-1.0.2.js" />
+    <Content Include="Scripts\cip.cloudHardware-1.0.4.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
@@ -110,7 +111,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49293</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

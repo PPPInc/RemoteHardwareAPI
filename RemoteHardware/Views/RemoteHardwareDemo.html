@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="https://ppppublic.blob.core.windows.net/api/jquery.signalR-2.2.0.js"></script>
-    <script src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.3.js"></script>
+    <script src="https://ppppublic.blob.core.windows.net/api/cip.cloudHardware-1.0.4.js"></script>
     <link href="../Styles/angular-material.min.css" rel="stylesheet" />
     <link href="../Styles/bootstrap-theme.min.css" rel="stylesheet"/>
     <link href="../Styles/styles.css" rel="stylesheet" />
@@ -112,6 +112,20 @@
                                         <div class="col-md-6">
                                             <label for="transactionRef">TransactionRef</label>
                                             <input class="form-control" style="width: auto" type="text" id="transactionRef" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="StreetAndZip">
+                                <div class="col-md-12">
+                                    <div class="row" style="margin-top: 0px;">
+                                        <div class="col-md-6">
+                                            <label for="street">Street</label>
+                                            <input class="form-control" style="width: auto" type="text" id="street" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="zip">ZIP</label>
+                                            <input class="form-control" style="width: auto" type="text" id="zip" />
                                         </div>
                                     </div>
                                 </div>
@@ -471,6 +485,8 @@
                 CIP.isTestMode = $("#isTestMode").prop('checked');
                 var cashier = $("#cashier").val();
                 var transRef = $("#transactionRef").val();
+                var street = $("#street").val();
+                var zip = $("#zip").val();
 
                 $("#resultsPanel").hide();
                 var action = $("#transactionType option:selected").val();
@@ -482,15 +498,15 @@
                     CIP.pingFunction(deviceName);
                 } else if (action === "CreditSale") {
                     clearResults();
-                    CIP.creditSaleFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef);
+                    CIP.creditSaleFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef, street, zip);
                     clearFields();
                 } else if (action === "CreditAuth") {
                     clearResults();
-                    CIP.creditAuthFunction(deviceName, $("#amount").val(), cashier, transRef);
+                    CIP.creditAuthFunction(deviceName, $("#amount").val(), cashier, transRef, street, zip);
                     clearFields();
                 } else if (action === "CreditReturn") {
                     clearResults();
-                    CIP.creditReturnFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef);
+                    CIP.creditReturnFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef, street, zip);
                     clearFields();
                 } else if (action === "CreditForce") {
                     clearResults();
@@ -501,13 +517,13 @@
                     clearResults();
                     CIP.creditAddTipFunction(deviceName, $("#amount").val(), ref, cashier, transRef);
                     clearFields();
-                } else if (action === "CreditSaveCard") {
+                } else if (action === "CreditSaveCard", street, zip) {
                     clearResults();
                     CIP.saveCreditCardFunction(deviceName, cashier, transRef);
                     clearFields();
                 } else if (action === "DebitSale") {
                     clearResults();
-                    CIP.debitSaleFunction(deviceName, $("#amount").val(), cashier, transRef);
+                    CIP.debitSaleFunction(deviceName, $("#amount").val(), cashier, transRef, street, zip);
                     clearFields();
                 } else if (action === "Void") {
                     CIP.voidFunction(deviceName, uniqueTransRef, cashier, transRef);
@@ -531,12 +547,15 @@
                 $("#UniqueTransIdDiv").hide();
                 $("#Echo").hide();
                 $("#RequestSignature").hide();
+                $('#StreetAndZip').hide();
                 var selected = $("#transactionType option:selected").val();
                 if (selected === "DebitSale") {
                     $("#CreditSale").show();
+                    $('#StreetAndZip').show();
                 } else if (selected === "CreditReturn") {
                     $("#CreditSale").show();
                     $("#UniqueTransIdDiv").show();
+                    $('#StreetAndZip').show();
                 } else if (selected === "Void") {
                     $("#UniqueTransIdDiv").show();
                 } else if (selected === "RequestSignature") {
@@ -551,8 +570,10 @@
                 } else if (selected === "CreditSale") {
                     $("#UniqueTransIdDiv").show();
                     $("#CreditSale").show();
+                    $('#StreetAndZip').show();
                 } else if (selected === "CreditAuth" || selected === "CreditSaveCard") {
                     $("#CreditSale").show();
+                    $('#StreetAndZip').show();
                 } else if (selected === "DisplayText") {
                     $("#Echo").show();
                 } else {
