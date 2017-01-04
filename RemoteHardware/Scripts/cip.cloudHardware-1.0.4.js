@@ -5,7 +5,7 @@
  *
  * Copyright (C) Charge It Pro, Corporation. All rights reserved.
  * 
- * Change Log: 11/07/2016 - Adding stree and zip parameters to certain transaction types.
+ * Change Log: 11/07/2016 - Adding street and zip parameters to certain transaction types.
  */
 
 var CIP = CIP || {};
