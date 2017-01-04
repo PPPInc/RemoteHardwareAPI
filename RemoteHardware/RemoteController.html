@@ -51,7 +51,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="user-name"></label>
-                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="A8D92957-74FB-4AE5-9405-8CFDA430FAE6">
+                                <input type="text" style="width: 350px;" class="form-control" id="user-name" placeholder="User Name" value="FEB685BB-923A-4CF8-9B4B-7D13DBF9ED55">
                             </div>
                             <button type="button" class="btn btn-default" id="connect">Connect</button>
                             <div class="form-group">
@@ -119,9 +119,9 @@
 
             if (userName === '') return;
 
-            var connection = $.hubConnection('https://cloud.chargeitpro.com');
+            //var connection = $.hubConnection('https://cloud.chargeitpro.com');
 
-            //var connection = $.hubConnection('http://localhost:54769');
+            var connection = $.hubConnection('http://localhost:54769');
 
             connection.qs = { "userName": userName };
 

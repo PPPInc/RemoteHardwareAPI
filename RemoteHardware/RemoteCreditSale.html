@@ -14,6 +14,7 @@
 </head>
 <body>
     <div class="container-fluid">
+        <br/>
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default">
@@ -28,7 +29,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="to">Location Id</label>
-                                <input type="text" class="form-control" style="width: 185px;" id="location" placeholder="LocationId" value="KMG-D8G-WD2">
+                                <input type="text" class="form-control" style="width: 185px;" id="location" placeholder="LocationId" value="987-ABC-112">
                             </div>
                             <div class="form-group">
                                 <label for="to">Remote Hardware Controller</label>
@@ -36,9 +37,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="devices">Destination Device</label>
-                                <select class="form-control" id="devices" style="width: auto;">
-                                    <option value="S300NumberOne">S300NumberOne</option>
-                                </select>
+                                <input type="text" class="form-control" style="width: 185px;" id="device-name" placeholder="Device Name" value="Test">
                             </div>
                             <div class="form-group">
                                 <label for="amount">Amount</label>
@@ -88,7 +87,7 @@
                 /* Device Hub connections require a UserName, ControllerName, LocationId and DeviceName. */
                 CIP.locationId = $("#location").val();
                 CIP.controllerName = $("#controller").val();
-                var deviceName = $("#devices option:selected").val();
+                var deviceName = $("#device-name").val();
                 CIP.isTestMode = true;
 
                 /* Invoke the creditSaleFunction - this is in RemoteHardware.js. */
