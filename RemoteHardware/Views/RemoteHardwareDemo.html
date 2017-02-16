@@ -462,7 +462,7 @@
             });
 
             $("#send").on('click', function () {
-                $("#send").prop("disabled", true);
+               // $("#send").prop("disabled", true);
                 $("#processing").removeClass("hidden");
                 var deviceName = $("#devices option:selected").val();
                 if (!deviceName) deviceName = "";
@@ -484,24 +484,24 @@
                 } else if (action === "CreditSale") {
                     clearResults();
                     CIP.creditSaleFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef);
-                    clearFields();
+                    //clearFields();
                 } else if (action === "CreditAuth") {
                     clearResults();
                     CIP.creditAuthFunction(deviceName, $("#amount").val(), cashier, transRef);
-                    clearFields();
+                    ///clearFields();
                 } else if (action === "CreditReturn") {
                     clearResults();
                     CIP.creditReturnFunction(deviceName, $("#amount").val(), uniqueTransRef, cashier, transRef);
-                    clearFields();
+                    ///clearFields();
                 } else if (action === "CreditForce") {
                     clearResults();
                     CIP.creditForceFunction(deviceName, $("#amount").val(), $("#voiceAuthNumber").val(), uniqueTransRef, cashier, transRef);
-                    clearFields();
+                    //clearFields();
                 } else if (action === "CreditAddTip") {
                     var ref = $("#uniqueTransId").val();
                     clearResults();
                     CIP.creditAddTipFunction(deviceName, $("#amount").val(), ref, cashier, transRef);
-                    clearFields();
+                    //clearFields();
                 } else if (action === "CreditSaveCard") {
                     clearResults();
                     CIP.saveCreditCardFunction(deviceName, cashier, transRef);
@@ -509,7 +509,7 @@
                 } else if (action === "DebitSale") {
                     clearResults();
                     CIP.debitSaleFunction(deviceName, $("#amount").val(), cashier, transRef);
-                    clearFields();
+                    //clearFields();
                 } else if (action === "Void") {
                     CIP.voidFunction(deviceName, uniqueTransRef, cashier, transRef);
                 } else if (action === "RequestSignature") {
